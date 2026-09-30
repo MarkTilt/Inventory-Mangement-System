@@ -3,4 +3,5 @@
     <Deploy Solution="Debug|*" />
   </Project>
   <Project Path="InventorySystem.Core/InventorySystem.Core.csproj" />
+  <Project Path="InventorySystem.Test/InventorySystem.Test.csproj" />
 </Solution>
