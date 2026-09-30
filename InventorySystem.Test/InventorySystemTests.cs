@@ -20,6 +20,20 @@ namespace InventorySystem.Test
             // Assert
             Assert.AreEqual(expectedQuantity, Product.Quantity);
         }
+        [TestMethod]
+        [DataRow(8, 3, 5)]
+        [DataRow(15, 5, 10)]
+        public void RemoveStockFromProduct_DecreasesQuantity(int productQuantity, int removedQuantity, int expectedQuantity)
+        {
+            // Arrange
+            var category = new Category(1, "Test Category");
+            var Product = new Product(1, "Test Product", category, 10.0m, productQuantity, 2);
+            var inventoryService = new InventoryService();
+            // Act
+            inventoryService.RemoveStock(Product, removedQuantity);
+            // Assert
+            Assert.AreEqual(expectedQuantity, Product.Quantity);
+        }
 
         public class InventoryService
         {
@@ -27,6 +41,8 @@ namespace InventorySystem.Test
             {
                 product.Quantity += quantityToAdd;
             }
+
+           
         }
     }
 }
