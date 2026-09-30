@@ -42,7 +42,10 @@ namespace InventorySystem.Test
                 product.Quantity += quantityToAdd;
             }
 
-           
+            public void RemoveStock(Product product, int quantityToRemove)
+            {
+                product.Quantity -= quantityToRemove;
+            }
         }
     }
 }
