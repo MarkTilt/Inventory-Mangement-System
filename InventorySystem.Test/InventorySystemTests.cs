@@ -1,5 +1,6 @@
 ﻿using InventorySystem.Core.Models;
 using InventorySystem.Core.Services;
+using InventorySystem.Core.List;
 namespace InventorySystem.Test
 {
     [TestClass]
@@ -9,11 +10,12 @@ namespace InventorySystem.Test
 
         private Category category;
         private InventoryService inventoryService;
+       
 
         [TestInitialize]
         public void Setup()
         {
-            category = new Category( "Test Category");
+            category = new Category("Test Category");
             inventoryService = new InventoryService();
         }
 
@@ -24,7 +26,7 @@ namespace InventorySystem.Test
         {
             // Arrange
             
-            var Product = new Product( "Test Product", category, 10.0m, productQuantity, 2);
+            var Product = new Product("Test Product", category, 10.0m, productQuantity, 2);
           
             // Act
             inventoryService.AddStock(Product, addedQuantity);
@@ -38,14 +40,28 @@ namespace InventorySystem.Test
         {
             // Arrange
            
-            var Product = new Product( "Test Product", category, 10.0m, productQuantity, 2);
+            var Product = new Product("Test Product", category, 10.0m, productQuantity, 2);
             
             // Act
             inventoryService.RemoveStock(Product, removedQuantity);
             // Assert
             Assert.AreEqual(expectedQuantity, Product.Quantity);
         }
+        [TestMethod]
+        public void AddAProductToProductList()
+        {
+            // Arrange
+         
+            var product = new Product("Test Product", category, 10.0m, 5, 2);
 
-       
+            // Act
+            inventoryService.AddProduct(product);
+
+            // Assert
+            Assert.Contains(product, ProductList.Products);
+
+
+        }
+
     }
 }
