@@ -9,9 +9,9 @@ namespace InventorySystem.Core.List
     {
         public static List<Product> Products { get; } = new()
         {
-            new Product(1, "Mouse",   CategoryList.Categories[0] , 50m, 10,3),
-            new Product(2, "Keyboard",CategoryList.Categories[0] , 80m, 21,3),
-            new Product(3, "Headset", CategoryList.Categories[0], 200m, 8,3)
+            new Product( "Mouse",   CategoryList.Categories[0] , 50m, 10,3),
+            new Product( "Keyboard",CategoryList.Categories[0] , 80m, 21,3),
+            new Product( "Headset", CategoryList.Categories[0], 200m, 8,3)
         };
 
 
