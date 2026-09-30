@@ -1,6 +1,7 @@
 ﻿using InventorySystem.Core.Models;
 using InventorySystem.Core.Services;
 using InventorySystem.Core.List;
+using System.ComponentModel.DataAnnotations.Schema;
 namespace InventorySystem.Test
 {
     [TestClass]
@@ -49,7 +50,7 @@ namespace InventorySystem.Test
             Assert.AreEqual(expectedQuantity, product.Quantity);
         }
         [TestMethod]
-        public void AddAProductToProductList()
+        public void AddProduct_AddsProductToList()
         {
             // Arrange
          
@@ -76,6 +77,19 @@ namespace InventorySystem.Test
             var productsWithSameName = ProductList.Products.Where(p => p.ProductName.ToLower().Trim() == "Test Product".ToLower().Trim()).ToList();
             Assert.AreEqual(1, productsWithSameName.Count);
         }
+
+        [TestMethod]
+        public void RemoveProduct_RemovesProductFromList()
+        {
+            // Arrange
+            var ProductToRemove = new Product("Product To Remove", category, 20.0m, 5, 2);
+            // Act
+            inventoryService.AddProduct(ProductToRemove);
+            inventoryService.RemoveProduct(ProductToRemove);
+            // Assert
+            Assert.IsFalse(ProductList.Products.Contains(ProductToRemove));
+        }
+ 
         
     }
 }
