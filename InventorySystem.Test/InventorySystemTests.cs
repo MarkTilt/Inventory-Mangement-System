@@ -1,4 +1,5 @@
 ﻿using InventorySystem.Core.Models;
+using InventorySystem.Core.Services;
 namespace InventorySystem.Test
 {
     [TestClass]
@@ -45,17 +46,6 @@ namespace InventorySystem.Test
             Assert.AreEqual(expectedQuantity, Product.Quantity);
         }
 
-        public class InventoryService
-        {
-            public void AddStock(Product product, int quantityToAdd)
-            {
-                product.Quantity += quantityToAdd;
-            }
-
-            public void RemoveStock(Product product, int quantityToRemove)
-            {
-                product.Quantity -= quantityToRemove;
-            }
-        }
+       
     }
 }
