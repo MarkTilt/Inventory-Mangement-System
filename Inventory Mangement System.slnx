@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Inventory Mangement System/Inventory Mangement System.csproj">
+    <Deploy Solution="Debug|*" />
+  </Project>
+  <Project Path="InventorySystem.Core/InventorySystem.Core.csproj" />
+</Solution>
