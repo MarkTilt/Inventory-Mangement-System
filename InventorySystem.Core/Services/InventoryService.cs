@@ -1,4 +1,5 @@
 ﻿using InventorySystem.Core.Models;
+using InventorySystem.Core.List;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,6 +16,11 @@ namespace InventorySystem.Core.Services
         public void RemoveStock(Product product, int quantityToRemove)
         {
             product.Quantity -= quantityToRemove;
+        }
+
+        public void AddProduct(Product product)
+        {
+            ProductList.Products.Add(product);
         }
     }
 }

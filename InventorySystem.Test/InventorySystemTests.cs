@@ -10,13 +10,14 @@ namespace InventorySystem.Test
 
         private Category category;
         private InventoryService inventoryService;
-       
+        private Product product;
 
         [TestInitialize]
         public void Setup()
         {
             category = new Category("Test Category");
             inventoryService = new InventoryService();
+            product = new Product("Test Product", category, 10.0m, 0, 2);
         }
 
         [TestMethod]
@@ -25,13 +26,12 @@ namespace InventorySystem.Test
         public void AddStockToProduct_IncreasesQuantity(int productQuantity, int addedQuantity, int expectedQuantity)
         {
             // Arrange
-            
-            var Product = new Product("Test Product", category, 10.0m, productQuantity, 2);
-          
+            product.Quantity = productQuantity;
+
             // Act
-            inventoryService.AddStock(Product, addedQuantity);
+            inventoryService.AddStock(product, addedQuantity);
             // Assert
-            Assert.AreEqual(expectedQuantity, Product.Quantity);
+            Assert.AreEqual(expectedQuantity, product.Quantity);
         }
         [TestMethod]
         [DataRow(8, 3, 5)]
@@ -39,13 +39,13 @@ namespace InventorySystem.Test
         public void RemoveStockFromProduct_DecreasesQuantity(int productQuantity, int removedQuantity, int expectedQuantity)
         {
             // Arrange
-           
-            var Product = new Product("Test Product", category, 10.0m, productQuantity, 2);
-            
+
+            product.Quantity = productQuantity;
+
             // Act
-            inventoryService.RemoveStock(Product, removedQuantity);
+            inventoryService.RemoveStock(product, removedQuantity);
             // Assert
-            Assert.AreEqual(expectedQuantity, Product.Quantity);
+            Assert.AreEqual(expectedQuantity, product.Quantity);
         }
         [TestMethod]
         public void AddAProductToProductList()
@@ -61,6 +61,18 @@ namespace InventorySystem.Test
             Assert.Contains(product, ProductList.Products);
 
 
+        }
+        public void AddProduct_DoNotAllowDuplicateProductNames()
+        {
+            // Arrange
+            var product1 = new Product("Test Product", category, 10.0m, 5, 2);
+            var product2 = new Product("Test Product", category, 15.0m, 3, 1);
+            // Act
+            inventoryService.AddProduct(product1);
+            inventoryService.AddProduct(product2);
+            // Assert
+            var productsWithSameName = ProductList.Products.Where(p => p.ProductName.ToLower().Trim() == "Test Product".ToLower().Trim()).ToList();
+            Assert.AreEqual(1, productsWithSameName.Count);
         }
 
     }
