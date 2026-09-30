@@ -12,10 +12,19 @@ namespace InventorySystem.Test
             // Arrange
             var category = new Category(1, "Test Category");
             var Product = new Product(1, "Test Product", category, 10.0m, 5, 2);
+            var inventoryService = new InventoryService();
             // Act
-            AddStock(Product, 3);
+            inventoryService.AddStock(Product, 3);
             // Assert
             Assert.AreEqual(8, Product.Quantity);
+        }
+
+        public class InventoryService
+        {
+            public void AddStock(Product product, int quantityToAdd)
+            {
+                product.Quantity += quantityToAdd;
+            }
         }
     }
 }
