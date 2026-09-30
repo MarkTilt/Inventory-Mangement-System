@@ -4,12 +4,12 @@
     {
         public int ProductId { get; set; }
         public string ProductName { get; set; }
-        public string Category { get; set; }
+        public Category Category { get; set; }
         public decimal Price { get; set; }
         public int Quantity { get; set; }
         public int LowStockThreshold { get; set; }
 
-        public Product(int productId, string productName, string category, decimal price, int quantity, int lowStockThreshold)
+        public Product(int productId, string productName, Category category, decimal price, int quantity, int lowStockThreshold)
         {
             ProductId = productId;
             ProductName = productName;
