@@ -2,16 +2,16 @@
 {
     public class Product
     {
-        public int ProductId { get; set; }
+        public Guid ProductId { get; set; }
         public string ProductName { get; set; }
         public Category Category { get; set; }
         public decimal Price { get; set; }
         public int Quantity { get; set; }
         public int LowStockThreshold { get; set; }
 
-        public Product(int productId, string productName, Category category, decimal price, int quantity, int lowStockThreshold)
+        public Product( string productName, Category category, decimal price, int quantity, int lowStockThreshold)
         {
-            ProductId = productId;
+            ProductId = Guid.NewGuid();
             ProductName = productName;
             Category = category;
             Price = price;
