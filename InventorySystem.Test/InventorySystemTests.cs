@@ -15,6 +15,7 @@ namespace InventorySystem.Test
         [TestInitialize]
         public void Setup()
         {
+            ProductList.Products.Clear();
             category = new Category("Test Category");
             inventoryService = new InventoryService();
             product = new Product("Test Product", category, 10.0m, 0, 2);
@@ -62,6 +63,7 @@ namespace InventorySystem.Test
 
 
         }
+        [TestMethod]
         public void AddProduct_DoNotAllowDuplicateProductNames()
         {
             // Arrange
@@ -74,6 +76,6 @@ namespace InventorySystem.Test
             var productsWithSameName = ProductList.Products.Where(p => p.ProductName.ToLower().Trim() == "Test Product".ToLower().Trim()).ToList();
             Assert.AreEqual(1, productsWithSameName.Count);
         }
-
+        
     }
 }

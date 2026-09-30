@@ -20,7 +20,12 @@ namespace InventorySystem.Core.Services
 
         public void AddProduct(Product product)
         {
-            ProductList.Products.Add(product);
+            if (ProductList.Products.Any(p => p.ProductName == product.ProductName))
+            {
+                return;
+            }
+                ProductList.Products.Add(product);
+            
         }
     }
 }
