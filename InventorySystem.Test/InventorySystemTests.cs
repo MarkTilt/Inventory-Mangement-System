@@ -12,7 +12,7 @@ namespace InventorySystem.Test
         [TestInitialize]
         public void Setup()
         {
-            category = new Category(1, "Test Category");
+            category = new Category( "Test Category");
             inventoryService = new InventoryService();
         }
 
@@ -23,7 +23,7 @@ namespace InventorySystem.Test
         {
             // Arrange
             
-            var Product = new Product(1, "Test Product", category, 10.0m, productQuantity, 2);
+            var Product = new Product( "Test Product", category, 10.0m, productQuantity, 2);
           
             // Act
             inventoryService.AddStock(Product, addedQuantity);
@@ -37,7 +37,7 @@ namespace InventorySystem.Test
         {
             // Arrange
            
-            var Product = new Product(1, "Test Product", category, 10.0m, productQuantity, 2);
+            var Product = new Product( "Test Product", category, 10.0m, productQuantity, 2);
             
             // Act
             inventoryService.RemoveStock(Product, removedQuantity);
