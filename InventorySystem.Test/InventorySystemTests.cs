@@ -89,7 +89,18 @@ namespace InventorySystem.Test
             // Assert
             Assert.IsFalse(ProductList.Products.Contains(ProductToRemove));
         }
- 
+
+        [TestMethod]
+        public void RemoveProduct_DontRemoveProductIfNotInList()
+        {
+            // Arrange
+            var ProductToRemove = new Product("Product To Remove", category, 20.0m, 5, 2);
         
+
+            // Act
+            inventoryService.RemoveProduct(ProductToRemove);
+
+           
+        }
     }
 }

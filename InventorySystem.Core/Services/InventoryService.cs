@@ -20,12 +20,19 @@ namespace InventorySystem.Core.Services
 
         public void AddProduct(Product product)
         {
-            if (ProductList.Products.Any(p => p.ProductName == product.ProductName))
+            if (ProductList.Products.Any(p => p.ProductName.Trim().ToLower() == product.ProductName.Trim().ToLower()))
             {
                 return;
             }
                 ProductList.Products.Add(product);
-            
+        }
+        public void RemoveProduct(Product product)
+        {
+            if(!ProductList.Products.Contains(product))
+            {
+                return;
+            }
+            ProductList.Products.Remove(product);
         }
     }
 }
