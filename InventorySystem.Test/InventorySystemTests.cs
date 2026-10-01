@@ -2,6 +2,7 @@
 using InventorySystem.Core.Services;
 using InventorySystem.Core.List;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace InventorySystem.Test
 {
     [TestClass]
@@ -72,10 +73,9 @@ namespace InventorySystem.Test
             var product2 = new Product("Test Product", category, 15.0m, 3, 1);
             // Act
             inventoryService.AddProduct(product1);
-            inventoryService.AddProduct(product2);
+            
             // Assert
-            var productsWithSameName = ProductList.Products.Where(p => p.ProductName.ToLower().Trim() == "Test Product".ToLower().Trim()).ToList();
-            Assert.AreEqual(1, productsWithSameName.Count);
+           Assert.Throws<InvalidOperationException>(() => inventoryService.AddProduct(product2));
         }
 
         [TestMethod]
@@ -95,12 +95,19 @@ namespace InventorySystem.Test
         {
             // Arrange
             var ProductToRemove = new Product("Product To Remove", category, 20.0m, 5, 2);
-        
 
-            // Act
-            inventoryService.RemoveProduct(ProductToRemove);
 
-           
+            // Assert
+            Assert.Throws<InvalidOperationException>(() => inventoryService.RemoveProduct(ProductToRemove));
+
+        }
+        [TestMethod]
+        public void AddStock_WithNegativeQuantity_DoesNotAddStock()
+        {
+            
+            //Assert
+            Assert.Throws<ArgumentException>(() => inventoryService.AddStock(product, -5));
+
         }
     }
 }

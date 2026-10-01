@@ -10,7 +10,11 @@ namespace InventorySystem.Core.Services
     {
         public void AddStock(Product product, int quantityToAdd)
         {
-            product.Quantity += quantityToAdd;
+            if(quantityToAdd < 0)
+            {
+                throw new ArgumentException("Quantity to add cannot be negative.");
+            }
+                product.Quantity += quantityToAdd;
         }
 
         public void RemoveStock(Product product, int quantityToRemove)
@@ -22,7 +26,7 @@ namespace InventorySystem.Core.Services
         {
             if (ProductList.Products.Any(p => p.ProductName.Trim().ToLower() == product.ProductName.Trim().ToLower()))
             {
-                return;
+                throw new InvalidOperationException($"A product with the name '{product.ProductName}' already exists.");
             }
                 ProductList.Products.Add(product);
         }
@@ -30,7 +34,7 @@ namespace InventorySystem.Core.Services
         {
             if(!ProductList.Products.Contains(product))
             {
-                return;
+                throw new InvalidOperationException($"The product '{product.ProductName}' does not exist in the inventory.");
             }
             ProductList.Products.Remove(product);
         }
