@@ -66,7 +66,7 @@ namespace InventorySystem.Test
 
         }
         [TestMethod]
-        public void AddProduct_DoNotAllowDuplicateProductNames()
+        public void AddProduct_DoesNotAllowDuplicateProductNames()
         {
             // Arrange
             var product1 = new Product("Test Product", category, 10.0m, 5, 2);
@@ -82,23 +82,23 @@ namespace InventorySystem.Test
         public void RemoveProduct_RemovesProductFromList()
         {
             // Arrange
-            var ProductToRemove = new Product("Product To Remove", category, 20.0m, 5, 2);
+            var productToRemove = new Product("Product To Remove", category, 20.0m, 5, 2);
             // Act
-            inventoryService.AddProduct(ProductToRemove);
-            inventoryService.RemoveProduct(ProductToRemove);
+            inventoryService.AddProduct(productToRemove);
+            inventoryService.RemoveProduct(productToRemove);
             // Assert
-            Assert.IsFalse(ProductList.Products.Contains(ProductToRemove));
+            Assert.IsFalse(ProductList.Products.Contains(productToRemove));
         }
 
         [TestMethod]
-        public void RemoveProduct_DontRemoveProductIfNotInList()
+        public void RemoveProduct_DoesNotRemoveProductIfNotInList()
         {
             // Arrange
-            var ProductToRemove = new Product("Product To Remove", category, 20.0m, 5, 2);
+            var productToRemove = new Product("Product To Remove", category, 20.0m, 5, 2);
 
 
             // Assert
-            Assert.Throws<InvalidOperationException>(() => inventoryService.RemoveProduct(ProductToRemove));
+            Assert.Throws<InvalidOperationException>(() => inventoryService.RemoveProduct(productToRemove));
 
         }
         [TestMethod]
