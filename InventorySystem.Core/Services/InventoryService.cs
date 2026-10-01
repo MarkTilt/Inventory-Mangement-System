@@ -19,6 +19,14 @@ namespace InventorySystem.Core.Services
 
         public void RemoveStock(Product product, int quantityToRemove)
         {
+            if(quantityToRemove < 0 )
+            {
+                throw new ArgumentException("Quantity to remove cannot be negative.");
+            }
+            if (product.Quantity < quantityToRemove)
+            {
+                throw new ArgumentException("Insufficient stock to remove.");
+            }
             product.Quantity -= quantityToRemove;
         }
 

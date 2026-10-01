@@ -109,5 +109,19 @@ namespace InventorySystem.Test
             Assert.Throws<ArgumentException>(() => inventoryService.AddStock(product, -5));
 
         }
+        [TestMethod]
+        public void RemoveStock_WithNegativeQuantity_ThrowsArgumentException()
+        {
+
+            //Assert
+            Assert.Throws<ArgumentException>(() => inventoryService.RemoveStock(product, -5));
+        }
+        [TestMethod]
+        public void RemoveStock_InsufficientStock_ThrowsArgumentException()
+        {
+
+            //Assert
+            Assert.Throws<ArgumentException>(() => inventoryService.RemoveStock(product, 15));
+        }
     }
 }
