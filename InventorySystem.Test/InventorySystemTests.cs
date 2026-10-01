@@ -55,7 +55,7 @@ namespace InventorySystem.Test
         {
             // Arrange
          
-            var product = new Product("Test Product", category, 10.0m, 5, 2);
+            var product = new Product("Test Product2", category, 10.0m, 5, 2);
 
             // Act
             inventoryService.AddProduct(product);
