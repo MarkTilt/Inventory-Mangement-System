@@ -136,12 +136,12 @@ namespace InventorySystem.Test
         public void UpdateProduct_ShouldAllowProductToKeepItsExistingName()
         {
             //Arrange
-            var existingProduct = new Product("Existing Product", category, 20.0m, 5, 2);
+            var existingProduct = new Product("Existing Product2", category, 20.0m, 5, 2);
             inventoryService.AddProduct(existingProduct);
             // Act
-            inventoryService.UpdateProduct(existingProduct, "Existing Product", category, 25.0m, 10, 3);
+            inventoryService.UpdateProduct(existingProduct, "Existing Product2", category, 25.0m, 10, 3);
             //Assert
-            Assert.AreEqual("Existing Product", existingProduct.ProductName);
+            Assert.AreEqual("Existing Product2", existingProduct.ProductName);
 
         }
     }
