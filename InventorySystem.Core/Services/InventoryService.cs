@@ -46,5 +46,29 @@ namespace InventorySystem.Core.Services
             }
             ProductList.Products.Remove(product);
         }
+
+        public void LowOnStockAlert(Product product)
+        {
+            if (product.Quantity <= product.LowStockThreshold)
+            {
+                // Trigger an alert (for example, log a message or send a notification)
+            }
+        }
+        public void UpdateProduct(Product product, string newName, Category newCategory, decimal newPrice, int newQuantity, int newLowStockThreshold)
+        {
+            
+                if (ProductList.Products.Any(p => p.ProductId != product.ProductId && p.ProductName.Trim().ToLower() == newName.Trim().ToLower()))
+                {
+                    throw new InvalidOperationException($"A product with the name '{newName}' already exists.");
+                }
+            
+           
+            product.ProductName = newName;
+            product.Category = newCategory;
+            product.Price = newPrice;
+            product.Quantity = newQuantity;
+            product.LowStockThreshold = newLowStockThreshold;
+        }
+       
     }
 }
