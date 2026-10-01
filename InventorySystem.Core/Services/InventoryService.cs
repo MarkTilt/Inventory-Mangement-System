@@ -47,13 +47,7 @@ namespace InventorySystem.Core.Services
             ProductList.Products.Remove(product);
         }
 
-        public void LowOnStockAlert(Product product)
-        {
-            if (product.Quantity <= product.LowStockThreshold)
-            {
-                // Trigger an alert (for example, log a message or send a notification)
-            }
-        }
+       
         public void UpdateProduct(Product product, string newName, Category newCategory, decimal newPrice, int newQuantity, int newLowStockThreshold)
         {
             
@@ -69,6 +63,45 @@ namespace InventorySystem.Core.Services
             product.Quantity = newQuantity;
             product.LowStockThreshold = newLowStockThreshold;
         }
-       
+        public void LowOnStockAlert(Product product)
+        {
+            if (product.Quantity <= product.LowStockThreshold)
+            {
+                // Trigger an alert (for example, log a message or send a notification)
+            }
+        }
+
+        public void AddCategory(Category category)
+        {
+            if (CategoryList.Categories.Any(c => c.CategoryName.Trim().ToLower() == category.CategoryName.Trim().ToLower()))
+            {
+                throw new InvalidOperationException($"A category with the name '{category.CategoryName}' already exists.");
+            }
+            CategoryList.Categories.Add(category);
+        }
+        public void RemoveCategory(Category category)
+        {
+            if (!CategoryList.Categories.Contains(category))
+            {
+                throw new InvalidOperationException($"The category '{category.CategoryName}' does not exist in the inventory.");
+            }
+            CategoryList.Categories.Remove(category);
+        }
+
+
+        public void UpdateCategory(Category category, string newName)
+        {
+
+            if (CategoryList.Categories.Any(c => c.CategoryId != category.CategoryId && c.CategoryName.Trim().ToLower() == newName.Trim().ToLower()))
+            {
+                throw new InvalidOperationException($"A category with the name '{newName}' already exists.");
+            }
+
+
+            category.CategoryName = newName;
+        }
+    
+          
+        
     }
 }
