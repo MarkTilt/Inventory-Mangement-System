@@ -1,10 +1,11 @@
 ﻿using InventorySystem.Core.List;
+using InventorySystem.Core.Services;
 namespace Inventory_Mangement_System
 
 {
     public partial class MainPage : ContentPage
     {
-     
+        InventoryService inventoryService = new InventoryService();
 
         public MainPage()
         {
@@ -16,7 +17,8 @@ namespace Inventory_Mangement_System
         public void AddCountToDash()
         {
             ProductsCount.Text = ProductList.Products.Count.ToString();
-            //LowCount.Text
+            int lowCount = inventoryService.LowStockCount;
+            LowCount.Text =  lowCount.ToString();
             CategoriesCount.Text = CategoryList.Categories.Count.ToString();
         }
     

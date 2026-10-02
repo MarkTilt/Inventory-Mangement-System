@@ -8,6 +8,12 @@ namespace InventorySystem.Core.Services
 {
     public class InventoryService
     {
+        public  int LowStockCount { 
+            get 
+            {
+                return ProductList.Products.Count(p => p.Quantity <= p.LowStockThreshold);
+            } 
+        }
         public void AddStock(Product product, int quantityToAdd)
         {
             if(quantityToAdd < 0)
@@ -28,6 +34,7 @@ namespace InventorySystem.Core.Services
                 throw new ArgumentException("Insufficient stock to remove.");
             }
             product.Quantity -= quantityToRemove;
+           
         }
 
         public void AddProduct(Product product)
@@ -63,12 +70,12 @@ namespace InventorySystem.Core.Services
             product.Quantity = newQuantity;
             product.LowStockThreshold = newLowStockThreshold;
         }
-        public void LowOnStockAlert(Product product)
+        public void LowOnStock(Product product)
         {
             if (product.Quantity <= product.LowStockThreshold)
             {
                 // Trigger an alert (for example, log a message or send a notification)
-            }
+            }      
         }
 
         public void AddCategory(Category category)
