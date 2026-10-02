@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Inventory_Mangement_System.ProductPage">
+
+    <Grid ColumnDefinitions="180,*">
+
+        <!-- Sidebar -->
+        <VerticalStackLayout Grid.Column="0"
+                      Padding="15">
+
+            <Label Text="Inventory"
+            FontSize="24"
+            FontAttributes="Bold"/>
+
+            <Button Text="Dashboard" BackgroundColor="AliceBlue" TextColor="Black" Clicked="DashBoard_Clicked"/>
+            <Button Text="Products" BackgroundColor="AliceBlue" TextColor="Black" Clicked="Products_Clicked"/>
+            <Button Text="Categories" BackgroundColor="AliceBlue" TextColor="Black" Clicked="Categories_Clicked"/>
+
+        </VerticalStackLayout>
+
+
+    </Grid>
+</ContentPage>

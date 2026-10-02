@@ -22,6 +22,20 @@ namespace Inventory_Mangement_System
             LowCount.Text =  lowCount.ToString();
             CategoriesCount.Text = CategoryList.Categories.Count.ToString();
         }
-    
+
+        private async void Products_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new ProductPage());
+        }
+
+        private async void Categories_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new CategoryPage());
+        }
+
+        private async void DashBoard_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new MainPage());
+        }
     }
 }
