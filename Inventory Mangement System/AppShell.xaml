@@ -7,7 +7,7 @@
     Title="Inventory_Mangement_System">
 
     <ShellContent
-        Title="Home"
+        Title="Inventory System"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 

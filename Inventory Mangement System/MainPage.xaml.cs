@@ -1,24 +1,24 @@
-﻿namespace Inventory_Mangement_System
+﻿using InventorySystem.Core.List;
+namespace Inventory_Mangement_System
+
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
+     
 
         public MainPage()
         {
+           
             InitializeComponent();
-        }
+            AddCountToDash();
 
-        private void OnCounterClicked(object? sender, EventArgs e)
+        }
+        public void AddCountToDash()
         {
-            count++;
-
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
-
-            SemanticScreenReader.Announce(CounterBtn.Text);
+            ProductsCount.Text = ProductList.Products.Count.ToString();
+            //LowCount.Text
+            CategoriesCount.Text = CategoryList.Categories.Count.ToString();
         }
+    
     }
 }
