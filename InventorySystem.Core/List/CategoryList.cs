@@ -9,7 +9,8 @@ namespace InventorySystem.Core.List
     {
         public static List<Category> Categories { get; } = new()
         {
-            new Category("Electronics")
+            new Category("Electronics"),
+            new Category("Food")
         };
     }
 }

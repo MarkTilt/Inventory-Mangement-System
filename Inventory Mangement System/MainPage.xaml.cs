@@ -6,14 +6,15 @@ namespace Inventory_Mangement_System
     public partial class MainPage : ContentPage
     {
         InventoryService inventoryService = new InventoryService();
-
+        
         public MainPage()
         {
-           
+
             InitializeComponent();
             AddCountToDash();
-
+           
         }
+        //Updates counts on dash
         public void AddCountToDash()
         {
             ProductsCount.Text = ProductList.Products.Count.ToString();

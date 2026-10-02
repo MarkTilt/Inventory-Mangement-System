@@ -103,7 +103,7 @@ namespace InventorySystem.Core.Services
             {
                 throw new InvalidOperationException($"A category with the name '{newName}' already exists.");
             }
-
+            
 
             category.CategoryName = newName;
         }
