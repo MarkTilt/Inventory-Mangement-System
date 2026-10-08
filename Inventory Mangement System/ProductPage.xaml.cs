@@ -1,3 +1,5 @@
+using InventorySystem.Core.List;
+
 namespace Inventory_Mangement_System;
 
 public partial class ProductPage : ContentPage
@@ -5,7 +7,8 @@ public partial class ProductPage : ContentPage
 	public ProductPage()
 	{
 		InitializeComponent();
-	}
+        ProductsCollection.ItemsSource = ProductList.Products;
+    }
 
     private async void DashBoard_Clicked(object sender, EventArgs e)
     {

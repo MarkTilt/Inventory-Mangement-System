@@ -11,14 +11,95 @@
 
             <Label Text="Inventory"
             FontSize="24"
-            FontAttributes="Bold"/>
+            FontAttributes="Bold"
+                   Padding="15"/>
 
             <Button Text="Dashboard" BackgroundColor="AliceBlue" TextColor="Black" Clicked="DashBoard_Clicked"/>
             <Button Text="Products" BackgroundColor="AliceBlue" TextColor="Black" Clicked="Products_Clicked"/>
             <Button Text="Categories" BackgroundColor="AliceBlue" TextColor="Black" Clicked="Categories_Clicked"/>
 
         </VerticalStackLayout>
+            <!-- Product Page-->
+        
+            <VerticalStackLayout Padding="30"
+                                 Spacing="20"
+                                 Grid.Column="1">
+                <Label Text="Products"
+                        FontSize="32"
+                        FontAttributes="Bold"/>
+                <Border>
+                <Grid ColumnDefinitions="*,*,*,*,*"
+                      Padding="10"
+                      ColumnSpacing="20">
+                    
+                    <Label Text="Name"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           Grid.Column="0"/>
 
+                    <Label Text="Category"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           Grid.Column="1"/>
+
+                    <Label Text="Price"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           Grid.Column="2"/>
+
+                    <Label Text="Quantity"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           Grid.Column="3"/>
+
+                    <Label Text="LowStockThreshold"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           Grid.Column="4"/>
+                    
+                    
+                    
+                    
+                </Grid>
+                </Border>
+
+                <CollectionView x:Name="ProductsCollection">
+
+                    <CollectionView.ItemTemplate>
+
+                        <DataTemplate>
+                            <Border>
+                            <Grid ColumnDefinitions="*,*,*,*,*"
+                                  Padding="10"
+                                  ColumnSpacing="20">
+
+                                <Label Text="{Binding ProductName}"
+                                  Grid.Column="0"/>
+
+                                <Label Text="{Binding Category.CategoryName}"
+                                  Grid.Column="1"/>
+
+
+                                <Label Text="{Binding Price, StringFormat='R{0:F2}'}"
+                                       Grid.Column="2"/>
+
+                                <Label Text="{Binding Quantity}"
+                                  Grid.Column="3"/>
+
+                                <Label Text="{Binding LowStockThreshold}"
+                                  Grid.Column="4"/>
+
+                            </Grid>
+                            </Border>
+                        </DataTemplate>
+
+                    </CollectionView.ItemTemplate>
+
+                </CollectionView>
+               
+            </VerticalStackLayout>
+                
+        
 
     </Grid>
 </ContentPage>
