@@ -28,7 +28,7 @@
                         FontSize="32"
                         FontAttributes="Bold"/>
                 <Border>
-                <Grid ColumnDefinitions="*,*,*,*,*"
+                <Grid ColumnDefinitions="*,*,*,*,*, Auto"
                       Padding="10"
                       ColumnSpacing="20">
                     
@@ -57,6 +57,11 @@
                            FontAttributes="Bold"
                            Grid.Column="4"/>
                     
+                    <Label Text="Actions"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           Grid.Column="5"/>
+                    
                     
                     
                     
@@ -69,7 +74,7 @@
 
                         <DataTemplate>
                             <Border>
-                            <Grid ColumnDefinitions="*,*,*,*,*"
+                            <Grid ColumnDefinitions="*,*,*,*,*, Auto"
                                   Padding="10"
                                   ColumnSpacing="20">
 
@@ -88,6 +93,18 @@
 
                                 <Label Text="{Binding LowStockThreshold}"
                                   Grid.Column="4"/>
+                                
+                                <HorizontalStackLayout Grid.Column="5">
+                                    <Button ImageSource="edit.png"
+                                            WidthRequest="50"
+                                            HeightRequest="50"
+                                            BackgroundColor="White"/>
+
+                                    <Button ImageSource="delete.png"
+                                            WidthRequest="50"
+                                            HeightRequest="50"
+                                            BackgroundColor="White"/>
+                                </HorizontalStackLayout>
 
                             </Grid>
                             </Border>
