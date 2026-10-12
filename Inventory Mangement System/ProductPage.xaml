@@ -28,37 +28,37 @@
                         FontSize="32"
                         FontAttributes="Bold"/>
                 <Border>
-                <Grid ColumnDefinitions="*,*,*,*,*, Auto"
+                <Grid ColumnDefinitions="*,*,*,*,*, *"
                       Padding="10"
                       ColumnSpacing="20">
                     
                     <Label Text="Name"
-                           FontSize="20"
+                           FontSize="18"
                            FontAttributes="Bold"
                            Grid.Column="0"/>
 
                     <Label Text="Category"
-                           FontSize="20"
+                           FontSize="18"
                            FontAttributes="Bold"
                            Grid.Column="1"/>
 
                     <Label Text="Price"
-                           FontSize="20"
+                           FontSize="18"
                            FontAttributes="Bold"
                            Grid.Column="2"/>
 
                     <Label Text="Quantity"
-                           FontSize="20"
+                           FontSize="18"
                            FontAttributes="Bold"
                            Grid.Column="3"/>
 
                     <Label Text="LowStockThreshold"
-                           FontSize="20"
+                           FontSize="18"
                            FontAttributes="Bold"
                            Grid.Column="4"/>
                     
                     <Label Text="Actions"
-                           FontSize="20"
+                           FontSize="18"
                            FontAttributes="Bold"
                            Grid.Column="5"/>
                     
@@ -74,7 +74,7 @@
 
                         <DataTemplate>
                             <Border>
-                            <Grid ColumnDefinitions="*,*,*,*,*, Auto"
+                            <Grid ColumnDefinitions="*,*,*,*,*, *"
                                   Padding="10"
                                   ColumnSpacing="20">
 
@@ -98,12 +98,16 @@
                                     <Button ImageSource="edit.png"
                                             WidthRequest="50"
                                             HeightRequest="50"
-                                            BackgroundColor="White"/>
+                                            BackgroundColor="White"
+                                            Clicked="EditProduct_Clicked"
+                                            CommandParameter="{Binding .}"/>
 
                                     <Button ImageSource="delete.png"
                                             WidthRequest="50"
                                             HeightRequest="50"
-                                            BackgroundColor="White"/>
+                                            BackgroundColor="White"
+                                            Clicked="DeleteProduct_Clicked"
+                                            CommandParameter="{Binding .}"/>
                                 </HorizontalStackLayout>
 
                             </Grid>
