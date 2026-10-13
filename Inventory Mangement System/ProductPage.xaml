@@ -56,16 +56,16 @@
                            FontSize="18"
                            FontAttributes="Bold"
                            Grid.Column="4"/>
-                    
+
                     <Label Text="Actions"
                            FontSize="18"
                            FontAttributes="Bold"
-                           Grid.Column="5"
-                           Margin="0 15"/>
-                    
-                    
-                    
-                    
+                           Grid.Column="5"/>
+
+
+
+
+
                 </Grid>
                 </Border>
 

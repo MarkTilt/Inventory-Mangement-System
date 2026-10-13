@@ -50,10 +50,10 @@ public partial class ProductPage : ContentPage
         if (sender is Button button &&
            button.CommandParameter is Product product)
         {
-            await this.ShowPopupAsync(new EditProductPopup(product));
+            await this.ShowPopupAsync(new EditProductPopup(product, this));
         }
     }
-    private void LoadProducts()
+    public void LoadProducts()
     {
         ProductsCollection.ItemsSource = null;
         ProductsCollection.ItemsSource = ProductList.Products;

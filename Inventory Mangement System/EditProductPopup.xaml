@@ -24,13 +24,15 @@
             <Label Text="Price:" Grid.Row="2" Grid.Column="0" VerticalOptions="Center"/>
             <Label Text="Quantity:" Grid.Row="3" Grid.Column="0" VerticalOptions="Center"/>
             <Label Text="Low Stock Threshold:" Grid.Row="4" Grid.Column="0" VerticalOptions="Center"/>
+         
 
             <!-- Editable product values -->
-            <Entry Text="{Binding ProductName}" Grid.Row="0" Grid.Column="1" />
-            <Entry Text="{Binding Category.CategoryName}" Grid.Row="1" Grid.Column="1" />
-            <Entry Text="{Binding Price}" Grid.Row="2" Grid.Column="1" Keyboard="Numeric"/>
-            <Entry Text="{Binding Quantity}" Grid.Row="3" Grid.Column="1" Keyboard="Numeric"/>
-            <Entry Text="{Binding LowStockThreshold}" Grid.Row="4" Grid.Column="1" Keyboard="Numeric"/>
+            <Entry Text="{Binding EditedName, Mode=TwoWay}" Grid.Row="0" Grid.Column="1" />
+            <Picker ItemsSource="{Binding Categories}" ItemDisplayBinding="{Binding CategoryName}" SelectedItem="{Binding EditedCategory, Mode=TwoWay}" Grid.Row="1" Grid.Column="1" />
+            <Entry Text="{Binding EditedPrice, Mode=TwoWay}" Grid.Row="2" Grid.Column="1" Keyboard="Numeric"/>
+            <Entry Text="{Binding EditedQuantity, Mode=TwoWay}" Grid.Row="3" Grid.Column="1" Keyboard="Numeric"/>
+            <Entry Text="{Binding EditedLowStockThreshold, Mode=TwoWay}" Grid.Row="4" Grid.Column="1" Keyboard="Numeric"/>
+            
 
         </Grid>
         <Button Text="Save" BackgroundColor="Orange" TextColor="White" FontAttributes="Bold" FontSize="20" Margin="20" Clicked="SaveOn_Clicked"/>
