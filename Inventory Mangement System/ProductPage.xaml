@@ -27,7 +27,11 @@
                 <Label Text="Products"
                         FontSize="32"
                         FontAttributes="Bold"/>
-                <Border>
+            <Grid ColumnDefinitions="100,*">
+                <Button Text="Add Product" Grid.Column="0" BackgroundColor="Orange" FontAttributes="Bold" FontSize="12" TextColor="Black" Clicked="AddProduct_Clicked"/>
+            </Grid>
+            
+            <Border>
                 <Grid ColumnDefinitions="*,*,*,*,*, *"
                       Padding="10"
                       ColumnSpacing="20">

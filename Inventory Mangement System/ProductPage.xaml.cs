@@ -12,7 +12,7 @@ public partial class ProductPage : ContentPage
 	public ProductPage()
 	{
 		InitializeComponent();
-         LoadProducts();
+        LoadProducts();
     }
 
     private async void DashBoard_Clicked(object sender, EventArgs e)
@@ -57,5 +57,10 @@ public partial class ProductPage : ContentPage
     {
         ProductsCollection.ItemsSource = null;
         ProductsCollection.ItemsSource = ProductList.Products;
+    }
+
+    private async void AddProduct_Clicked(object sender, EventArgs e)
+    {
+        await this.ShowPopupAsync(new AddProductPopupPage());
     }
 }
