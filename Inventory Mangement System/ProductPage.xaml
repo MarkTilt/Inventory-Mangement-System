@@ -60,7 +60,8 @@
                     <Label Text="Actions"
                            FontSize="18"
                            FontAttributes="Bold"
-                           Grid.Column="5"/>
+                           Grid.Column="5"
+                           Margin="0 15"/>
                     
                     
                     

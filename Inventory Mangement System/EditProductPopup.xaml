@@ -4,5 +4,38 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     x:Class="Inventory_Mangement_System.EditProductPopup">
-    <Label Text="Hello"/>
+
+
+    <VerticalStackLayout >
+        <!-- Title -->
+        <Label Text="{Binding ProductName, StringFormat= 'Editing: {0}'}" FontSize="20" FontAttributes="Bold" Padding="2"/>
+
+
+
+
+        <Grid ColumnDefinitions="*, Auto"
+              RowDefinitions="Auto,Auto,Auto,Auto,Auto"
+              ColumnSpacing="12"
+              RowSpacing="10">
+
+            <!-- Labels -->
+            <Label Text="Name:" Grid.Row="0" Grid.Column="0" VerticalOptions="Center"/>
+            <Label Text="Category:" Grid.Row="1" Grid.Column="0" VerticalOptions="Center"/>
+            <Label Text="Price:" Grid.Row="2" Grid.Column="0" VerticalOptions="Center"/>
+            <Label Text="Quantity:" Grid.Row="3" Grid.Column="0" VerticalOptions="Center"/>
+            <Label Text="Low Stock Threshold:" Grid.Row="4" Grid.Column="0" VerticalOptions="Center"/>
+
+            <!-- Editable product values -->
+            <Entry Text="{Binding ProductName}" Grid.Row="0" Grid.Column="1" />
+            <Entry Text="{Binding Category.CategoryName}" Grid.Row="1" Grid.Column="1" />
+            <Entry Text="{Binding Price}" Grid.Row="2" Grid.Column="1" Keyboard="Numeric"/>
+            <Entry Text="{Binding Quantity}" Grid.Row="3" Grid.Column="1" Keyboard="Numeric"/>
+            <Entry Text="{Binding LowStockThreshold}" Grid.Row="4" Grid.Column="1" Keyboard="Numeric"/>
+
+        </Grid>
+        <Button Text="Save" BackgroundColor="Orange" TextColor="White" FontAttributes="Bold" FontSize="20" Margin="20" Clicked="SaveOn_Clicked"/>
+        <Button Text="Cancel" BackgroundColor="Gray" TextColor="White" FontAttributes="Bold" FontSize="20" Margin="20" Clicked="CancelOn_Clicked"/>
+    </VerticalStackLayout>
+  
+    
 </toolkit:Popup>

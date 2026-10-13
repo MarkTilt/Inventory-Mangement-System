@@ -47,7 +47,11 @@ public partial class ProductPage : ContentPage
 
     private async void EditProduct_Clicked(object sender, EventArgs e)
     {
-       await this.ShowPopupAsync( new EditProductPopup() );
+        if (sender is Button button &&
+           button.CommandParameter is Product product)
+        {
+            await this.ShowPopupAsync(new EditProductPopup(product));
+        }
     }
     private void LoadProducts()
     {
