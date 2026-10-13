@@ -8,18 +8,41 @@ namespace Inventory_Mangement_System;
 public partial class AddProductPopupPage : Popup
 {
 
-	public AddProductPopupPage()
+    InventoryService inventoryService = new InventoryService();
+    private readonly ProductPage _productPage;
+    public List<Category> Categories { get; set; }
+    public AddProductPopupPage(ProductPage page)
 	{
 		InitializeComponent();
-	}
-
-    private void AddOn_Clicked(object sender, EventArgs e)
-    {
-
+        Categories = CategoryList.Categories;
+        _productPage = page;
+        BindingContext = this;
     }
 
-    private void CancelOn_Clicked(object sender, EventArgs e)
+    private async void AddOn_Clicked(object sender, EventArgs e)
     {
+        try
+        {
+            Product product = new Product(ProductName.Text, 
+                (Category)ProductCategory.SelectedItem, 
+                decimal.Parse(ProductPrice.Text), 
+                int.Parse(ProductQauntity.Text), 
+                int.Parse(ProductLowStockThreshold.Text));
 
+            inventoryService.AddProduct(product);
+            _productPage.LoadProducts();
+            await CloseAsync();
+        }
+        catch (Exception ex)
+        {
+            await Application.Current!.Windows[0].Page!
+                .DisplayAlertAsync("Error", ex.Message, "OK");
+        }
+      
+    }
+
+    private async void CancelOn_Clicked(object sender, EventArgs e)
+    {
+        await CloseAsync();
     }
 }
