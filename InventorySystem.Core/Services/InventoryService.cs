@@ -54,16 +54,27 @@ namespace InventorySystem.Core.Services
             ProductList.Products.Remove(product);
         }
 
-       
+
         public void UpdateProduct(Product product, string newName, Category newCategory, decimal newPrice, int newQuantity, int newLowStockThreshold)
         {
-            
-                if (ProductList.Products.Any(p => p.ProductId != product.ProductId && p.ProductName.Trim().ToLower() == newName.Trim().ToLower()))
-                {
-                    throw new InvalidOperationException($"A product with the name '{newName}' already exists.");
-                }
-            
-           
+
+            if (ProductList.Products.Any(p => p.ProductId != product.ProductId && p.ProductName.Trim().ToLower() == newName.Trim().ToLower()))
+            {
+                throw new InvalidOperationException($"A product with the name '{newName}' already exists.");
+            }
+            if (newPrice < 0)
+            {
+                throw new ArgumentException("Price cannot be negative.");
+            }
+            if (newQuantity < 0)
+            {
+                throw new ArgumentException("Quantity cannot be negative.");
+            }
+            if (newLowStockThreshold < 0)
+            {
+                throw new ArgumentException("Low stock threshold cannot be negative.");
+            }
+
             product.ProductName = newName;
             product.Category = newCategory;
             product.Price = newPrice;
