@@ -63,4 +63,14 @@ public partial class ProductPage : ContentPage
     {
         await this.ShowPopupAsync(new AddProductPopupPage(this));
     }
+
+    private void AddStock_Clicked(object sender, EventArgs e)
+    {
+
+    }
+
+    private void RemoveStock_Clicked(object sender, EventArgs e)
+    {
+
+    }
 }

@@ -94,12 +94,30 @@
                                        Grid.Column="2"/>
 
                                 <Label Text="{Binding Quantity}"
-                                  Grid.Column="3"/>
+                                       Grid.Column="3"/>
 
                                 <Label Text="{Binding LowStockThreshold}"
                                   Grid.Column="4"/>
                                 
                                 <HorizontalStackLayout Grid.Column="5">
+                                    <Button Text="+"
+                                            TextColor="Green"
+                                            FontSize="30"
+                                            WidthRequest="30"
+                                            HeightRequest="30"
+                                            BackgroundColor="White"
+                                            Clicked="AddStock_Clicked"
+                                            CommandParameter="{Binding .}"/>
+
+                                    <Button Text="-"
+                                            TextColor="Red"
+                                            FontSize="30"
+                                            WidthRequest="30"
+                                            HeightRequest="30"
+                                            BackgroundColor="White"
+                                            Clicked="RemoveStock_Clicked"
+                                            CommandParameter="{Binding .}"/>
+                                    
                                     <Button ImageSource="edit.png"
                                             WidthRequest="50"
                                             HeightRequest="50"
