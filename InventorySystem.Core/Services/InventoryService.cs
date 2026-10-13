@@ -39,6 +39,35 @@ namespace InventorySystem.Core.Services
 
         public void AddProduct(Product product)
         {
+
+            if (product == null)
+            {
+                throw new ArgumentNullException(nameof(product));
+            }
+            if (string.IsNullOrWhiteSpace(product.ProductName))
+            {
+                throw new ArgumentException("Product name cannot be empty.");
+            }
+            if (product.Price < 0)
+            {
+                throw new ArgumentException("Price cannot be negative.");
+            }
+           
+            if(product.Category == null)
+            {
+                throw new ArgumentException("Product must have a category.");
+            }
+            if (product.Quantity < 0 )
+            {
+                throw new ArgumentException("Quantity cannot be negative.");
+            }
+            
+            if (product.LowStockThreshold < 0 )
+            {
+                throw new ArgumentException("Low stock threshold cannot be negative.");
+            }
+           
+
             if (ProductList.Products.Any(p => p.ProductName.Trim().ToLower() == product.ProductName.Trim().ToLower()))
             {
                 throw new InvalidOperationException($"A product with the name '{product.ProductName}' already exists.");
