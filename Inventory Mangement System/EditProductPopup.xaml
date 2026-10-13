@@ -28,7 +28,8 @@
 
             <!-- Editable product values -->
             <Entry Text="{Binding EditedName, Mode=TwoWay}" Grid.Row="0" Grid.Column="1" />
-            <Picker ItemsSource="{Binding Categories}" ItemDisplayBinding="{Binding CategoryName}" SelectedItem="{Binding EditedCategory, Mode=TwoWay}" Grid.Row="1" Grid.Column="1" />
+            <Picker ItemsSource="{Binding Categories}" ItemDisplayBinding="{Binding CategoryName}" 
+                    SelectedItem="{Binding EditedCategory, Mode=TwoWay}" Grid.Row="1" Grid.Column="1" />
             <Entry Text="{Binding EditedPrice, Mode=TwoWay}" Grid.Row="2" Grid.Column="1" Keyboard="Numeric"/>
             <Entry Text="{Binding EditedQuantity, Mode=TwoWay}" Grid.Row="3" Grid.Column="1" Keyboard="Numeric"/>
             <Entry Text="{Binding EditedLowStockThreshold, Mode=TwoWay}" Grid.Row="4" Grid.Column="1" Keyboard="Numeric"/>
