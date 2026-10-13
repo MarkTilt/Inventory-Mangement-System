@@ -64,13 +64,21 @@ public partial class ProductPage : ContentPage
         await this.ShowPopupAsync(new AddProductPopupPage(this));
     }
 
-    private void AddStock_Clicked(object sender, EventArgs e)
+    private async void AddStock_Clicked(object sender, EventArgs e)
     {
-
+        if (sender is Button button &&
+            button.CommandParameter is Product product)
+        {
+            await this.ShowPopupAsync(new AddStockPopup(product, this));
+        }
     }
 
-    private void RemoveStock_Clicked(object sender, EventArgs e)
+    private async void RemoveStock_Clicked(object sender, EventArgs e)
     {
-
+        if (sender is Button button &&
+          button.CommandParameter is Product product)
+        {
+            await this.ShowPopupAsync(new RemoveStockPopup(product, this));
+        }
     }
 }
