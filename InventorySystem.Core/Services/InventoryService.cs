@@ -103,6 +103,14 @@ namespace InventorySystem.Core.Services
             {
                 throw new ArgumentException("Low stock threshold cannot be negative.");
             }
+            if(newCategory == null)
+            {
+                throw new ArgumentException("Product must have a category.");
+            }
+            if (string.IsNullOrWhiteSpace(newName))
+            {
+                throw new ArgumentException("Product name cannot be empty.");
+            }
 
             product.ProductName = newName;
             product.Category = newCategory;
