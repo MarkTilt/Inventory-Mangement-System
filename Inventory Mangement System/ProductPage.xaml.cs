@@ -81,4 +81,18 @@ public partial class ProductPage : ContentPage
             await this.ShowPopupAsync(new RemoveStockPopup(product, this));
         }
     }
+
+    private void ProductSearchBar_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        string searchText = e.NewTextValue?.Trim() ?? "";
+
+        var filteredProducts = ProductList.Products
+            .Where(product =>
+                product.ProductName.Contains(
+                    searchText,
+                    StringComparison.OrdinalIgnoreCase))
+            .ToList();
+
+        ProductsCollection.ItemsSource = filteredProducts;
+    }
 }
