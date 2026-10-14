@@ -7,36 +7,70 @@
 
         <!-- Sidebar -->
         <VerticalStackLayout Grid.Column="0"
-                      Padding="15">
+                             Padding="15">
 
             <Label Text="Inventory"
-            FontSize="24"
-            FontAttributes="Bold"
+                   FontSize="24"
+                   FontAttributes="Bold"
                    Padding="15"/>
 
-            <Button Text="Dashboard" BackgroundColor="AliceBlue" TextColor="Black" Clicked="DashBoard_Clicked"/>
-            <Button Text="Products" BackgroundColor="AliceBlue" TextColor="Black" Clicked="Products_Clicked"/>
-            <Button Text="Categories" BackgroundColor="AliceBlue" TextColor="Black" Clicked="Categories_Clicked"/>
+            <Button Text="Dashboard"
+                    BackgroundColor="AliceBlue"
+                    TextColor="Black"
+                    Clicked="DashBoard_Clicked"/>
+
+            <Button Text="Products"
+                    BackgroundColor="AliceBlue"
+                    TextColor="Black"
+                    Clicked="Products_Clicked"/>
+
+            <Button Text="Categories"
+                    BackgroundColor="AliceBlue"
+                    TextColor="Black"
+                    Clicked="Categories_Clicked"/>
 
         </VerticalStackLayout>
-            <!-- Product Page-->
-        
-            <VerticalStackLayout Padding="30"
-                                 Spacing="20"
-                                 Grid.Column="1">
-                <Label Text="Products"
-                        FontSize="32"
-                        FontAttributes="Bold"/>
-            <Grid ColumnDefinitions="100,*,150">
-                <Button Text="Add Product" Grid.Column="0" BackgroundColor="Orange" FontAttributes="Bold" FontSize="12" TextColor="Black" Clicked="AddProduct_Clicked"/>
-                <SearchBar x:Name="ProductSearchBar" Grid.Column="2" Placeholder="Search"   TextChanged="ProductSearchBar_TextChanged"/>
+
+        <!-- Product Page -->
+        <Grid Grid.Column="1"
+              Padding="30"
+              RowDefinitions="Auto,Auto,Auto,*"
+              RowSpacing="20">
+
+            <!-- Page Heading -->
+            <Label Text="Products"
+                   FontSize="32"
+                   FontAttributes="Bold"
+                   Grid.Row="0"/>
+
+            <!-- Add Product and Search -->
+            <Grid Grid.Row="1"
+                  ColumnDefinitions="Auto,*,200"
+                  ColumnSpacing="10">
+
+                <Button Text="Add Product"
+                        Grid.Column="0"
+                        BackgroundColor="Orange"
+                        FontAttributes="Bold"
+                        FontSize="12"
+                        TextColor="Black"
+                        Clicked="AddProduct_Clicked"/>
+
+                <SearchBar x:Name="ProductSearchBar"
+                           Grid.Column="2"
+                           Placeholder="Search"
+                           TextChanged="ProductSearchBar_TextChanged"/>
+
             </Grid>
-            
-            <Border>
-                <Grid ColumnDefinitions="*,*,*,*,*, *"
+
+            <!-- Table Headers -->
+            <Border Grid.Row="2"
+                    Padding="0">
+
+                <Grid ColumnDefinitions="*,*,*,*,*,*"
                       Padding="10"
                       ColumnSpacing="20">
-                    
+
                     <Label Text="Name"
                            FontSize="18"
                            FontAttributes="Bold"
@@ -67,84 +101,99 @@
                            FontAttributes="Bold"
                            Grid.Column="5"/>
 
-
-
-
-
                 </Grid>
-                </Border>
-               
-                <CollectionView x:Name="ProductsCollection">
 
-                    <CollectionView.ItemTemplate>
+            </Border>
 
-                        <DataTemplate>
-                            <Border>
-                            <Grid ColumnDefinitions="*,*,*,*,*, *"
+            <!-- Scrollable Product List -->
+            <CollectionView x:Name="ProductsCollection"
+                            Grid.Row="3"
+                            VerticalScrollBarVisibility="Always">
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+
+                        <Border Padding="0"
+                                Margin="0,0,0,5">
+
+                            <Grid ColumnDefinitions="*,*,*,*,*,*"
                                   Padding="10"
                                   ColumnSpacing="20">
-                               
+
                                 <Label Text="{Binding ProductName}"
-                                  Grid.Column="0"/>
+                                       Grid.Column="0"
+                                       VerticalOptions="Center"/>
 
                                 <Label Text="{Binding Category.CategoryName}"
-                                  Grid.Column="1"/>
-
+                                       Grid.Column="1"
+                                       VerticalOptions="Center"/>
 
                                 <Label Text="{Binding Price, StringFormat='R{0:F2}'}"
-                                       Grid.Column="2"/>
+                                       Grid.Column="2"
+                                       VerticalOptions="Center"/>
 
                                 <Label Text="{Binding Quantity}"
-                                       Grid.Column="3"/>
+                                       Grid.Column="3"
+                                       VerticalOptions="Center"/>
 
                                 <Label Text="{Binding LowStockThreshold}"
-                                  Grid.Column="4"/>
-                                
-                                <HorizontalStackLayout Grid.Column="5">
+                                       Grid.Column="4"
+                                       VerticalOptions="Center"/>
+
+                                <!-- Product Actions -->
+                                <HorizontalStackLayout Grid.Column="5"
+                                                       Spacing="2"
+                                                       VerticalOptions="Center">
+
                                     <Button Text="+"
                                             TextColor="Green"
-                                            FontSize="30"
-                                            WidthRequest="30"
-                                            HeightRequest="30"
+                                            FontSize="24"
+                                            WidthRequest="35"
+                                            HeightRequest="40"
+                                            Padding="0"
                                             BackgroundColor="White"
                                             Clicked="AddStock_Clicked"
                                             CommandParameter="{Binding .}"/>
 
                                     <Button Text="-"
                                             TextColor="Red"
-                                            FontSize="30"
-                                            WidthRequest="30"
-                                            HeightRequest="30"
+                                            FontSize="24"
+                                            WidthRequest="35"
+                                            HeightRequest="40"
+                                            Padding="0"
                                             BackgroundColor="White"
                                             Clicked="RemoveStock_Clicked"
                                             CommandParameter="{Binding .}"/>
-                                    
+
                                     <Button ImageSource="edit.png"
-                                            WidthRequest="50"
-                                            HeightRequest="50"
+                                            WidthRequest="30"
+                                            HeightRequest="30"
+                                            Padding="5"
                                             BackgroundColor="White"
                                             Clicked="EditProduct_Clicked"
                                             CommandParameter="{Binding .}"/>
 
                                     <Button ImageSource="delete.png"
-                                            WidthRequest="50"
-                                            HeightRequest="50"
+                                            WidthRequest="30"
+                                            HeightRequest="30"
+                                            Padding="5"
                                             BackgroundColor="White"
                                             Clicked="DeleteProduct_Clicked"
                                             CommandParameter="{Binding .}"/>
+
                                 </HorizontalStackLayout>
-                                
+
                             </Grid>
-                            </Border>
-                        </DataTemplate>
 
-                    </CollectionView.ItemTemplate>
+                        </Border>
 
-                </CollectionView>
-           
-        </VerticalStackLayout>
-                
-        
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+
+        </Grid>
 
     </Grid>
+
 </ContentPage>
