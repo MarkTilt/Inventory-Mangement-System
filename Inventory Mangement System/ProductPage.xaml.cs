@@ -90,8 +90,12 @@ public partial class ProductPage : ContentPage
             .Where(product =>
                 product.ProductName.Contains(
                     searchText,
-                    StringComparison.OrdinalIgnoreCase))
-            .ToList();
+                    StringComparison.OrdinalIgnoreCase)
+                   ||
+                product.Category.CategoryName.Contains(
+                searchText,
+                StringComparison.OrdinalIgnoreCase))
+                .ToList();
 
         ProductsCollection.ItemsSource = filteredProducts;
     }
