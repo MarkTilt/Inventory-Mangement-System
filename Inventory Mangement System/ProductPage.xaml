@@ -69,7 +69,8 @@
 
                 <Grid ColumnDefinitions="*,*,*,*,*,*"
                       Padding="10"
-                      ColumnSpacing="20">
+                      ColumnSpacing="20" 
+                      BackgroundColor="#F0F0F0">
 
                     <Label Text="Name"
                            FontSize="18"

@@ -2,34 +2,129 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Inventory_Mangement_System.CategoryPage">
-    
+
     <Grid ColumnDefinitions="180,*">
 
         <!-- Sidebar -->
         <VerticalStackLayout Grid.Column="0"
-                   Padding="15">
+                             Padding="15">
 
             <Label Text="Inventory"
-         FontSize="24"
-         FontAttributes="Bold"
-                    Padding="15"/>
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   Padding="15"/>
 
-            <Button Text="Dashboard" BackgroundColor="AliceBlue" TextColor="Black" Clicked="DashBoard_Clicked"/>
-            <Button Text="Products" BackgroundColor="AliceBlue" TextColor="Black" Clicked="Products_Clicked"/>
-            <Button Text="Categories" BackgroundColor="AliceBlue" TextColor="Black" Clicked="Categories_Clicked"/>
+            <Button Text="Dashboard"
+                    BackgroundColor="AliceBlue"
+                    TextColor="Black"
+                    Clicked="DashBoard_Clicked"/>
+
+            <Button Text="Products"
+                    BackgroundColor="AliceBlue"
+                    TextColor="Black"
+                    Clicked="Products_Clicked"/>
+
+            <Button Text="Categories"
+                    BackgroundColor="AliceBlue"
+                    TextColor="Black"
+                    Clicked="Categories_Clicked"/>
 
         </VerticalStackLayout>
 
-        <ScrollView Grid.Column="1">
-            <VerticalStackLayout Padding="30"
-                                 Spacing="20">
-                <Label Text="Category Page"
-                        FontSize="32"
-                        FontAttributes="Bold"/>
+        <!-- Category Page Content -->
+        <Grid Grid.Column="1"
+              RowDefinitions="Auto,Auto,*"
+              RowSpacing="20"
+              Padding="30">
 
-            </VerticalStackLayout>
-        </ScrollView>
+            <!-- Page Title -->
+            <Label Text="Categories"
+                   FontSize="32"
+                   FontAttributes="Bold"
+                   Grid.Row="0"/>
 
+            
+            <Button Text="Add Category"
+                    Grid.Row="1"
+                    HorizontalOptions="Start"
+                    BackgroundColor="Orange"
+                    FontAttributes="Bold"
+                    FontSize="12"
+                    TextColor="Black"/>
+
+          
+            <Border Grid.Row="2"
+                    WidthRequest="450"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Start"
+                    Stroke="#D1D1D1"
+                    StrokeThickness="1"
+                    Padding="0">
+
+                <Grid RowDefinitions="Auto,*">
+
+                    
+                    <Grid Grid.Row="0"
+                          ColumnDefinitions="*,Auto"
+                          Padding="15"
+                          BackgroundColor="#F0F0F0">
+
+                        <Label Text="Name"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"/>
+
+                        <Label Text="Actions"
+                               Grid.Column="1"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"/>
+
+                    </Grid>
+
+                    <!-- Category List -->
+                    <CollectionView x:Name="CategoryCollection"
+                                    Grid.Row="1"
+                                    VerticalOptions="Start">
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+
+                                <Grid ColumnDefinitions="*,Auto"
+                                      Padding="15">
+
+                                    <Label Text="{Binding CategoryName}"
+                                           Grid.Column="0"
+                                           FontSize="18"
+                                           VerticalOptions="Center"/>
+                                    <HorizontalStackLayout Grid.Column="1">
+                                        <Button  BackgroundColor="White"
+                                                 ImageSource="edit.png"
+                                                 HeightRequest="30"
+                                                 WidthRequest="30"
+                                                 Padding="5"/>
+
+                                        <Button BackgroundColor="White"
+                                                ImageSource="delete.png"
+                                                HeightRequest="30"
+                                                WidthRequest="30"
+                                                Padding="5"/>
+                                        
+                                    </HorizontalStackLayout>
+                                    
+
+                                </Grid>
+
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+
+                    </CollectionView>
+
+                </Grid>
+
+            </Border>
+
+        </Grid>
 
     </Grid>
 

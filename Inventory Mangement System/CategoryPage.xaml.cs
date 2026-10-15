@@ -1,3 +1,4 @@
+using InventorySystem.Core.List;
 namespace Inventory_Mangement_System;
 
 public partial class CategoryPage : ContentPage
@@ -5,7 +6,8 @@ public partial class CategoryPage : ContentPage
 	public CategoryPage()
 	{
 		InitializeComponent();
-	}
+        CategoryCollection.ItemsSource = CategoryList.Categories;
+    }
 
     private async void DashBoard_Clicked(object sender, EventArgs e)
     {
