@@ -61,7 +61,8 @@ public partial class ProductPage : ContentPage
 
     private async void AddProduct_Clicked(object sender, EventArgs e)
     {
-        await this.ShowPopupAsync(new AddProductPopupPage(this));
+        await this.ShowPopupAsync(new AddProductPopupPage());
+        LoadProducts();
     }
 
     private async void AddStock_Clicked(object sender, EventArgs e)

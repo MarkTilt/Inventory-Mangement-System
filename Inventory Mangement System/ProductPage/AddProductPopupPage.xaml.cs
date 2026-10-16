@@ -9,13 +9,12 @@ public partial class AddProductPopupPage : Popup
 {
 
     InventoryService inventoryService = new InventoryService();
-    private readonly ProductPage _productPage;
+   
     public List<Category> Categories { get; set; }
-    public AddProductPopupPage(ProductPage page)
+    public AddProductPopupPage()
 	{
 		InitializeComponent();
         Categories = CategoryList.Categories;
-        _productPage = page;
         BindingContext = this;
     }
 
@@ -30,7 +29,6 @@ public partial class AddProductPopupPage : Popup
                 int.Parse(ProductLowStockThreshold.Text));
 
             inventoryService.AddProduct(product);
-            _productPage.LoadProducts();
             await CloseAsync();
         }
         catch (Exception ex)

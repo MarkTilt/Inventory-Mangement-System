@@ -60,7 +60,8 @@ public partial class CategoryPage : ContentPage
 
     private async void AddCategory_Clicked(object sender, EventArgs e)
     {
-        await this.ShowPopupAsync(new AddCategoryPopup(this));
+        await this.ShowPopupAsync(new AddCategoryPopup());
+        LoadCategories();
     }
 
     private void CategorySearchBar_TextChanged(object sender, TextChangedEventArgs e)

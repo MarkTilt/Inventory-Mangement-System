@@ -111,12 +111,12 @@
 
                         </Grid>
                     </Border>
-
+                    <!-- Quick Actions -->
                 </HorizontalStackLayout>
-                <Label Text="Quick Actions" FontSize="24"/>
-                <HorizontalStackLayout>
-                    <Button Text="Add product" TextColor="Black" BackgroundColor="AliceBlue" />
-                    <Button Text="Add Category" TextColor="Black" BackgroundColor="AliceBlue" />
+                <Label Text="Quick Actions" FontSize="24" FontAttributes="Bold"/>
+                <HorizontalStackLayout Spacing="10">
+                    <Button Text="Add product" TextColor="Black" BackgroundColor="Orange" Clicked="AddProduct_Clicked" />
+                    <Button Text="Add Category" TextColor="Black" BackgroundColor="Orange" Clicked="AddCategory_Clicked" />
 
                 </HorizontalStackLayout>
 

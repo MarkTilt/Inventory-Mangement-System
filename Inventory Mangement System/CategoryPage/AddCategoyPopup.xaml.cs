@@ -7,12 +7,12 @@ namespace Inventory_Mangement_System;
 public partial class AddCategoryPopup : Popup
 {
     InventoryService inventoryService = new InventoryService();
-    private readonly CategoryPage _categoryPage;
+   
 
-    public AddCategoryPopup(CategoryPage page)
+    public AddCategoryPopup()
 	{
 		InitializeComponent();
-        _categoryPage = page;
+       
     }
 
     private async void AddOn_Clicked(object sender, EventArgs e)
@@ -21,7 +21,6 @@ public partial class AddCategoryPopup : Popup
         {
             Category category = new Category(CategoryNameEntry.Text);
             inventoryService.AddCategory(category);
-            _categoryPage.LoadCategories();
             await CloseAsync();
             
         }

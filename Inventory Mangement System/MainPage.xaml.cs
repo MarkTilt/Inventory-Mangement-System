@@ -1,4 +1,5 @@
-﻿using InventorySystem.Core.List;
+﻿using CommunityToolkit.Maui.Extensions;
+using InventorySystem.Core.List;
 using InventorySystem.Core.Services;
 namespace Inventory_Mangement_System
 
@@ -17,9 +18,12 @@ namespace Inventory_Mangement_System
         //Updates counts on dash
         public void AddCountToDash()
         {
+            ProductsCount.Text = null;
             ProductsCount.Text = ProductList.Products.Count.ToString();
             int lowCount = inventoryService.LowStockCount;
+            LowCount.Text = null;
             LowCount.Text =  lowCount.ToString();
+            CategoriesCount.Text = null;
             CategoriesCount.Text = CategoryList.Categories.Count.ToString();
         }
 
@@ -37,5 +41,19 @@ namespace Inventory_Mangement_System
         {
             await Navigation.PushAsync(new MainPage());
         }
+
+        private async void AddProduct_Clicked(object sender, EventArgs e)
+        {
+            await this.ShowPopupAsync(new AddProductPopupPage());
+            AddCountToDash();
+        }
+
+        private async void AddCategory_Clicked(object sender, EventArgs e)
+        {
+            await this.ShowPopupAsync(new AddCategoryPopup());
+            AddCountToDash();
+        }
+
+        }
     }
-}
+
