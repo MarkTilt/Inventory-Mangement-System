@@ -102,13 +102,17 @@
                                                  ImageSource="edit.png"
                                                  HeightRequest="30"
                                                  WidthRequest="30"
-                                                 Padding="5"/>
+                                                 Padding="5"
+                                                 Clicked="EditCategory_Clicked"
+                                                 CommandParameter="{Binding .}"/>
 
                                         <Button BackgroundColor="White"
                                                 ImageSource="delete.png"
                                                 HeightRequest="30"
                                                 WidthRequest="30"
-                                                Padding="5"/>
+                                                Padding="5"
+                                                Clicked="DeleteCategory_Clicked"
+                                                CommandParameter="{Binding .}"/>
                                         
                                     </HorizontalStackLayout>
                                     

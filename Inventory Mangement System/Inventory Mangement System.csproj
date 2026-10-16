@@ -76,12 +76,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="CategoryPage\EditCategoryPopUp.xaml.cs">
+	    <DependentUpon>EditCategoryPopup.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="ProductPage\AddStockPopup.xaml.cs">
 	    <DependentUpon>AddStockPopup.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="CategoryPage\EditCategoryPopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="ProductPage\AddProductPopupPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

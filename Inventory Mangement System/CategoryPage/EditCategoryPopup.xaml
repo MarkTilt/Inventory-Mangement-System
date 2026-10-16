@@ -1,0 +1,25 @@
+<toolkit:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+     x:Class="Inventory_Mangement_System.EditCategoryPopup">
+
+
+
+        <Grid ColumnDefinitions="*, *"
+              RowDefinitions="Auto,Auto"
+              ColumnSpacing="12"
+              RowSpacing="10">
+
+            <!-- Labels -->
+            <Label Text="Name:"  Grid.Column="0" VerticalOptions="Center" Grid.Row="0"/>
+
+            <!-- Editable product values -->
+            <Entry Text="{Binding EditedCategoryName, Mode=TwoWay}"  Grid.Column="1" Grid.Row="0"/>
+           
+        
+        <Button Text="Save" BackgroundColor="Orange" TextColor="White" FontAttributes="Bold" FontSize="20"  Clicked="SaveOn_Clicked" Grid.Row="1" Grid.Column="0" WidthRequest="100" HeightRequest="45"/>
+        <Button Text="Cancel" BackgroundColor="Gray" TextColor="White" FontAttributes="Bold" FontSize="20"  Clicked="CancelOn_Clicked" Grid.Row="1" Grid.Column="1" WidthRequest="100" HeightRequest="45"/>
+
+    </Grid>
+</toolkit:Popup>
