@@ -31,15 +31,24 @@ public partial class CategoryPage : ContentPage
 
     private async void DeleteCategory_Clicked(object sender, EventArgs e)
     {
-        if(sender is Button button &&
+        if (sender is Button button &&
             button.CommandParameter is Category category)
         {
-            //Delete confirmation window
-            bool delete = await DisplayAlertAsync("Delete Category?", $"Are you sure you want to delete {category.CategoryName}?", "Delete", "Cancel");
-            if (delete)
+            try
             {
-                inventoryService.RemoveCategory(category);
-                LoadCategories();
+                //Delete confirmation window
+                bool delete = await DisplayAlertAsync("Delete Category?", $"Are you sure you want to delete {category.CategoryName}?", "Delete", "Cancel");
+                if (delete)
+                {
+                    inventoryService.RemoveCategory(category);
+                    LoadCategories();
+                }
+            }
+            catch (Exception ex)
+            {
+                await Application.Current!.Windows[0].Page!
+                   .DisplayAlertAsync("Error", ex.Message, "OK");
+
             }
         }
     }

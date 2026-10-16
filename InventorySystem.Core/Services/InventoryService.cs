@@ -144,6 +144,10 @@ namespace InventorySystem.Core.Services
             {
                 throw new InvalidOperationException($"The category '{category.CategoryName}' does not exist in the inventory.");
             }
+            if(ProductList.Products.Any(p => p.Category.CategoryId == category.CategoryId))
+            {
+                throw new InvalidOperationException($"Cannot remove category '{category.CategoryName}' because it is associated with existing products.");
+            }
             CategoryList.Categories.Remove(category);
         }
 
