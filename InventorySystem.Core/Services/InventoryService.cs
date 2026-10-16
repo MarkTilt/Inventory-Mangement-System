@@ -132,6 +132,10 @@ namespace InventorySystem.Core.Services
             {
                 throw new InvalidOperationException($"A category with the name '{category.CategoryName}' already exists.");
             }
+            if (string.IsNullOrWhiteSpace(category.CategoryName))
+            {
+                throw new ArgumentException("Category name cannot be empty.");
+            }
             CategoryList.Categories.Add(category);
         }
         public void RemoveCategory(Category category)
@@ -151,7 +155,10 @@ namespace InventorySystem.Core.Services
             {
                 throw new InvalidOperationException($"A category with the name '{newName}' already exists.");
             }
-            
+            if(string.IsNullOrWhiteSpace(newName))
+            {
+                throw new ArgumentException("Category name cannot be empty.");
+            }
 
             category.CategoryName = newName;
         }
