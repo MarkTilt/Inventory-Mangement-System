@@ -57,4 +57,9 @@ public partial class CategoryPage : ContentPage
         CategoryCollection.ItemsSource = null;
         CategoryCollection.ItemsSource = CategoryList.Categories;
     }
+
+    private async void AddCategory_Clicked(object sender, EventArgs e)
+    {
+        await this.ShowPopupAsync(new AddCategoryPopup(this));
+    }
 }

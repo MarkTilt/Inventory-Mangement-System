@@ -50,7 +50,8 @@
                     BackgroundColor="Orange"
                     FontAttributes="Bold"
                     FontSize="12"
-                    TextColor="Black"/>
+                    TextColor="Black"
+                    Clicked="AddCategory_Clicked"/>
 
           
             <Border Grid.Row="2"
