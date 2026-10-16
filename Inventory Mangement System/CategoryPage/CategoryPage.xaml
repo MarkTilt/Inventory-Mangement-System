@@ -43,17 +43,25 @@
                    FontAttributes="Bold"
                    Grid.Row="0"/>
 
-            
-            <Button Text="Add Category"
-                    Grid.Row="1"
-                    HorizontalOptions="Start"
-                    BackgroundColor="Orange"
-                    FontAttributes="Bold"
-                    FontSize="12"
-                    TextColor="Black"
-                    Clicked="AddCategory_Clicked"/>
+            <HorizontalStackLayout  Grid.Row="1" Spacing="140"> 
+                <Button Text="Add Category"
+                        HorizontalOptions="Start"
+                        BackgroundColor="Orange"
+                        FontAttributes="Bold"
+                        FontSize="12"
+                        TextColor="Black"
+                        Clicked="AddCategory_Clicked"/>
+                
+                <SearchBar x:Name="CategorySearchBar"
+                           Placeholder="Search categories..."
+                           TextChanged="CategorySearchBar_TextChanged"
+                           HorizontalOptions="End"
+                           WidthRequest="200"/>
+                
+            </HorizontalStackLayout>
+         
 
-          
+
             <Border Grid.Row="2"
                     WidthRequest="450"
                     HorizontalOptions="Start"

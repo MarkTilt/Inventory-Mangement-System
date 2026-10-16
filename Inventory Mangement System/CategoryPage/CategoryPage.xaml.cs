@@ -62,4 +62,16 @@ public partial class CategoryPage : ContentPage
     {
         await this.ShowPopupAsync(new AddCategoryPopup(this));
     }
+
+    private void CategorySearchBar_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        string searchText = e.NewTextValue?.Trim() ?? "";
+        var filteredProducts = CategoryList.Categories.Where(category => category.CategoryName.Contains(
+               searchText,
+               StringComparison.OrdinalIgnoreCase))
+               .ToList();
+
+
+        CategoryCollection.ItemsSource = filteredProducts;
+    }
 }
