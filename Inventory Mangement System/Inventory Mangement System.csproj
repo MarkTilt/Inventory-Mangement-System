@@ -76,28 +76,28 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="AddStockPopup.xaml.cs">
+	  <Compile Update="ProductPage\AddStockPopup.xaml.cs">
 	    <DependentUpon>AddStockPopup.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="AddProductPopupPage.xaml">
+	  <MauiXaml Update="ProductPage\AddProductPopupPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="CategoryPage.xaml">
+	  <MauiXaml Update="CategoryPage\CategoryPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="EditProductPopup.xaml">
+	  <MauiXaml Update="ProductPage\EditProductPopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="AddStockPopup.xaml">
+	  <MauiXaml Update="ProductPage\AddStockPopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="ProductPage.xaml">
+	  <MauiXaml Update="ProductPage\ProductPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="RemoveStockPopup.xaml">
+	  <MauiXaml Update="ProductPage\RemoveStockPopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
