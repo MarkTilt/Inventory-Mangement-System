@@ -8,7 +8,16 @@
         public decimal Price { get; set; }
         public int Quantity { get; set; }
         public int LowStockThreshold { get; set; }
-        public DateTime LastModified { get; set; } = DateTime.Now;
+        public string Status 
+        {
+
+            get {
+                if(Quantity == 0) return "Out of Stock"; 
+                 else if(Quantity <= LowStockThreshold) return "Low Stock";
+                else return "In Stock"; 
+                }
+        }
+      
 
         public Product( string productName, Category category, decimal price, int quantity, int lowStockThreshold)
         {
