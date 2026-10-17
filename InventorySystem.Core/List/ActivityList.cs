@@ -9,5 +9,6 @@ namespace InventorySystem.Core.List
     {
         public static List<ProductActivity> Activities { get; }
             = new List<ProductActivity>();
+        
     }
 }

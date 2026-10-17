@@ -33,6 +33,7 @@ namespace Inventory_Mangement_System
             RecentActivitiesView.ItemsSource = null;
             RecentActivitiesView.ItemsSource = recentProducts;
             
+
         }
 
         private async void Products_Clicked(object sender, EventArgs e)

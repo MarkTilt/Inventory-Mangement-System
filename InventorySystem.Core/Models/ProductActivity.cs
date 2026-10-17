@@ -68,6 +68,7 @@ namespace InventorySystem.Core.Models
             {
                 Time = DateTime.Now;
                 ActivityList.Activities.Add(this);
+                RemoveOldestActivityIfNeeded();
             }
         }
         public void SetAddDescription(Product product)
@@ -75,13 +76,22 @@ namespace InventorySystem.Core.Models
             Description = $"Product '{product.ProductName}' added with Category '{product.Category.CategoryName}'\nPrice '{product.Price}'\nQuantity '{product.Quantity}'\nLow Stock Threshold '{product.LowStockThreshold}'.";
             Time = DateTime.Now;
             ActivityList.Activities.Add(this);
+            RemoveOldestActivityIfNeeded();
         }
         public void RemoveProductDescription(Product product)
         {
             Description = $"Product '{product.ProductName}' removed from inventory.";
             Time = DateTime.Now;
             ActivityList.Activities.Add(this);
+            RemoveOldestActivityIfNeeded();
 
+        }
+        private void RemoveOldestActivityIfNeeded()
+        {
+            if (ActivityList.Activities.Count > 4)
+            {
+                ActivityList.Activities.RemoveAt(0);
+            }
         }
 
     }
