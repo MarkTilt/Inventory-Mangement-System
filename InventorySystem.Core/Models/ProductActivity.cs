@@ -52,7 +52,7 @@ namespace InventorySystem.Core.Models
             }
             if(OldProductPrice != product.Price)
             {
-                changes.Add($"Product '{product.ProductName}' Price changed from '{OldProductPrice}' to '{product.Price}'");
+                changes.Add($"Product '{product.ProductName}' Price changed from 'R{OldProductPrice}' to 'R{product.Price}'");
             }
             if(OldProductQuantity != product.Quantity)
             {
@@ -72,7 +72,7 @@ namespace InventorySystem.Core.Models
         }
         public void SetAddDescription(Product product)
         {
-            Description = $"Product '{product.ProductName}' added with Category '{product.Category.CategoryName}'\n Price '{product.Price}'\n Quantity '{product.Quantity}'\n Low Stock Threshold '{product.LowStockThreshold}'.";
+            Description = $"Product '{product.ProductName}' added with Category '{product.Category.CategoryName}'\nPrice '{product.Price}'\nQuantity '{product.Quantity}'\nLow Stock Threshold '{product.LowStockThreshold}'.";
             Time = DateTime.Now;
             ActivityList.Activities.Add(this);
         }

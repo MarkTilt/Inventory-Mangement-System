@@ -12,6 +12,7 @@ namespace Inventory_Mangement_System
         {
 
             InitializeComponent();
+            LoadRecentActivities();
             AddCountToDash();
            
         }
@@ -25,6 +26,13 @@ namespace Inventory_Mangement_System
             LowCount.Text =  lowCount.ToString();
             CategoriesCount.Text = null;
             CategoriesCount.Text = CategoryList.Categories.Count.ToString();
+        }
+        public void LoadRecentActivities()
+        {
+            var recentProducts = ActivityList.Activities.OrderByDescending(p => p.Time).Take(4).ToList();
+            RecentActivitiesView.ItemsSource = null;
+            RecentActivitiesView.ItemsSource = recentProducts;
+            
         }
 
         private async void Products_Clicked(object sender, EventArgs e)
@@ -46,6 +54,7 @@ namespace Inventory_Mangement_System
         {
             await this.ShowPopupAsync(new AddProductPopupPage());
             AddCountToDash();
+            LoadRecentActivities();
         }
 
         private async void AddCategory_Clicked(object sender, EventArgs e)

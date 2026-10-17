@@ -7,29 +7,39 @@
 
         <!-- Sidebar -->
         <VerticalStackLayout Grid.Column="0"
-                         Padding="15">
+                             Padding="15">
 
             <Label Text="Inventory"
-               FontSize="24"
-               FontAttributes="Bold"
-                    Padding="15"/>
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   Padding="15"/>
 
-            <Button Text="Dashboard" BackgroundColor="AliceBlue" TextColor="Black" Clicked="DashBoard_Clicked"/>
-            <Button Text="Products" BackgroundColor="AliceBlue" TextColor="Black" Clicked="Products_Clicked"/>
-            <Button Text="Categories" BackgroundColor="AliceBlue" TextColor="Black" Clicked="Categories_Clicked"/>
+            <Button Text="Dashboard"
+                    BackgroundColor="AliceBlue"
+                    TextColor="Black"
+                    Clicked="DashBoard_Clicked"/>
+
+            <Button Text="Products"
+                    BackgroundColor="AliceBlue"
+                    TextColor="Black"
+                    Clicked="Products_Clicked"/>
+
+            <Button Text="Categories"
+                    BackgroundColor="AliceBlue"
+                    TextColor="Black"
+                    Clicked="Categories_Clicked"/>
 
         </VerticalStackLayout>
-
 
         <!-- Main content -->
         <ScrollView Grid.Column="1">
 
             <VerticalStackLayout Padding="30"
-                             Spacing="20">
+                                 Spacing="20">
 
                 <Label Text="Dashboard"
-                   FontSize="32"
-                   FontAttributes="Bold"/>
+                       FontSize="32"
+                       FontAttributes="Bold"/>
 
                 <!-- Dashboard cards -->
                 <HorizontalStackLayout Spacing="20">
@@ -37,87 +47,84 @@
                     <Border Padding="20">
                         <VerticalStackLayout>
                             <Label Text="Products"/>
-                            <Label Text="0"
-                                   x:Name="ProductsCount"
-                               FontSize="28"/>
+                            <Label x:Name="ProductsCount"
+                                   Text="0"
+                                   FontSize="28"/>
                         </VerticalStackLayout>
                     </Border>
 
                     <Border Padding="20">
                         <VerticalStackLayout>
                             <Label Text="Low Stock"/>
-                            <Label Text="0"
-                                    x:Name="LowCount"
-                               FontSize="28"/>
+                            <Label x:Name="LowCount"
+                                   Text="0"
+                                   FontSize="28"/>
                         </VerticalStackLayout>
                     </Border>
 
                     <Border Padding="20">
                         <VerticalStackLayout>
                             <Label Text="Categories"/>
-                            <Label Text="0"
-                                    x:Name="CategoriesCount"
-                               FontSize="28"/>
+                            <Label x:Name="CategoriesCount"
+                                   Text="0"
+                                   FontSize="28"/>
                         </VerticalStackLayout>
                     </Border>
 
                 </HorizontalStackLayout>
-                <Label Text="Recent Products"
-                   FontSize="24"
-                   FontAttributes="Bold"/>
-                
-                <HorizontalStackLayout>
-                    <Border Padding="15">
-                        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto"
-                              ColumnDefinitions="*,*,*"
-                              RowSpacing="10"
-                              ColumnSpacing="20">
 
-                            <!-- Headers -->
-                            <Label Text="Product"
-                                   FontAttributes="Bold"/>
+                <!-- Recent Activity -->
+                <Label Text="Recent Activity"
+                       FontSize="24"
+                       FontAttributes="Bold"/>
 
-                            <Label Text="Category"
-                                   Grid.Column="1"
-                                   FontAttributes="Bold"/>
+                <Border Padding="15" 
+                        WidthRequest="600"
+                        HeightRequest="300"
+                        HorizontalOptions="Start" >
+                    <CollectionView x:Name="RecentActivitiesView"
+                                    HeightRequest="300"
+                                    SelectionMode="None">
 
-                            <Label Text="Quantity"
-                                   Grid.Column="2"
-                                   FontAttributes="Bold"/>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <VerticalStackLayout Spacing="5"
+                                                     Padding="5">
 
-                            <!-- Row 1 -->
-                            <Label Text="1"
-                                   Grid.Row="1"/>
+                                    <Label Text="{Binding ChangeReason}"
+                                           FontAttributes="Bold"
+                                           FontSize="16"/>
 
-                            <Label Text="1"
-                                   Grid.Row="1"
-                                   Grid.Column="1"/>
+                                    <Label Text="{Binding Description}"
+                                           LineBreakMode="WordWrap"/>
 
-                            <Label Text="5"
-                                   Grid.Row="1"
-                                   Grid.Column="2"/>
+                                    <Label Text="{Binding Time,
+                                                          StringFormat='{0:dd/MM/yyyy HH:mm}'}"
+                                           FontSize="12"
+                                           TextColor="Gray"/>
 
-                            <!-- Row 2 -->
-                            <Label Text="2"
-                                   Grid.Row="2"/>
+                                </VerticalStackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
 
-                            <Label Text="2"
-                                   Grid.Row="2"
-                                   Grid.Column="1"/>
+                    </CollectionView>
+                </Border>
 
-                            <Label Text="12"
-                                   Grid.Row="2"
-                                   Grid.Column="2"/>
+                <!-- Quick Actions -->
+                <Label Text="Quick Actions"
+                       FontSize="24"
+                       FontAttributes="Bold"/>
 
-                        </Grid>
-                    </Border>
-                    <!-- Quick Actions -->
-                </HorizontalStackLayout>
-                <Label Text="Quick Actions" FontSize="24" FontAttributes="Bold"/>
                 <HorizontalStackLayout Spacing="10">
-                    <Button Text="Add product" TextColor="Black" BackgroundColor="Orange" Clicked="AddProduct_Clicked" />
-                    <Button Text="Add Category" TextColor="Black" BackgroundColor="Orange" Clicked="AddCategory_Clicked" />
+                    <Button Text="Add product"
+                            TextColor="Black"
+                            BackgroundColor="Orange"
+                            Clicked="AddProduct_Clicked"/>
 
+                    <Button Text="Add Category"
+                            TextColor="Black"
+                            BackgroundColor="Orange"
+                            Clicked="AddCategory_Clicked"/>
                 </HorizontalStackLayout>
 
             </VerticalStackLayout>
@@ -125,6 +132,5 @@
         </ScrollView>
 
     </Grid>
-
 
 </ContentPage>
