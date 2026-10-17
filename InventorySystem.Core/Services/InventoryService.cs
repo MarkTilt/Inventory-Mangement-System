@@ -16,15 +16,18 @@ namespace InventorySystem.Core.Services
         }
         public void AddStock(Product product, int quantityToAdd)
         {
-            if(quantityToAdd < 0)
+            ProductActivity productActivity = new ProductActivity(product, "Stock added");
+            if (quantityToAdd < 0)
             {
                 throw new ArgumentException("Quantity to add cannot be negative.");
             }
                 product.Quantity += quantityToAdd;
+                productActivity.SetUpdateDescription(product);
         }
 
         public void RemoveStock(Product product, int quantityToRemove)
         {
+            ProductActivity productActivity = new ProductActivity(product, "Stock removed");
             if(quantityToRemove < 0 )
             {
                 throw new ArgumentException("Quantity to remove cannot be negative.");
@@ -34,12 +37,13 @@ namespace InventorySystem.Core.Services
                 throw new ArgumentException("Insufficient stock to remove.");
             }
             product.Quantity -= quantityToRemove;
-           
+            productActivity.SetUpdateDescription(product);
+
         }
 
         public void AddProduct(Product product)
         {
-
+            ProductActivity productActivity = new ProductActivity("Product added");
             if (product == null)
             {
                 throw new ArgumentNullException(nameof(product));
@@ -73,20 +77,23 @@ namespace InventorySystem.Core.Services
                 throw new InvalidOperationException($"A product with the name '{product.ProductName}' already exists.");
             }
                 ProductList.Products.Add(product);
+                productActivity.SetAddDescription(product);
         }
         public void RemoveProduct(Product product)
         {
-            if(!ProductList.Products.Contains(product))
+            ProductActivity productActivity = new ProductActivity("Product removed");
+            if (!ProductList.Products.Contains(product))
             {
                 throw new InvalidOperationException($"The product '{product.ProductName}' does not exist in the inventory.");
             }
             ProductList.Products.Remove(product);
+            productActivity.RemoveProductDescription(product);
         }
 
 
         public void UpdateProduct(Product product, string newName, Category newCategory, decimal newPrice, int newQuantity, int newLowStockThreshold)
         {
-
+            ProductActivity productActivity = new ProductActivity(product, "Product updated");
             if (ProductList.Products.Any(p => p.ProductId != product.ProductId && p.ProductName.Trim().ToLower() == newName.Trim().ToLower()))
             {
                 throw new InvalidOperationException($"A product with the name '{newName}' already exists.");
@@ -117,24 +124,19 @@ namespace InventorySystem.Core.Services
             product.Price = newPrice;
             product.Quantity = newQuantity;
             product.LowStockThreshold = newLowStockThreshold;
-        }
-        public void LowOnStock(Product product)
-        {
-            if (product.Quantity <= product.LowStockThreshold)
-            {
-                // Trigger an alert (for example, log a message or send a notification)
-            }      
+            productActivity.SetUpdateDescription(product);
         }
 
         public void AddCategory(Category category)
         {
-            if (CategoryList.Categories.Any(c => c.CategoryName.Trim().ToLower() == category.CategoryName.Trim().ToLower()))
-            {
-                throw new InvalidOperationException($"A category with the name '{category.CategoryName}' already exists.");
-            }
+            
             if (string.IsNullOrWhiteSpace(category.CategoryName))
             {
                 throw new ArgumentException("Category name cannot be empty.");
+            }
+            if (CategoryList.Categories.Any(c => c.CategoryName.Trim().ToLower() == category.CategoryName.Trim().ToLower()))
+            {
+                throw new InvalidOperationException($"A category with the name '{category.CategoryName}' already exists.");
             }
             CategoryList.Categories.Add(category);
         }

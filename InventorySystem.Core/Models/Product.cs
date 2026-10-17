@@ -8,6 +8,7 @@
         public decimal Price { get; set; }
         public int Quantity { get; set; }
         public int LowStockThreshold { get; set; }
+        public DateTime LastModified { get; set; } = DateTime.Now;
 
         public Product( string productName, Category category, decimal price, int quantity, int lowStockThreshold)
         {
