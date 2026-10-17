@@ -67,7 +67,7 @@
             <Border Grid.Row="2"
                     Padding="0">
 
-                <Grid ColumnDefinitions="*,*,*,*,*,*"
+                <Grid ColumnDefinitions="*,*,*,*,*,*,*"
                       Padding="10"
                       ColumnSpacing="20" 
                       BackgroundColor="#F0F0F0">
@@ -96,11 +96,16 @@
                            FontSize="18"
                            FontAttributes="Bold"
                            Grid.Column="4"/>
+                    
+                    <Label Text="Status"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           Grid.Column="5"/>
 
                     <Label Text="Actions"
                            FontSize="18"
                            FontAttributes="Bold"
-                           Grid.Column="5"/>
+                           Grid.Column="6"/>
 
                 </Grid>
 
@@ -117,7 +122,7 @@
                         <Border Padding="0"
                                 Margin="0,0,0,5">
 
-                            <Grid ColumnDefinitions="*,*,*,*,*,*"
+                            <Grid ColumnDefinitions="*,*,*,*,*,*,*"
                                   Padding="10"
                                   ColumnSpacing="20">
 
@@ -141,8 +146,12 @@
                                        Grid.Column="4"
                                        VerticalOptions="Center"/>
 
+                                <Label Text="{Binding Status}"
+                                       Grid.Column="5"
+                                       VerticalOptions="Center"/>
+
                                 <!-- Product Actions -->
-                                <HorizontalStackLayout Grid.Column="5"
+                                <HorizontalStackLayout Grid.Column="6"
                                                        Spacing="2"
                                                        VerticalOptions="Center">
 
