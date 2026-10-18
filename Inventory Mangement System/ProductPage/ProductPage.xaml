@@ -45,7 +45,7 @@
 
             <!-- Add Product and Search -->
             <Grid Grid.Row="1"
-                  ColumnDefinitions="Auto,*,200"
+                  ColumnDefinitions="Auto,*,200,200"
                   ColumnSpacing="10">
 
                 <Button Text="Add Product"
@@ -56,8 +56,13 @@
                         TextColor="Black"
                         Clicked="AddProduct_Clicked"/>
 
+                <Picker x:Name="StatusFilter"
+                        Title="Filter by Status"
+                        Grid.Column="2"
+                        SelectedIndexChanged="FilterOn_Changed"/>
+
                 <SearchBar x:Name="ProductSearchBar"
-                           Grid.Column="2"
+                           Grid.Column="3"
                            Placeholder="Search"
                            TextChanged="ProductSearchBar_TextChanged"/>
 

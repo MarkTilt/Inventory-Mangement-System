@@ -12,6 +12,16 @@ public partial class ProductPage : ContentPage
 	public ProductPage()
 	{
 		InitializeComponent();
+
+        StatusFilter.ItemsSource = new List<string>
+    {
+        "All Products",
+        "In Stock",
+        "Low Stock",
+        "Out of Stock"
+    };
+        StatusFilter.SelectedIndex = 0;
+
         LoadProducts();
     }
 
@@ -99,5 +109,21 @@ public partial class ProductPage : ContentPage
                 .ToList();
 
         ProductsCollection.ItemsSource = filteredProducts;
+    }
+
+    private void FilterOn_Changed(object sender, EventArgs e)
+    {
+        string selectedStatus = StatusFilter.SelectedItem?.ToString();
+
+        var filteredProducts = selectedStatus switch
+        {
+            "All Products" => ProductList.Products,
+            "In Stock" => ProductList.Products.Where(p => p.Quantity > p.LowStockThreshold),
+            "Low Stock" => ProductList.Products.Where(p => p.Quantity <= p.LowStockThreshold && p.Quantity > 0),
+            "Out of Stock" => ProductList.Products.Where(p => p.Quantity == 0),
+            _ => ProductList.Products
+        };
+
+        ProductsCollection.ItemsSource = filteredProducts.ToList();
     }
 }
