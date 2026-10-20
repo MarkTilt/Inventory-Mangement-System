@@ -9,9 +9,9 @@ namespace Inventory_Mangement_System;
 public partial class ProductPage : ContentPage
 {
     InventoryService inventoryService = new InventoryService();
-	public ProductPage()
-	{
-		InitializeComponent();
+    public ProductPage()
+    {
+        InitializeComponent();
 
         StatusFilter.ItemsSource = new List<string>
     {
@@ -46,7 +46,7 @@ public partial class ProductPage : ContentPage
             button.CommandParameter is Product product)
         {
             //Delete confirmation window
-         bool delete  = await DisplayAlertAsync("Delete Product?", $"Are you sure you want to delete {product.ProductName}?", "Delete", "Cancel");
+            bool delete = await DisplayAlertAsync("Delete Product?", $"Are you sure you want to delete {product.ProductName}?", "Delete", "Cancel");
             if (delete)
             {
                 inventoryService.RemoveProduct(product);

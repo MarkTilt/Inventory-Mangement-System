@@ -7,7 +7,8 @@
 
         <!-- Sidebar -->
         <VerticalStackLayout Grid.Column="0"
-                             Padding="15">
+                             Padding="15"
+                             BackgroundColor="WhiteSmoke">
 
             <Label Text="Inventory"
                    FontSize="24"
@@ -15,17 +16,17 @@
                    Padding="15"/>
 
             <Button Text="Dashboard"
-                    BackgroundColor="AliceBlue"
+                    BackgroundColor="Transparent"
                     TextColor="Black"
                     Clicked="DashBoard_Clicked"/>
 
             <Button Text="Products"
-                    BackgroundColor="AliceBlue"
+                    BackgroundColor="LightGray"
                     TextColor="Black"
                     Clicked="Products_Clicked"/>
 
             <Button Text="Categories"
-                    BackgroundColor="AliceBlue"
+                    BackgroundColor="Transparent"
                     TextColor="Black"
                     Clicked="Categories_Clicked"/>
 
@@ -153,7 +154,28 @@
 
                                 <Label Text="{Binding Status}"
                                        Grid.Column="5"
-                                       VerticalOptions="Center"/>
+                                       VerticalOptions="Center">
+
+                                    <Label.Triggers>
+                                        <DataTrigger TargetType="Label"
+                                                     Binding="{Binding Status}"
+                                                     Value="Low Stock">
+                                             <Setter Property="TextColor" Value="DarkOrange"/>
+                                        </DataTrigger>
+
+                                        <DataTrigger TargetType="Label"
+                                                     Binding="{Binding Status}"
+                                                     Value="Out of Stock">
+                                             <Setter Property="TextColor" Value="Red"/>
+                                        </DataTrigger>
+
+                                        <DataTrigger TargetType="Label"
+                                                     Binding="{Binding Status}"
+                                                     Value="In Stock">
+                                             <Setter Property="TextColor" Value="Green"/>
+                                        </DataTrigger>
+                                    </Label.Triggers>
+                                </Label>
 
                                 <!-- Product Actions -->
                                 <HorizontalStackLayout Grid.Column="6"
