@@ -62,6 +62,7 @@ namespace Inventory_Mangement_System
         {
             await this.ShowPopupAsync(new AddCategoryPopup());
             AddCountToDash();
+            LoadRecentActivities();
         }
 
         }
