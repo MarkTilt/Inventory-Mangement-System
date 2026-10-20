@@ -7,8 +7,8 @@ namespace InventorySystem.Core.List
 {
     public static class ActivityList
     {
-        public static List<ProductActivity> Activities { get; }
-            = new List<ProductActivity>();
+        public static List<Activities> Activities { get; }
+            = new List<Activities>();
         
     }
 }

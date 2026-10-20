@@ -1,10 +1,11 @@
-﻿using System;
+﻿using InventorySystem.Core.List;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using InventorySystem.Core.List;
+using System.Threading.Channels;
 namespace InventorySystem.Core.Models
 {
-    public class ProductActivity
+    public class Activities
     {
         // Properties to store the old product details
         public string OldProductName { get; set; }
@@ -13,6 +14,9 @@ namespace InventorySystem.Core.Models
         public int OldProductQuantity { get; set; }
         public int OldProductLowStockThreshold { get; set; }
 
+        //Properties to store old Category details
+        public string OldCategoryName { get; set; }
+
         public string Description { get; set; }
         public string ChangeReason { get; set; }
         public DateTime Time { get; set; }
@@ -20,13 +24,13 @@ namespace InventorySystem.Core.Models
         
 
         //When adding new products
-        public ProductActivity(string changeReason)
+        public Activities(string changeReason)
         {
             ChangeReason = changeReason;
         }
        
         //When updating existing products
-        public ProductActivity(Product product, string changeReason)
+        public Activities(Product product, string changeReason)
         {
             OldProductName = product.ProductName;
             OldProductCategory = product.Category.CategoryName;
@@ -38,6 +42,12 @@ namespace InventorySystem.Core.Models
             ChangeReason = changeReason;
             
         }
+        public Activities(Category category, string changeReason)
+        {
+            OldCategoryName = category.CategoryName;
+            ChangeReason = changeReason;
+        }
+
         public void SetUpdateDescription(Product product)
         {
             List<string> changes = new List<string>();
@@ -91,6 +101,33 @@ namespace InventorySystem.Core.Models
             if (ActivityList.Activities.Count > 4)
             {
                 ActivityList.Activities.RemoveAt(0);
+            }
+        }
+        public void AddCategoryDescription(Category category)
+        {
+            Description = $"Category '{category.CategoryName} added";
+            Time = DateTime.Now;
+            ActivityList.Activities.Add(this);
+            RemoveOldestActivityIfNeeded();
+        }
+        public void RemoveCategoryDescription(Category category)
+        {
+            Description = $"Category '{category.CategoryName}' removed from inventory.";
+            Time = DateTime.Now;
+            ActivityList.Activities.Add(this);
+            RemoveOldestActivityIfNeeded();
+        }
+        public void UpdateCategoryDescription(Category category)
+        {
+            if (OldCategoryName != category.CategoryName)
+            {
+                Description = $"Category Name changed from '{OldCategoryName}' to '{category.CategoryName}'";
+            }
+            if (!string.IsNullOrEmpty(Description))
+            {
+                Time = DateTime.Now;
+                ActivityList.Activities.Add(this);
+                RemoveOldestActivityIfNeeded();
             }
         }
 

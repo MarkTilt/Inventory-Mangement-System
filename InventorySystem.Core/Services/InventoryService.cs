@@ -16,7 +16,7 @@ namespace InventorySystem.Core.Services
         }
         public void AddStock(Product product, int quantityToAdd)
         {
-            ProductActivity productActivity = new ProductActivity(product, "Stock added");
+            Activities productActivity = new Activities(product, "Stock added");
             if (quantityToAdd < 0)
             {
                 throw new ArgumentException("Quantity to add cannot be negative.");
@@ -27,7 +27,7 @@ namespace InventorySystem.Core.Services
 
         public void RemoveStock(Product product, int quantityToRemove)
         {
-            ProductActivity productActivity = new ProductActivity(product, "Stock removed");
+            Activities productActivity = new Activities(product, "Stock removed");
             if(quantityToRemove < 0 )
             {
                 throw new ArgumentException("Quantity to remove cannot be negative.");
@@ -43,7 +43,7 @@ namespace InventorySystem.Core.Services
 
         public void AddProduct(Product product)
         {
-            ProductActivity productActivity = new ProductActivity("Product added");
+            Activities productActivity = new Activities("Product added");
             if (product == null)
             {
                 throw new ArgumentNullException(nameof(product));
@@ -81,7 +81,7 @@ namespace InventorySystem.Core.Services
         }
         public void RemoveProduct(Product product)
         {
-            ProductActivity productActivity = new ProductActivity("Product removed");
+            Activities productActivity = new Activities("Product removed");
             if (!ProductList.Products.Contains(product))
             {
                 throw new InvalidOperationException($"The product '{product.ProductName}' does not exist in the inventory.");
@@ -93,7 +93,7 @@ namespace InventorySystem.Core.Services
 
         public void UpdateProduct(Product product, string newName, Category newCategory, decimal newPrice, int newQuantity, int newLowStockThreshold)
         {
-            ProductActivity productActivity = new ProductActivity(product, "Product updated");
+            Activities productActivity = new Activities(product, "Product updated");
             if (ProductList.Products.Any(p => p.ProductId != product.ProductId && p.ProductName.Trim().ToLower() == newName.Trim().ToLower()))
             {
                 throw new InvalidOperationException($"A product with the name '{newName}' already exists.");
@@ -129,7 +129,7 @@ namespace InventorySystem.Core.Services
 
         public void AddCategory(Category category)
         {
-            
+            Activities categoryActivity = new Activities(category, "Category added");
             if (string.IsNullOrWhiteSpace(category.CategoryName))
             {
                 throw new ArgumentException("Category name cannot be empty.");
@@ -139,9 +139,11 @@ namespace InventorySystem.Core.Services
                 throw new InvalidOperationException($"A category with the name '{category.CategoryName}' already exists.");
             }
             CategoryList.Categories.Add(category);
+            categoryActivity.AddCategoryDescription(category);
         }
         public void RemoveCategory(Category category)
         {
+            Activities categoryActivity = new Activities(category, "Category removed");
             if (!CategoryList.Categories.Contains(category))
             {
                 throw new InvalidOperationException($"The category '{category.CategoryName}' does not exist in the inventory.");
@@ -151,12 +153,13 @@ namespace InventorySystem.Core.Services
                 throw new InvalidOperationException($"Cannot remove category '{category.CategoryName}' because it is associated with existing products.");
             }
             CategoryList.Categories.Remove(category);
+            categoryActivity.RemoveCategoryDescription(category);
         }
 
 
         public void UpdateCategory(Category category, string newName)
         {
-
+            Activities categoryActivity = new Activities(category, "Category Updated");
             if (CategoryList.Categories.Any(c => c.CategoryId != category.CategoryId && c.CategoryName.Trim().ToLower() == newName.Trim().ToLower()))
             {
                 throw new InvalidOperationException($"A category with the name '{newName}' already exists.");
@@ -167,6 +170,7 @@ namespace InventorySystem.Core.Services
             }
 
             category.CategoryName = newName;
+            categoryActivity.UpdateCategoryDescription(category);
         }
     
           
