@@ -8,7 +8,7 @@
 
     <VerticalStackLayout >
         <!-- Title -->
-        <Label Text="{Binding ProductName, StringFormat= 'Editing: {0}'}" FontSize="20" FontAttributes="Bold" Padding="2"/>
+        <Label Text="{Binding Product.ProductName, StringFormat= 'Editing Product: {0}'}" FontSize="20" FontAttributes="Bold" Padding="2"/>
 
 
 
