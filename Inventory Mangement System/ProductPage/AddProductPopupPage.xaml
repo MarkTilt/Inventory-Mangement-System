@@ -6,7 +6,7 @@
     x:Class="Inventory_Mangement_System.AddProductPopupPage">
 
 
-    <VerticalStackLayout >
+    <VerticalStackLayout Spacing="10" >
         <!-- Title -->
         <Label Text="Adding Product" FontSize="20" FontAttributes="Bold" Padding="2"/>
 
@@ -36,8 +36,8 @@
 
 
         </Grid>
-        <Button Text="Add" BackgroundColor="Orange" TextColor="White" FontAttributes="Bold" FontSize="20" Margin="20" Clicked="AddOn_Clicked"/>
-        <Button Text="Cancel" BackgroundColor="Gray" TextColor="White" FontAttributes="Bold" FontSize="20" Margin="20" Clicked="CancelOn_Clicked"/>
+        <Button Text="Add" BackgroundColor="Orange" TextColor="White" FontAttributes="Bold" FontSize="20"  Clicked="AddOn_Clicked"/>
+        <Button Text="Cancel" BackgroundColor="Gray" TextColor="White" FontAttributes="Bold" FontSize="20"  Clicked="CancelOn_Clicked"/>
     </VerticalStackLayout>
 
 

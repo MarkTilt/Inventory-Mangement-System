@@ -6,7 +6,7 @@
     x:Class="Inventory_Mangement_System.EditProductPopup">
 
 
-    <VerticalStackLayout >
+    <VerticalStackLayout Spacing="10">
         <!-- Title -->
         <Label Text="{Binding Product.ProductName, StringFormat= 'Editing Product: {0}'}" FontSize="20" FontAttributes="Bold" Padding="2"/>
 
@@ -36,8 +36,8 @@
             
 
         </Grid>
-        <Button Text="Save" BackgroundColor="Orange" TextColor="White" FontAttributes="Bold" FontSize="20" Margin="20" Clicked="SaveOn_Clicked"/>
-        <Button Text="Cancel" BackgroundColor="Gray" TextColor="White" FontAttributes="Bold" FontSize="20" Margin="20" Clicked="CancelOn_Clicked"/>
+        <Button Text="Save" BackgroundColor="Orange" TextColor="White" FontAttributes="Bold" FontSize="20"  Clicked="SaveOn_Clicked"/>
+        <Button Text="Cancel" BackgroundColor="Gray" TextColor="White" FontAttributes="Bold" FontSize="20"  Clicked="CancelOn_Clicked"/>
     </VerticalStackLayout>
   
     
