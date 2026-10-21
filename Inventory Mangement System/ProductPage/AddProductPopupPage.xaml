@@ -8,7 +8,7 @@
 
     <VerticalStackLayout >
         <!-- Title -->
-        <Label Text="{Binding ProductName, StringFormat= 'Editing: {0}'}" FontSize="20" FontAttributes="Bold" Padding="2"/>
+        <Label Text="Adding Product" FontSize="20" FontAttributes="Bold" Padding="2"/>
 
 
 
@@ -27,12 +27,12 @@
 
 
             <!-- Editable product values -->
-            <Entry x:Name="ProductName"  Grid.Row="0" Grid.Column="1" />
+            <Entry x:Name="ProductName"  Grid.Row="0" Grid.Column="1" Placeholder="Enter Name"/>
             <Picker x:Name="ProductCategory" ItemsSource="{Binding Categories}" ItemDisplayBinding="{Binding CategoryName}" 
-                    SelectedItem="{Binding ProdctCategory, Mode=TwoWay}" Grid.Row="1" Grid.Column="1" />
-            <Entry x:Name="ProductPrice"  Grid.Row="2" Grid.Column="1" Keyboard="Numeric"/>
-            <Entry x:Name="ProductQauntity" Grid.Row="3" Grid.Column="1" Keyboard="Numeric"/>
-            <Entry x:Name="ProductLowStockThreshold" Grid.Row="4" Grid.Column="1" Keyboard="Numeric"/>
+                    SelectedItem="{Binding ProdctCategory, Mode=TwoWay}" Grid.Row="1" Grid.Column="1" Title="Select Category"/>
+            <Entry x:Name="ProductPrice"  Grid.Row="2" Grid.Column="1" Keyboard="Numeric" Placeholder="Enter Price"/>
+            <Entry x:Name="ProductQauntity" Grid.Row="3" Grid.Column="1" Keyboard="Numeric" Placeholder="Enter Amount"/>
+            <Entry x:Name="ProductLowStockThreshold" Grid.Row="4" Grid.Column="1" Keyboard="Numeric" Placeholder="Enter Amount"/>
 
 
         </Grid>
