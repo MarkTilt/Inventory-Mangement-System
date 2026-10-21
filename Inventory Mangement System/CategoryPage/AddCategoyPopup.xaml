@@ -3,23 +3,24 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     x:Class="Inventory_Mangement_System.AddCategoryPopup">
+    <VerticalStackLayout>
+        <!-- Title -->
+        <Label Text="Adding Category" FontSize="20" FontAttributes="Bold" Padding="2"/>
 
-
-
-    <Grid ColumnDefinitions="*, *"
+        <Grid ColumnDefinitions="*, *"
               RowDefinitions="Auto,Auto"
               ColumnSpacing="12"
               RowSpacing="10">
 
-        <!-- Labels -->
-        <Label Text="Name:"  Grid.Column="0" VerticalOptions="Center" Grid.Row="0"/>
+            <!-- Labels -->
+            <Label Text="Name:"  Grid.Column="0" VerticalOptions="Center" Grid.Row="0"/>
 
-        <!-- Editable product values -->
-        <Entry x:Name="CategoryNameEntry" Placeholder="Enter category"  Grid.Column="1" Grid.Row="0"/>
+            <!-- Editable product values -->
+            <Entry x:Name="CategoryNameEntry" Placeholder="Enter Name"  Grid.Column="1" Grid.Row="0"/>
 
 
-        <Button Text="Add" BackgroundColor="Orange" TextColor="White" FontAttributes="Bold" FontSize="20"  Clicked="AddOn_Clicked" Grid.Row="1" Grid.Column="0" WidthRequest="100" HeightRequest="45"/>
-        <Button Text="Cancel" BackgroundColor="Gray" TextColor="White" FontAttributes="Bold" FontSize="20"  Clicked="CancelOn_Clicked" Grid.Row="1" Grid.Column="1" WidthRequest="100" HeightRequest="45"/>
-    </Grid>
-    
+            <Button Text="Add" BackgroundColor="Orange" TextColor="White" FontAttributes="Bold" FontSize="20"  Clicked="AddOn_Clicked" Grid.Row="1" Grid.Column="0" WidthRequest="100" HeightRequest="45"/>
+            <Button Text="Cancel" BackgroundColor="Gray" TextColor="White" FontAttributes="Bold" FontSize="20"  Clicked="CancelOn_Clicked" Grid.Row="1" Grid.Column="1" WidthRequest="100" HeightRequest="45"/>
+        </Grid>
+    </VerticalStackLayout>
 </toolkit:Popup>
