@@ -95,40 +95,44 @@ public partial class ProductPage : ContentPage
 
     private void ProductSearchBar_TextChanged(object sender, TextChangedEventArgs e)
     {
-        string searchText = e.NewTextValue?.Trim() ?? "";
-
-        var filteredProducts = ProductList.Products
-            .Where(product =>
-                product.ProductName.Contains(
-                    searchText,
-                    StringComparison.OrdinalIgnoreCase)
-                   ||
-                product.Category.CategoryName.Contains(
-                searchText,
-                StringComparison.OrdinalIgnoreCase))
-                .ToList();
-
-        ProductsCollection.ItemsSource = filteredProducts;
+        ApplyFilters();
     }
 
     private void FilterOn_Changed(object sender, EventArgs e)
     {
-        string selectedStatus = StatusFilter.SelectedItem?.ToString();
-
-        var filteredProducts = selectedStatus switch
-        {
-            "All Products" => ProductList.Products,
-            "In Stock" => ProductList.Products.Where(p => p.Quantity > p.LowStockThreshold),
-            "Low Stock" => ProductList.Products.Where(p => p.Quantity <= p.LowStockThreshold && p.Quantity > 0),
-            "Out of Stock" => ProductList.Products.Where(p => p.Quantity == 0),
-            _ => ProductList.Products
-        };
-
-        ProductsCollection.ItemsSource = filteredProducts.ToList();
+        ApplyFilters();
     }
     protected override void OnAppearing()
     {
         base.OnAppearing();
         LoadProducts();
+    }
+
+    private void ApplyFilters()
+    {
+        string searchText = ProductSearchBar.Text?.Trim() ?? "";
+        string selectedStatus = StatusFilter.SelectedItem?.ToString()
+                                ?? "All Products";
+
+        var filteredProducts = ProductList.Products
+            .Where(p =>
+                p.ProductName.Contains(
+                    searchText,
+                    StringComparison.OrdinalIgnoreCase)
+                ||
+                p.Category.CategoryName.Contains(
+                    searchText,
+                    StringComparison.OrdinalIgnoreCase))
+            .Where(p => selectedStatus switch
+            {
+                "In Stock" => p.Quantity > p.LowStockThreshold,
+                "Low Stock" => p.Quantity <= p.LowStockThreshold
+                               && p.Quantity > 0,
+                "Out of Stock" => p.Quantity == 0,
+                _ => true
+            })
+            .ToList();
+
+        ProductsCollection.ItemsSource = filteredProducts;
     }
 }
