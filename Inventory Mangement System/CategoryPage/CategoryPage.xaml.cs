@@ -16,7 +16,7 @@ public partial class CategoryPage : ContentPage
 
     private async void DashBoard_Clicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(MainPage));
+        await Shell.Current.GoToAsync("///MainPage");
     }
 
     private async void Products_Clicked(object sender, EventArgs e)

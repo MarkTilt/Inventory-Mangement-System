@@ -48,7 +48,7 @@ namespace Inventory_Mangement_System
 
         private async void DashBoard_Clicked(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync(nameof(MainPage));
+            await Shell.Current.GoToAsync("///MainPage");
         }
 
         private async void AddProduct_Clicked(object sender, EventArgs e)
