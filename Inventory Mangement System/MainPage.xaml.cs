@@ -38,17 +38,17 @@ namespace Inventory_Mangement_System
 
         private async void Products_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new ProductPage());
+            await Shell.Current.GoToAsync(nameof(ProductPage));
         }
 
         private async void Categories_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new CategoryPage());
+            await Shell.Current.GoToAsync(nameof(CategoryPage));
         }
 
         private async void DashBoard_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new MainPage());
+            await Shell.Current.GoToAsync(nameof(MainPage));
         }
 
         private async void AddProduct_Clicked(object sender, EventArgs e)
@@ -65,6 +65,13 @@ namespace Inventory_Mangement_System
             LoadRecentActivities();
         }
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            AddCountToDash();
+            LoadRecentActivities();
+
         }
+    }
     }
 

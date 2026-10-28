@@ -12,7 +12,7 @@
         {
 
             get {
-                if(Quantity == 0) return "Out of Stock"; 
+                if(Quantity <= 0) return "Out of Stock"; 
                  else if(Quantity <= LowStockThreshold) return "Low Stock";
                 else return "In Stock"; 
                 }

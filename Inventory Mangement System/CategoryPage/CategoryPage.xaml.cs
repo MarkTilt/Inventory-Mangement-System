@@ -16,17 +16,17 @@ public partial class CategoryPage : ContentPage
 
     private async void DashBoard_Clicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new MainPage());
+        await Shell.Current.GoToAsync(nameof(MainPage));
     }
 
     private async void Products_Clicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new ProductPage());
+        await Shell.Current.GoToAsync(nameof(ProductPage));
     }
 
     private async void Categories_Clicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new CategoryPage());
+        await Shell.Current.GoToAsync(nameof(CategoryPage));
     }
 
     private async void DeleteCategory_Clicked(object sender, EventArgs e)
@@ -83,5 +83,10 @@ public partial class CategoryPage : ContentPage
 
 
         CategoryCollection.ItemsSource = filteredProducts;
+    }
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        LoadCategories();
     }
 }

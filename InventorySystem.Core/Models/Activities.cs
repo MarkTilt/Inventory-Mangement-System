@@ -105,7 +105,7 @@ namespace InventorySystem.Core.Models
         }
         public void AddCategoryDescription(Category category)
         {
-            Description = $"Category '{category.CategoryName} added";
+            Description = $"Category '{category.CategoryName}' added";
             Time = DateTime.Now;
             ActivityList.Activities.Add(this);
             RemoveOldestActivityIfNeeded();
