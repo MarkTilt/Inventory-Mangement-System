@@ -24,7 +24,22 @@ public partial class AddStockPopup : Popup
     {
         try
         {
-            inventoryService.AddStock(Product, int.Parse(QauntityToAdd.Text));
+            if (string.IsNullOrWhiteSpace(QauntityToAdd.Text))
+            {
+                await Application.Current!.Windows[0].Page!
+                    .DisplayAlertAsync("Invalid Quantity",
+                        "Please enter a quantity to add.", "OK");
+                return;
+            }
+
+            if (!int.TryParse(QauntityToAdd.Text, out int quantity))
+            {
+                await Application.Current!.Windows[0].Page!
+                    .DisplayAlertAsync("Invalid Quantity",
+                        "Please enter a valid whole number.", "OK");
+                return;
+            }
+            inventoryService.AddStock(Product, quantity);
             _productPage.LoadProducts();
             await CloseAsync();
         }

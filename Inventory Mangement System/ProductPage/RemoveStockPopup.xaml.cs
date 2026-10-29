@@ -22,7 +22,22 @@ public partial class RemoveStockPopup : Popup
     {
         try
         {
-            inventoryService.RemoveStock(Product, int.Parse(QauntityToRemove.Text));
+            if (string.IsNullOrWhiteSpace(QauntityToRemove.Text))
+            {
+                await Application.Current!.Windows[0].Page!
+                    .DisplayAlertAsync("Invalid Quantity",
+                        "Please enter a quantity to remove.", "OK");
+                return;
+            }
+
+            if (!int.TryParse(QauntityToRemove.Text, out int quantity))
+            {
+                await Application.Current!.Windows[0].Page!
+                    .DisplayAlertAsync("Invalid Quantity",
+                        "Please enter a valid whole number.", "OK");
+                return;
+            }
+            inventoryService.RemoveStock(Product, quantity);
             _productPage.LoadProducts();
             await CloseAsync();
         }

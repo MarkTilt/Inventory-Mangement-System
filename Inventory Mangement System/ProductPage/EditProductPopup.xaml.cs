@@ -17,9 +17,9 @@ public partial class EditProductPopup : Popup
     // Temporary copy for editing
     public string EditedName { get; set; }
     public Category EditedCategory { get; set; }
-    public decimal EditedPrice { get; set; }
-    public int EditedQuantity { get; set; }
-    public int EditedLowStockThreshold { get; set; }
+    public string EditedPrice { get; set; }
+    public string EditedQuantity { get; set; }
+    public string EditedLowStockThreshold { get; set; }
 
     public List<Category> Categories { get; set; }
 
@@ -34,9 +34,9 @@ public partial class EditProductPopup : Popup
 
         // Copy the original values
         EditedName = product.ProductName;
-        EditedPrice = product.Price;
-        EditedQuantity = product.Quantity;
-        EditedLowStockThreshold = product.LowStockThreshold;
+        EditedPrice = product.Price.ToString();
+        EditedQuantity = product.Quantity.ToString();
+        EditedLowStockThreshold = product.LowStockThreshold.ToString();
         EditedCategory = product.Category;
 
         BindingContext = this;
@@ -46,13 +46,33 @@ public partial class EditProductPopup : Popup
     {
         try
         {
+            if (!decimal.TryParse(EditedPrice, out decimal price))
+            {
+                await Application.Current!.Windows[0].Page!
+                    .DisplayAlertAsync("Invalid Price", "Please enter a valid price.", "OK");
+                return;
+            }
+
+            if (!int.TryParse(EditedQuantity, out int quantity))
+            {
+                await Application.Current!.Windows[0].Page!
+                    .DisplayAlertAsync("Invalid Quantity", "Please enter a valid whole number.", "OK");
+                return;
+            }
+
+            if (!int.TryParse(EditedLowStockThreshold, out int threshold))
+            {
+                await Application.Current!.Windows[0].Page!
+                    .DisplayAlertAsync("Invalid Threshold", "Please enter a valid whole number.", "OK");
+                return;
+            }
             inventoryService.UpdateProduct(
                 Product,
                 EditedName,
                 EditedCategory,
-                EditedPrice,
-                EditedQuantity,
-                EditedLowStockThreshold);
+                price,
+                quantity,
+                threshold);
 
             await CloseAsync();
             _productPage.LoadProducts();
