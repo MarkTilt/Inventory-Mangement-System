@@ -57,8 +57,8 @@ namespace InventorySystem.Core.Services
 
         public void AddProduct(Product product)
         {
-            
-            
+
+            ArgumentNullException.ThrowIfNull(product);
             if (string.IsNullOrWhiteSpace(product.ProductName))
             {
                 throw new ArgumentException("Product name cannot be empty.");
