@@ -21,6 +21,7 @@ namespace InventorySystem.Test
             category = new Category("Test Category");
             inventoryService = new InventoryService();
             product = new Product("Test Product", category, 10.0m, 0, 2);
+            inventoryService.AddProduct(product);
         }
 
         [TestMethod]
@@ -69,11 +70,8 @@ namespace InventorySystem.Test
         public void AddProduct_DoesNotAllowDuplicateProductNames()
         {
             // Arrange
-            var product1 = new Product("Test Product", category, 10.0m, 5, 2);
             var product2 = new Product("Test Product", category, 15.0m, 3, 1);
-            // Act
-            inventoryService.AddProduct(product1);
-            
+                      
             // Assert
            Assert.Throws<InvalidOperationException>(() => inventoryService.AddProduct(product2));
         }
