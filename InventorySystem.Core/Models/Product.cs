@@ -1,4 +1,6 @@
-﻿namespace InventorySystem.Core.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace InventorySystem.Core.Models
 {
     public class Product
     {
@@ -17,7 +19,11 @@
                 else return "In Stock"; 
                 }
         }
-      
+
+        public Product()
+        {
+            
+        }
 
         public Product( string productName, Category category, decimal price, int quantity, int lowStockThreshold)
         {

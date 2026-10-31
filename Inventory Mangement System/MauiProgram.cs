@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
-using CommunityToolkit.Maui;
+﻿using CommunityToolkit.Maui;
+using InventorySystem.Core.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Inventory_Mangement_System;
 
@@ -12,6 +14,14 @@ public static class MauiProgram
         builder
             .UseMauiApp<App>()
             .UseMauiCommunityToolkit();
+
+        string connectionString =
+        Environment.GetEnvironmentVariable("INVENTORY_DB_CONNECTION")
+        ?? throw new InvalidOperationException(
+        "Database connection string is not configured.");
+
+        builder.Services.AddDbContext<InventoryDbContext>(options =>
+            options.UseSqlServer(connectionString, sql => sql.MigrationsAssembly("InventorySystem.Migrations")));
 
 #if DEBUG
         builder.Logging.AddDebug();

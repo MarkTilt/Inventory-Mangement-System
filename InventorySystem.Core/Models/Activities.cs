@@ -7,6 +7,8 @@ namespace InventorySystem.Core.Models
 {
     public class Activities
     {
+        public Guid ActivityId { get; set; } = Guid.NewGuid();
+
         // Properties to store the old product details
         public string OldProductName { get; set; }
         public string OldProductCategory { get; set; }

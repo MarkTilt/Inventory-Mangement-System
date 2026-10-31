@@ -3,5 +3,6 @@
     <Deploy Solution="Debug|*" />
   </Project>
   <Project Path="InventorySystem.Core/InventorySystem.Core.csproj" />
+  <Project Path="InventorySystem.Migrations/InventorySystem.Migrations.csproj" Id="1cff4b37-b3ce-426b-a521-b9cc75367532" />
   <Project Path="InventorySystem.Test/InventorySystem.Test.csproj" />
 </Solution>
