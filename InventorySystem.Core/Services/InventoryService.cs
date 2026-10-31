@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using InventorySystem.Core.Data;
 using System.Net.Http.Headers;
+using Microsoft.EntityFrameworkCore;
 
 namespace InventorySystem.Core.Services
 {
@@ -25,7 +26,7 @@ namespace InventorySystem.Core.Services
         public async Task AddStockAsync(Product product, int quantityToAdd)
         {
             ArgumentNullException.ThrowIfNull(product);
-            if (!_context.Products.Contains(product))
+            if (!await _context.Products.AnyAsync(p => p.ProductId == product.ProductId))
             {
                 throw new InvalidOperationException(
                     "The product does not exist in the inventory.");
@@ -44,7 +45,7 @@ namespace InventorySystem.Core.Services
         public async Task RemoveStockAsync(Product product, int quantityToRemove)
         {
             ArgumentNullException.ThrowIfNull(product);
-            if (!_context.Products.Contains(product))
+            if (!await _context.Products.AnyAsync(p => p.ProductId == product.ProductId))
             {
                 throw new InvalidOperationException(
                     "The product does not exist in the inventory.");
@@ -93,7 +94,7 @@ namespace InventorySystem.Core.Services
             }
             product.ProductName = product.ProductName.Trim();
 
-            if (_context.Products.Any(p => string.Equals(p.ProductName.Trim(), product.ProductName, StringComparison.OrdinalIgnoreCase)))
+            if (await _context.Products.AnyAsync(p => p.ProductName == product.ProductName))
             {
                 throw new InvalidOperationException($"A product with the name '{product.ProductName}' already exists.");
             }
@@ -108,7 +109,7 @@ namespace InventorySystem.Core.Services
         {
             ArgumentNullException.ThrowIfNull(product);
             
-            if (!_context.Products.Contains(product))
+            if (!await _context.Products.AnyAsync(p => p.ProductId == product.ProductId))
             {
                 throw new InvalidOperationException($"The product '{product.ProductName}' does not exist in the inventory.");
             }
@@ -122,7 +123,11 @@ namespace InventorySystem.Core.Services
         public async Task UpdateProductAsync(Product product, string newName, Category newCategory, decimal newPrice, int newQuantity, int newLowStockThreshold)
         {
             ArgumentNullException.ThrowIfNull(product);
-            
+
+            if (!await _context.Products.AnyAsync(p => p.ProductId == product.ProductId))
+            {
+                throw new InvalidOperationException($"The product '{product.ProductName}' does not exist in the inventory.");
+            }
             if (string.IsNullOrWhiteSpace(newName))
             {
                 throw new ArgumentException("Product name cannot be empty.");
@@ -130,13 +135,9 @@ namespace InventorySystem.Core.Services
             if (newCategory == null)
             {
                 throw new ArgumentException("Product category cannot be empty.");
-            }
-            if (!_context.Products.Contains(product))
-            {
-                throw new InvalidOperationException($"The product '{product.ProductName}' does not exist in the inventory.");
-            }
+            } 
             newName = newName.Trim();
-            if (_context.Products.Any(p => p.ProductId != product.ProductId && string.Equals(p.ProductName.Trim(), newName, StringComparison.OrdinalIgnoreCase)))
+            if (await _context.Products.AnyAsync(p => p.ProductId != product.ProductId && p.ProductName == newName))
             {
                 throw new InvalidOperationException($"A product with the name '{newName}' already exists.");
             }
@@ -174,7 +175,7 @@ namespace InventorySystem.Core.Services
 
             category.CategoryName = category.CategoryName.Trim();
 
-            if (_context.Categories.Any(c => string.Equals(c.CategoryName.Trim(), category.CategoryName, StringComparison.OrdinalIgnoreCase)))
+            if (await _context.Categories.AnyAsync(c => c.CategoryName == category.CategoryName))
             {
                 throw new InvalidOperationException($"A category with the name '{category.CategoryName}' already exists.");
             }
@@ -188,11 +189,11 @@ namespace InventorySystem.Core.Services
         {
             ArgumentNullException.ThrowIfNull(category);
             
-            if (!_context.Categories.Contains(category))
+            if (!await _context.Categories.AnyAsync(c => c.CategoryId == category.CategoryId))
             {
                 throw new InvalidOperationException($"The category '{category.CategoryName}' does not exist in the inventory.");
             }
-            if(_context.Products.Any(p => p.Category.CategoryId == category.CategoryId))
+            if(await _context.Products.AnyAsync(p => p.Category.CategoryId == category.CategoryId))
             {
                 throw new InvalidOperationException($"Cannot remove category '{category.CategoryName}' because it is associated with existing products.");
             }
@@ -211,12 +212,12 @@ namespace InventorySystem.Core.Services
             {
                 throw new ArgumentException("Category name cannot be empty.");
             }
-            if (!_context.Categories.Contains(category))
+            if (!await _context.Categories.AnyAsync(c => c.CategoryId == category.CategoryId))
             {
                 throw new InvalidOperationException($"The category '{category.CategoryName}' does not exist in the inventory.");
             }
             newName = newName.Trim();
-            if (_context.Categories.Any(c => c.CategoryId != category.CategoryId && string.Equals(c.CategoryName.Trim(), newName, StringComparison.OrdinalIgnoreCase)))
+            if (await _context.Categories.AnyAsync(c => c.CategoryId != category.CategoryId && c.CategoryName == newName))
             {
                 throw new InvalidOperationException($"A category with the name '{newName}' already exists.");
             }
