@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using InventorySystem.Core.Data;
+using InventorySystem.Core.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -22,6 +23,9 @@ public static class MauiProgram
 
         builder.Services.AddDbContext<InventoryDbContext>(options =>
             options.UseSqlServer(connectionString, sql => sql.MigrationsAssembly("InventorySystem.Migrations")));
+
+        builder.Services.AddTransient<ActivityService>();
+        builder.Services.AddScoped<InventoryService>();
 
 #if DEBUG
         builder.Logging.AddDebug();
