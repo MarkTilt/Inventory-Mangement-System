@@ -16,13 +16,13 @@ namespace InventorySystem.Migrations.Migrations
                 columns: table => new
                 {
                     ActivityId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    OldProductName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OldProductCategory = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OldProductName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OldProductCategory = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OldProductPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     OldProductQuantity = table.Column<int>(type: "int", nullable: false),
                     OldProductLowStockThreshold = table.Column<int>(type: "int", nullable: false),
-                    OldCategoryName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OldCategoryName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ChangeReason = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Time = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },

@@ -10,16 +10,16 @@ namespace InventorySystem.Core.Models
         public Guid ActivityId { get; set; } = Guid.NewGuid();
 
         // Properties to store the old product details
-        public string OldProductName { get; set; }
-        public string OldProductCategory { get; set; }
+        public string? OldProductName { get; set; }
+        public string? OldProductCategory { get; set; }
         public decimal OldProductPrice { get; set; }
         public int OldProductQuantity { get; set; }
         public int OldProductLowStockThreshold { get; set; }
 
         //Properties to store old Category details
-        public string OldCategoryName { get; set; }
+        public string? OldCategoryName { get; set; }
 
-        public string Description { get; set; }
+        public string? Description { get; set; }
         public string ChangeReason { get; set; }
         public DateTime Time { get; set; }
 

@@ -3,6 +3,8 @@ using InventorySystem.Core.Services;
 using InventorySystem.Core.List;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using InventorySystem.Core.Data;
+using Microsoft.EntityFrameworkCore;
 namespace InventorySystem.Test
 {
     [TestClass]
@@ -10,134 +12,156 @@ namespace InventorySystem.Test
     {
         //Testing InventoryServices
 
-        private Category category;
-        private InventoryService inventoryService;
-        private Product product;
+        private Category _category;
+        private InventoryService _inventoryService;
+        private ActivityService _activityService;
+        private InventoryDbContext _context;
+        private Product _product;
 
         [TestInitialize]
-        public void Setup()
+        public async Task Setup()
         {
-            ProductList.Products.Clear();
-            category = new Category("Test Category");
-            inventoryService = new InventoryService();
-            product = new Product("Test Product", category, 10.0m, 0, 2);
-            inventoryService.AddProduct(product);
+            var options = new DbContextOptionsBuilder<InventoryDbContext>()
+                .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+                .Options;
+
+            _context = new InventoryDbContext(options);
+
+            _activityService = new ActivityService(_context);
+            _inventoryService = new InventoryService(_context, _activityService);
+
+            _category = new Category("Test Category");
+            _context.Categories.Add(_category);
+           await _context.SaveChangesAsync();
+          
+            _product = new Product("Test Product", _category, 10.0m, 0, 2);
+           await _inventoryService.AddProductAsync(_product);
+        }
+        [TestCleanup]
+        public async Task Cleanup()
+        {
+            await _context.DisposeAsync();
         }
 
         [TestMethod]
         [DataRow(5, 3, 8)]
         [DataRow(10, 5, 15)]
-        public void AddStockToProduct_IncreasesQuantity(int productQuantity, int addedQuantity, int expectedQuantity)
+        public async Task AddStockToProduct_IncreasesQuantity(int productQuantity, int addedQuantity, int expectedQuantity)
         {
             // Arrange
-            product.Quantity = productQuantity;
+            _product.Quantity = productQuantity;
+            await _context.SaveChangesAsync();
 
             // Act
-            inventoryService.AddStock(product, addedQuantity);
+            await _inventoryService.AddStockAsync(_product, addedQuantity);
             // Assert
-            Assert.AreEqual(expectedQuantity, product.Quantity);
+            Assert.AreEqual(expectedQuantity, _product.Quantity);
         }
         [TestMethod]
         [DataRow(8, 3, 5)]
         [DataRow(15, 5, 10)]
-        public void RemoveStockFromProduct_DecreasesQuantity(int productQuantity, int removedQuantity, int expectedQuantity)
+        public async Task RemoveStockFromProduct_DecreasesQuantity(int productQuantity, int removedQuantity, int expectedQuantity)
         {
             // Arrange
 
-            product.Quantity = productQuantity;
-
+            _product.Quantity = productQuantity;
+            await _context.SaveChangesAsync();
             // Act
-            inventoryService.RemoveStock(product, removedQuantity);
+            await _inventoryService.RemoveStockAsync(_product, removedQuantity);
             // Assert
-            Assert.AreEqual(expectedQuantity, product.Quantity);
+            Assert.AreEqual(expectedQuantity, _product.Quantity);
         }
         [TestMethod]
-        public void AddProduct_AddsProductToList()
+        public async Task AddProduct_AddsProductToDB()
         {
             // Arrange
          
-            var product = new Product("Test Product2", category, 10.0m, 5, 2);
+            var product = new Product("Test Product2", _category, 10.0m, 5, 2);
 
             // Act
-            inventoryService.AddProduct(product);
+            await _inventoryService.AddProductAsync(product);
 
             // Assert
-            Assert.Contains(product, ProductList.Products);
+            Assert.Contains(product, _context.Products.ToList());
 
 
         }
         [TestMethod]
-        public void AddProduct_DoesNotAllowDuplicateProductNames()
+        public async Task AddProduct_DoesNotAllowDuplicateProductNames()
         {
             // Arrange
-            var product2 = new Product("Test Product", category, 15.0m, 3, 1);
+            var product2 = new Product("Test Product", _category, 15.0m, 3, 1);
                       
             // Assert
-           Assert.Throws<InvalidOperationException>(() => inventoryService.AddProduct(product2));
+          await Assert.ThrowsAsync<InvalidOperationException>( async () => await _inventoryService.AddProductAsync(product2));
         }
 
         [TestMethod]
-        public void RemoveProduct_RemovesProductFromList()
+        public async Task RemoveProduct_RemovesProductFromDB()
         {
             // Arrange
-            var productToRemove = new Product("Product To Remove", category, 20.0m, 5, 2);
+            var productToRemove = new Product("Product To Remove", _category, 20.0m, 5, 2);
             // Act
-            inventoryService.AddProduct(productToRemove);
-            inventoryService.RemoveProduct(productToRemove);
+            await _inventoryService.AddProductAsync(productToRemove);
+            await _context.SaveChangesAsync();
+            await _inventoryService.RemoveProductAsync(productToRemove);
+            await _context.SaveChangesAsync();
             // Assert
-            Assert.IsFalse(ProductList.Products.Contains(productToRemove));
+            Assert.IsFalse(await _context.Products.AnyAsync(p => p.ProductId == productToRemove.ProductId));
         }
 
         [TestMethod]
-        public void RemoveProduct_DoesNotRemoveProductIfNotInList()
+        public async Task RemoveProduct_DoesNotRemoveProductIfNotInList()
         {
             // Arrange
-            var productToRemove = new Product("Product To Remove", category, 20.0m, 5, 2);
+            var productToRemove = new Product("Product To Remove", _category, 20.0m, 5, 2);
 
 
             // Assert
-            Assert.Throws<InvalidOperationException>(() => inventoryService.RemoveProduct(productToRemove));
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _inventoryService.RemoveProductAsync(productToRemove));
 
         }
         [TestMethod]
-        public void AddStock_WithNegativeQuantity_DoesNotAddStock()
+        public async Task AddStock_WithNegativeQuantity_DoesNotAddStock()
         {
             
             //Assert
-            Assert.Throws<ArgumentException>(() => inventoryService.AddStock(product, -5));
+            await Assert.ThrowsAsync<ArgumentException>(async () => await _inventoryService.AddStockAsync(_product, -5));
 
         }
         [TestMethod]
-        public void RemoveStock_WithNegativeQuantity_ThrowsArgumentException()
+        public async Task RemoveStock_WithNegativeQuantity_ThrowsArgumentException()
         {
 
             //Assert
-            Assert.Throws<ArgumentException>(() => inventoryService.RemoveStock(product, -5));
+            await Assert.ThrowsAsync<ArgumentException>(async () => await _inventoryService.RemoveStockAsync(_product, -5));
         }
         [TestMethod]
-        public void RemoveStock_InsufficientStock_ThrowsArgumentException()
+        public async Task RemoveStock_InsufficientStock_ThrowsArgumentException()
         {
 
             //Assert
-            Assert.Throws<ArgumentException>(() => inventoryService.RemoveStock(product, 15));
+            await Assert.ThrowsAsync<ArgumentException>(async () => await _inventoryService.RemoveStockAsync(_product, 15));
         }
         [TestMethod]
-        public void UpdateProduct_ShouldThrow_WhenNameAlreadyExists()
+        public async Task UpdateProduct_ShouldThrow_WhenNameAlreadyExists()
         {
             //Arrange
-            var existingProduct = new Product("Existing Product", category, 20.0m, 5, 2);
-            inventoryService.AddProduct(existingProduct);
+            var existingProduct = new Product("Existing Product", _category, 20.0m, 5, 2);
+            await _inventoryService.AddProductAsync(existingProduct);
             // Act & Assert
-            Assert.Throws<InvalidOperationException>(() => inventoryService.UpdateProduct(product, "Existing Product", category, 15.0m, 3, 1));
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _inventoryService.UpdateProductAsync(_product, "Existing Product", _category, 15.0m, 3, 1));
         }
         [TestMethod]
-        public void UpdateProduct_ShouldAllowProductToKeepItsExistingName()
+        public async Task UpdateProduct_ShouldAllowProductToKeepItsExistingName()
         {
             //Arrange
-            var existingProduct = new Product("Existing Product2", category, 20.0m, 5, 2);
-            inventoryService.AddProduct(existingProduct);
+            var existingProduct = new Product("Existing Product2", _category, 20.0m, 5, 2);
+            await _inventoryService.AddProductAsync(existingProduct);
+            await _context.SaveChangesAsync();
             // Act
-            inventoryService.UpdateProduct(existingProduct, "Existing Product2", category, 25.0m, 10, 3);
+            await _inventoryService.UpdateProductAsync(existingProduct, "Existing Product2", _category, 25.0m, 10, 3);
+            await _context.SaveChangesAsync();
             //Assert
             Assert.AreEqual("Existing Product2", existingProduct.ProductName);
 
