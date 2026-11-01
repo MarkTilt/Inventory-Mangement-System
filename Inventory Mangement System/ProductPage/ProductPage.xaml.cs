@@ -1,16 +1,23 @@
-using InventorySystem.Core.List;
+
 using InventorySystem.Core.Models;
 using InventorySystem.Core.Services;
 using CommunityToolkit.Maui.Views;
+using Microsoft.EntityFrameworkCore;
 using CommunityToolkit.Maui.Extensions;
+using InventorySystem.Core.Data;
 
 namespace Inventory_Mangement_System;
 
 public partial class ProductPage : ContentPage
 {
-    InventoryService inventoryService = new InventoryService();
-    public ProductPage()
+    private readonly InventoryService _inventoryService;
+    private readonly InventoryDbContext _context;
+
+    public ProductPage(InventoryService inventoryService, InventoryDbContext context)
     {
+        _inventoryService = inventoryService;
+        _context = context;
+
         InitializeComponent();
 
         StatusFilter.ItemsSource = new List<string>
@@ -22,7 +29,6 @@ public partial class ProductPage : ContentPage
     };
         StatusFilter.SelectedIndex = 0;
 
-        LoadProducts();
     }
 
     private async void DashBoard_Clicked(object sender, EventArgs e)
@@ -49,8 +55,8 @@ public partial class ProductPage : ContentPage
             bool delete = await DisplayAlertAsync("Delete Product?", $"Are you sure you want to delete {product.ProductName}?", "Delete", "Cancel");
             if (delete)
             {
-                inventoryService.RemoveProduct(product);
-                LoadProducts();
+                await _inventoryService.RemoveProductAsync(product);
+                await LoadProducts();
             }
         }
     }
@@ -63,16 +69,16 @@ public partial class ProductPage : ContentPage
             await this.ShowPopupAsync(new EditProductPopup(product, this));
         }
     }
-    public void LoadProducts()
+    public async Task LoadProducts()
     {
         ProductsCollection.ItemsSource = null;
-        ProductsCollection.ItemsSource = ProductList.Products;
+        await ApplyFilters();
     }
 
     private async void AddProduct_Clicked(object sender, EventArgs e)
     {
         await this.ShowPopupAsync(new AddProductPopupPage());
-        LoadProducts();
+        await LoadProducts();
     }
 
     private async void AddStock_Clicked(object sender, EventArgs e)
@@ -93,45 +99,46 @@ public partial class ProductPage : ContentPage
         }
     }
 
-    private void ProductSearchBar_TextChanged(object sender, TextChangedEventArgs e)
+    private async void ProductSearchBar_TextChanged(object sender, TextChangedEventArgs e)
     {
-        ApplyFilters();
+        await ApplyFilters();
     }
 
-    private void FilterOn_Changed(object sender, EventArgs e)
+    private async void FilterOn_Changed(object sender, EventArgs e)
     {
-        ApplyFilters();
+        await ApplyFilters();
     }
-    protected override void OnAppearing()
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
-        LoadProducts();
+        await LoadProducts();
     }
 
-    private void ApplyFilters()
+    private async Task ApplyFilters()
     {
         string searchText = ProductSearchBar.Text?.Trim() ?? "";
         string selectedStatus = StatusFilter.SelectedItem?.ToString()
                                 ?? "All Products";
 
-        var filteredProducts = ProductList.Products
+        var query = _context.Products
+            .Include(p => p.Category)
             .Where(p =>
-                p.ProductName.Contains(
-                    searchText,
-                    StringComparison.OrdinalIgnoreCase)
-                ||
-                p.Category.CategoryName.Contains(
-                    searchText,
-                    StringComparison.OrdinalIgnoreCase))
-            .Where(p => selectedStatus switch
-            {
-                "In Stock" => p.Quantity > p.LowStockThreshold,
-                "Low Stock" => p.Quantity <= p.LowStockThreshold
-                               && p.Quantity > 0,
-                "Out of Stock" => p.Quantity == 0,
-                _ => true
-            })
-            .ToList();
+                p.ProductName.Contains(searchText) ||
+                p.Category.CategoryName.Contains(searchText));
+
+        query = selectedStatus switch
+        {
+            "In Stock" => query.Where(p => p.Quantity > p.LowStockThreshold),
+
+            "Low Stock" => query.Where(p =>
+                p.Quantity <= p.LowStockThreshold && p.Quantity > 0),
+
+            "Out of Stock" => query.Where(p => p.Quantity == 0),
+
+            _ => query
+        };
+
+        var filteredProducts = await query.ToListAsync();
 
         ProductsCollection.ItemsSource = filteredProducts;
     }
