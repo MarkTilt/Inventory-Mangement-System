@@ -1,35 +1,41 @@
 ﻿using CommunityToolkit.Maui.Extensions;
-using InventorySystem.Core.List;
+using InventorySystem.Core.Data;
 using InventorySystem.Core.Services;
+using Microsoft.EntityFrameworkCore;
 namespace Inventory_Mangement_System
 
 {
     public partial class MainPage : ContentPage
     {
-        InventoryService inventoryService = new InventoryService();
+        private readonly InventoryService _inventoryService;
+        private readonly ActivityService _activityService;
+        private readonly InventoryDbContext _context;
         
-        public MainPage()
+        
+        public MainPage(InventoryService inventoryService, ActivityService activityService, InventoryDbContext context)
         {
+            _inventoryService = inventoryService;
+            _activityService = activityService;
+            _context = context;
 
             InitializeComponent();
-            LoadRecentActivities();
-            AddCountToDash();
+            
            
         }
         //Updates counts on dash
-        public void AddCountToDash()
+        public async Task AddCountToDash()
         {
             ProductsCount.Text = null;
-            ProductsCount.Text = ProductList.Products.Count.ToString();
-            int lowCount = inventoryService.LowStockCount;
+            ProductsCount.Text =(await _context.Products.CountAsync()).ToString();
+            int lowCount =  _inventoryService.LowStockCount;
             LowCount.Text = null;
             LowCount.Text =  lowCount.ToString();
             CategoriesCount.Text = null;
-            CategoriesCount.Text = CategoryList.Categories.Count.ToString();
+            CategoriesCount.Text = (await _context.Categories.CountAsync()).ToString();
         }
-        public void LoadRecentActivities()
+        public async Task LoadRecentActivities()
         {
-            var recentProducts = ActivityList.Activities.OrderByDescending(p => p.Time).Take(4).ToList();
+            var recentProducts = await _context.Activities.OrderByDescending(p => p.Time).Take(4).ToListAsync();
             RecentActivitiesView.ItemsSource = null;
             RecentActivitiesView.ItemsSource = recentProducts;
             
@@ -54,22 +60,22 @@ namespace Inventory_Mangement_System
         private async void AddProduct_Clicked(object sender, EventArgs e)
         {
             await this.ShowPopupAsync(new AddProductPopupPage());
-            AddCountToDash();
-            LoadRecentActivities();
+            await AddCountToDash();
+            await LoadRecentActivities();
         }
 
         private async void AddCategory_Clicked(object sender, EventArgs e)
         {
             await this.ShowPopupAsync(new AddCategoryPopup());
-            AddCountToDash();
-            LoadRecentActivities();
+            await AddCountToDash();
+            await LoadRecentActivities();
         }
 
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
-            AddCountToDash();
-            LoadRecentActivities();
+            await AddCountToDash();
+            await LoadRecentActivities();
 
         }
     }
