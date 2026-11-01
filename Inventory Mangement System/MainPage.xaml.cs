@@ -8,14 +8,12 @@ namespace Inventory_Mangement_System
     public partial class MainPage : ContentPage
     {
         private readonly InventoryService _inventoryService;
-        private readonly ActivityService _activityService;
         private readonly InventoryDbContext _context;
         
         
         public MainPage(InventoryService inventoryService, ActivityService activityService, InventoryDbContext context)
         {
             _inventoryService = inventoryService;
-            _activityService = activityService;
             _context = context;
 
             InitializeComponent();
