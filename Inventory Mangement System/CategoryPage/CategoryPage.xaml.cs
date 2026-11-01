@@ -1,17 +1,23 @@
 using CommunityToolkit.Maui.Extensions;
-using InventorySystem.Core.List;
 using InventorySystem.Core.Models;
 using InventorySystem.Core.Services;
 using CommunityToolkit.Maui.Views;
+using InventorySystem.Core.Data;
+using Microsoft.EntityFrameworkCore;
 namespace Inventory_Mangement_System;
 
 public partial class CategoryPage : ContentPage
 {
-    InventoryService inventoryService = new InventoryService();
-    public CategoryPage()
+    private readonly InventoryService _inventoryService;
+    private readonly InventoryDbContext _context;
+
+    public CategoryPage(InventoryService inventoryService, InventoryDbContext context)
 	{
+		_inventoryService = inventoryService;
+		_context = context;
+
 		InitializeComponent();
-        LoadCategories();
+       
     }
 
     private async void DashBoard_Clicked(object sender, EventArgs e)
@@ -40,8 +46,8 @@ public partial class CategoryPage : ContentPage
                 bool delete = await DisplayAlertAsync("Delete Category?", $"Are you sure you want to delete {category.CategoryName}?", "Delete", "Cancel");
                 if (delete)
                 {
-                    inventoryService.RemoveCategory(category);
-                    LoadCategories();
+                    await _inventoryService.RemoveCategoryAsync(category);
+                    await LoadCategories();
                 }
             }
             catch (Exception ex)
@@ -61,32 +67,32 @@ public partial class CategoryPage : ContentPage
             await this.ShowPopupAsync(new EditCategoryPopup(category, this));
         }
     }
-    public void LoadCategories()
+    public async Task LoadCategories()
     {
         CategoryCollection.ItemsSource = null;
-        CategoryCollection.ItemsSource = CategoryList.Categories;
+        CategoryCollection.ItemsSource = await _context.Categories.ToListAsync();
+
     }
 
     private async void AddCategory_Clicked(object sender, EventArgs e)
     {
         await this.ShowPopupAsync(new AddCategoryPopup());
-        LoadCategories();
+        await LoadCategories();
     }
 
-    private void CategorySearchBar_TextChanged(object sender, TextChangedEventArgs e)
+    private async void CategorySearchBar_TextChanged(object sender, TextChangedEventArgs e)
     {
-        string searchText = e.NewTextValue?.Trim() ?? "";
-        var filteredProducts = CategoryList.Categories.Where(category => category.CategoryName.Contains(
-               searchText,
-               StringComparison.OrdinalIgnoreCase))
-               .ToList();
+        string searchText = e.NewTextValue?.Trim() ?? "";   
+
+        var filteredCategories = await _context.Categories.Where(category => category.CategoryName.Contains(searchText))
+               .ToListAsync();
 
 
-        CategoryCollection.ItemsSource = filteredProducts;
+        CategoryCollection.ItemsSource = filteredCategories;
     }
-    protected override void OnAppearing()
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
-        LoadCategories();
+        await LoadCategories();
     }
 }
