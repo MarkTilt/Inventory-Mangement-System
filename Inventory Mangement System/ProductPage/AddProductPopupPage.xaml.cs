@@ -1,20 +1,28 @@
-using InventorySystem.Core.List;
+
 using InventorySystem.Core.Models;
 using InventorySystem.Core.Services;
 using CommunityToolkit.Maui.Views;
 using CommunityToolkit.Maui.Extensions;
+using InventorySystem.Core.Data;
+using Microsoft.EntityFrameworkCore;
 namespace Inventory_Mangement_System;
 
 public partial class AddProductPopupPage : Popup
 {
 
-    InventoryService inventoryService = new InventoryService();
-   
+    private readonly InventoryService _inventoryService;
+    private readonly InventoryDbContext _context;
+
     public List<Category> Categories { get; set; }
-    public AddProductPopupPage()
+    public AddProductPopupPage(InventoryService inventoryService, InventoryDbContext context)
 	{
-		InitializeComponent();
-        Categories = CategoryList.Categories;
+        this._inventoryService = inventoryService;
+        this._context = context;
+        InitializeComponent();
+        Opened += async (sender, args) =>
+        {
+            await LoadCategories();
+        };
         BindingContext = this;
     }
 
@@ -61,7 +69,7 @@ public partial class AddProductPopupPage : Popup
                 quantity,
                 threshold);
 
-            inventoryService.AddProduct(product);
+            await _inventoryService.AddProductAsync(product);
             await CloseAsync();
         }
         catch (Exception ex)
@@ -75,5 +83,10 @@ public partial class AddProductPopupPage : Popup
     private async void CancelOn_Clicked(object sender, EventArgs e)
     {
         await CloseAsync();
+    }
+    private async Task LoadCategories()
+    {
+        Categories = await _context.Categories.ToListAsync();
+        OnPropertyChanged(nameof(Categories));
     }
 }
