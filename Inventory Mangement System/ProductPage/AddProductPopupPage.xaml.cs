@@ -11,13 +11,15 @@ public partial class AddProductPopupPage : Popup
 {
 
     private readonly InventoryService _inventoryService;
-    private readonly InventoryDbContext _context;
+    private readonly IDbContextFactory<InventoryDbContext> _contextFactory;
+    
 
     public List<Category> Categories { get; set; }
-    public AddProductPopupPage(InventoryService inventoryService, InventoryDbContext context)
+    public AddProductPopupPage(InventoryService inventoryService, IDbContextFactory<InventoryDbContext> contextFactory)
 	{
         this._inventoryService = inventoryService;
-        this._context = context;
+        this._contextFactory = contextFactory;
+
         InitializeComponent();
         Opened += async (sender, args) =>
         {
@@ -86,7 +88,8 @@ public partial class AddProductPopupPage : Popup
     }
     private async Task LoadCategories()
     {
-        Categories = await _context.Categories.ToListAsync();
+        await using var context = await _contextFactory.CreateDbContextAsync();
+        Categories = await context.Categories.ToListAsync();
         OnPropertyChanged(nameof(Categories));
     }
 }

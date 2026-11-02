@@ -9,12 +9,13 @@ namespace Inventory_Mangement_System;
 public partial class CategoryPage : ContentPage
 {
     private readonly InventoryService _inventoryService;
-    private readonly InventoryDbContext _context;
+    private readonly IDbContextFactory<InventoryDbContext> _contextFactory;
+    private bool _isLoadingCategories = false;
 
-    public CategoryPage(InventoryService inventoryService, InventoryDbContext context)
+    public CategoryPage(InventoryService inventoryService, IDbContextFactory<InventoryDbContext> contextFactory)
 	{
 		_inventoryService = inventoryService;
-		_context = context;
+		_contextFactory = contextFactory;
 
 		InitializeComponent();
        
@@ -70,9 +71,23 @@ public partial class CategoryPage : ContentPage
     }
     public async Task LoadCategories()
     {
-        CategoryCollection.ItemsSource = null;
-        CategorySearchBar.Text = string.Empty;
-        CategoryCollection.ItemsSource = await _context.Categories.ToListAsync();
+        try
+        {
+            _isLoadingCategories = true;
+
+            CategoryCollection.ItemsSource = null;
+            CategorySearchBar.Text = string.Empty;
+
+            await using var context = await _contextFactory.CreateDbContextAsync();
+            CategoryCollection.ItemsSource = await context.Categories.ToListAsync();
+        }
+        finally
+        {
+            _isLoadingCategories = false;
+        }
+        
+
+        
 
     }
 
@@ -84,9 +99,14 @@ public partial class CategoryPage : ContentPage
 
     private async void CategorySearchBar_TextChanged(object sender, TextChangedEventArgs e)
     {
+        if(_isLoadingCategories)
+        {
+            return;
+        }
+        await using var context = await _contextFactory.CreateDbContextAsync();
         string searchText = e.NewTextValue?.Trim() ?? "";   
 
-        var filteredCategories = await _context.Categories.Where(category => category.CategoryName.Contains(searchText))
+        var filteredCategories = await context.Categories.Where(category => category.CategoryName.Contains(searchText))
                .ToListAsync();
 
 

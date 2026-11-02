@@ -1,29 +1,23 @@
 ﻿using InventorySystem.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using InventorySystem.Core.Data;
-using System.Net.Http.Headers;
 using Microsoft.EntityFrameworkCore;
 
 namespace InventorySystem.Core.Services
 {
     public class InventoryService
     {
-        private readonly InventoryDbContext _context;
+        private readonly IDbContextFactory<InventoryDbContext> _contextFactory;
         private readonly ActivityService _activityService;
-        public InventoryService(InventoryDbContext context, ActivityService activityService)
+        public InventoryService(IDbContextFactory<InventoryDbContext> contextFactory, ActivityService activityService)
         {
-            _context = context;
+            _contextFactory = contextFactory;
             _activityService = activityService;
-        }
-        public async Task<int> GetLowStockCountAsync() { 
-            return await _context.Products.CountAsync(p => p.Quantity <= p.LowStockThreshold);
         }
         public async Task AddStockAsync(Product product, int quantityToAdd)
         {
             ArgumentNullException.ThrowIfNull(product);
-            var existingProduct = await _context.Products.Include(p => p.Category).FirstOrDefaultAsync(p => p.ProductId == product.ProductId);
+            await using var context = await _contextFactory.CreateDbContextAsync();
+            var existingProduct = await context.Products.Include(p => p.Category).FirstOrDefaultAsync(p => p.ProductId == product.ProductId);
             if (existingProduct == null)
             {
                 throw new InvalidOperationException(
@@ -36,14 +30,15 @@ namespace InventorySystem.Core.Services
             Activities productActivity = new Activities(existingProduct, "Stock added");
 
             existingProduct.Quantity = checked(existingProduct.Quantity + quantityToAdd);
-            _activityService.SetUpdateDescription(productActivity, existingProduct);
-            await _context.SaveChangesAsync();
+            _activityService.SetUpdateDescription(productActivity, existingProduct, context);
+            await context.SaveChangesAsync();
         }
 
         public async Task RemoveStockAsync(Product product, int quantityToRemove)
         {
             ArgumentNullException.ThrowIfNull(product);
-            var existingProduct = await _context.Products.Include(p => p.Category).FirstOrDefaultAsync(p => p.ProductId == product.ProductId);
+            await using var context = await _contextFactory.CreateDbContextAsync();
+            var existingProduct = await context.Products.Include(p => p.Category).FirstOrDefaultAsync(p => p.ProductId == product.ProductId);
             if (existingProduct == null)
             {
                 throw new InvalidOperationException(
@@ -60,8 +55,8 @@ namespace InventorySystem.Core.Services
             Activities productActivity = new Activities(existingProduct, "Stock removed");
 
             existingProduct.Quantity -= quantityToRemove;
-            _activityService.SetUpdateDescription(productActivity, existingProduct);
-            await _context.SaveChangesAsync();
+            _activityService.SetUpdateDescription(productActivity, existingProduct, context);
+            await context.SaveChangesAsync();
 
         }
 
@@ -69,6 +64,7 @@ namespace InventorySystem.Core.Services
         {
 
             ArgumentNullException.ThrowIfNull(product);
+            await using var context = await _contextFactory.CreateDbContextAsync();
             if (string.IsNullOrWhiteSpace(product.ProductName))
             {
                 throw new ArgumentException("Product name cannot be empty.");
@@ -82,7 +78,7 @@ namespace InventorySystem.Core.Services
             {
                 throw new ArgumentException("Product must have a category.");
             }
-            var existingCategory = await _context.Categories.FirstOrDefaultAsync(c => c.CategoryId == product.Category.CategoryId);
+            var existingCategory = await context.Categories.FirstOrDefaultAsync(c => c.CategoryId == product.Category.CategoryId);
             if (existingCategory == null)
             {
                 throw new InvalidOperationException("The selected category does not exist.");
@@ -99,36 +95,38 @@ namespace InventorySystem.Core.Services
             }
             product.ProductName = product.ProductName.Trim();
 
-            if (await _context.Products.AnyAsync(p => p.ProductName == product.ProductName))
+            if (await context.Products.AnyAsync(p => p.ProductName == product.ProductName))
             {
                 throw new InvalidOperationException($"A product with the name '{product.ProductName}' already exists.");
             }
             Activities productActivity = new Activities("Product added");
 
 
-            _context.Products.Add(product);
-            _activityService.SetAddDescription(productActivity, product);
-            await _context.SaveChangesAsync();
+            context.Products.Add(product);
+            _activityService.SetAddDescription(productActivity, product, context);
+            await context.SaveChangesAsync();
         }
         public async Task RemoveProductAsync(Product product)
         {
             ArgumentNullException.ThrowIfNull(product);
-            var existingProduct = await _context.Products.Include(p => p.Category).FirstOrDefaultAsync(p => p.ProductId == product.ProductId);
+            await using var context = await _contextFactory.CreateDbContextAsync();
+            var existingProduct = await context.Products.Include(p => p.Category).FirstOrDefaultAsync(p => p.ProductId == product.ProductId);
             if (existingProduct == null)
             {
                 throw new InvalidOperationException($"The product '{product.ProductName}' does not exist in the inventory.");
             }
             Activities productActivity = new Activities("Product removed");
-            _context.Products.Remove(existingProduct);
-            _activityService.RemoveProductDescription(productActivity, existingProduct);
-            await _context.SaveChangesAsync();
+            context.Products.Remove(existingProduct);
+            _activityService.RemoveProductDescription(productActivity, existingProduct, context);
+            await context.SaveChangesAsync();
         }
 
 
         public async Task UpdateProductAsync(Product product, string newName, Category newCategory, decimal newPrice, int newQuantity, int newLowStockThreshold)
         {
             ArgumentNullException.ThrowIfNull(product);
-            var existingProduct = await _context.Products.Include(p => p.Category).FirstOrDefaultAsync(p => p.ProductId == product.ProductId);
+            await using var context = await _contextFactory.CreateDbContextAsync();
+            var existingProduct = await context.Products.Include(p => p.Category).FirstOrDefaultAsync(p => p.ProductId == product.ProductId);
             if (existingProduct == null)
             {
                 throw new InvalidOperationException($"The product '{product.ProductName}' does not exist in the inventory.");
@@ -141,13 +139,13 @@ namespace InventorySystem.Core.Services
             {
                 throw new ArgumentException("Product category cannot be empty.");
             }
-            var existingCategory = await _context.Categories.FirstOrDefaultAsync(c => c.CategoryId == newCategory.CategoryId);
+            var existingCategory = await context.Categories.FirstOrDefaultAsync(c => c.CategoryId == newCategory.CategoryId);
             if (existingCategory == null)
             {
                 throw new InvalidOperationException($"The category '{newCategory.CategoryName}' does not exist in the inventory.");
             }
             newName = newName.Trim();
-            if (await _context.Products.AnyAsync(p => p.ProductId != existingProduct.ProductId && p.ProductName == newName))
+            if (await context.Products.AnyAsync(p => p.ProductId != existingProduct.ProductId && p.ProductName == newName))
             {
                 throw new InvalidOperationException($"A product with the name '{newName}' already exists.");
             }
@@ -170,14 +168,15 @@ namespace InventorySystem.Core.Services
             existingProduct.Price = newPrice;
             existingProduct.Quantity = newQuantity;
             existingProduct.LowStockThreshold = newLowStockThreshold;
-            _activityService.SetUpdateDescription(productActivity, existingProduct);
-            await _context.SaveChangesAsync();
+            _activityService.SetUpdateDescription(productActivity, existingProduct, context);
+            await context.SaveChangesAsync();
         }
 
         public async Task AddCategoryAsync(Category category)
         {
             ArgumentNullException.ThrowIfNull(category);
-            
+            await using var context = await _contextFactory.CreateDbContextAsync();
+
             if (string.IsNullOrWhiteSpace(category.CategoryName))
             {
                 throw new ArgumentException("Category name cannot be empty.");
@@ -185,39 +184,41 @@ namespace InventorySystem.Core.Services
 
             category.CategoryName = category.CategoryName.Trim();
 
-            if (await _context.Categories.AnyAsync(c => c.CategoryName == category.CategoryName))
+            if (await context.Categories.AnyAsync(c => c.CategoryName == category.CategoryName))
             {
                 throw new InvalidOperationException($"A category with the name '{category.CategoryName}' already exists.");
             }
             Activities categoryActivity = new Activities(category, "Category added");
             
-            _context.Categories.Add(category);
-            _activityService.AddCategoryDescription(categoryActivity, category);
-            await _context.SaveChangesAsync();
+            context.Categories.Add(category);
+            _activityService.AddCategoryDescription(categoryActivity, category, context);
+            await context.SaveChangesAsync();
         }
         public async Task RemoveCategoryAsync(Category category)
         {
             ArgumentNullException.ThrowIfNull(category);
-            var existingCategory = await _context.Categories.FirstOrDefaultAsync(c => c.CategoryId == category.CategoryId);
+            await using var context = await _contextFactory.CreateDbContextAsync();
+            var existingCategory = await context.Categories.FirstOrDefaultAsync(c => c.CategoryId == category.CategoryId);
             if (existingCategory == null)
             {
                 throw new InvalidOperationException($"The category '{category.CategoryName}' does not exist in the inventory.");
             }
-            if(await _context.Products.AnyAsync(p => p.Category.CategoryId == category.CategoryId))
+            if(await context.Products.AnyAsync(p => p.Category.CategoryId == category.CategoryId))
             {
                 throw new InvalidOperationException($"Cannot remove category '{category.CategoryName}' because it is associated with existing products.");
             }
             Activities categoryActivity = new Activities(existingCategory, "Category removed");
-            _context.Categories.Remove(existingCategory);
-            _activityService.RemoveCategoryDescription(categoryActivity, existingCategory);
-            await _context.SaveChangesAsync();
+            context.Categories.Remove(existingCategory);
+            _activityService.RemoveCategoryDescription(categoryActivity, existingCategory, context);
+            await context.SaveChangesAsync();
         }
 
 
         public async Task UpdateCategoryAsync(Category category, string newName)
         {
             ArgumentNullException.ThrowIfNull(category);
-            var existingCategory = await _context.Categories.FirstOrDefaultAsync(c => c.CategoryId == category.CategoryId);
+            await using var context = await _contextFactory.CreateDbContextAsync();
+            var existingCategory = await context.Categories.FirstOrDefaultAsync(c => c.CategoryId == category.CategoryId);
             if(existingCategory == null)
             {
                 throw new InvalidOperationException($"The category '{category.CategoryName}' does not exist in the inventory.");
@@ -227,7 +228,7 @@ namespace InventorySystem.Core.Services
                 throw new ArgumentException("Category name cannot be empty.");
             }
             newName = newName.Trim();
-            if (await _context.Categories.AnyAsync(c => c.CategoryId != category.CategoryId && c.CategoryName == newName))
+            if (await context.Categories.AnyAsync(c => c.CategoryId != category.CategoryId && c.CategoryName == newName))
             {
                 throw new InvalidOperationException($"A category with the name '{newName}' already exists.");
             }
@@ -235,8 +236,8 @@ namespace InventorySystem.Core.Services
 
 
             existingCategory.CategoryName = newName;
-            _activityService.UpdateCategoryDescription(categoryActivity, existingCategory);
-            await _context.SaveChangesAsync();
+            _activityService.UpdateCategoryDescription(categoryActivity, existingCategory, context);
+            await context.SaveChangesAsync();
         }
     
           

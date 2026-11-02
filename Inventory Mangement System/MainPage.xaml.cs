@@ -8,32 +8,32 @@ namespace Inventory_Mangement_System
     public partial class MainPage : ContentPage
     {
         private readonly InventoryService _inventoryService;
-        private readonly InventoryDbContext _context;
-        
-        
-        public MainPage(InventoryService inventoryService, ActivityService activityService, InventoryDbContext context)
-        {
-            _inventoryService = inventoryService;
-            _context = context;
+        private readonly IDbContextFactory<InventoryDbContext> _contextFactory;
 
+
+        public MainPage(InventoryService inventoryService, ActivityService activityService, IDbContextFactory<InventoryDbContext> contextFactory)
+        {
             InitializeComponent();
-            
-           
+            _inventoryService = inventoryService;
+            _contextFactory = contextFactory;
+
         }
         //Updates counts on dash
         public async Task AddCountToDash()
         {
+
+            await using var context = await _contextFactory.CreateDbContextAsync();
+
             ProductsCount.Text = null;
-            ProductsCount.Text =(await _context.Products.CountAsync()).ToString();
-            int lowCount =  await _inventoryService.GetLowStockCountAsync();
-            LowCount.Text = null;
-            LowCount.Text =  lowCount.ToString();
+            ProductsCount.Text =(await context.Products.CountAsync()).ToString();
+            LowCount.Text = (await context.Products.CountAsync(p => p.Quantity <= p.LowStockThreshold)).ToString();
             CategoriesCount.Text = null;
-            CategoriesCount.Text = (await _context.Categories.CountAsync()).ToString();
+            CategoriesCount.Text = (await context.Categories.CountAsync()).ToString();
         }
         public async Task LoadRecentActivities()
         {
-            var recentProducts = await _context.Activities.OrderByDescending(p => p.Time).Take(4).ToListAsync();
+            await using var context = await _contextFactory.CreateDbContextAsync();
+            var recentProducts = await context.Activities.OrderByDescending(p => p.Time).Take(4).ToListAsync();
             RecentActivitiesView.ItemsSource = null;
             RecentActivitiesView.ItemsSource = recentProducts;
             
@@ -57,7 +57,7 @@ namespace Inventory_Mangement_System
 
         private async void AddProduct_Clicked(object sender, EventArgs e)
         {
-            await this.ShowPopupAsync(new AddProductPopupPage(_inventoryService, _context));
+            await this.ShowPopupAsync(new AddProductPopupPage(_inventoryService, _contextFactory));
             await AddCountToDash();
             await LoadRecentActivities();
         }

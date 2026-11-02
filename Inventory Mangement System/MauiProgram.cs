@@ -21,7 +21,7 @@ public static class MauiProgram
         ?? throw new InvalidOperationException(
         "Database connection string is not configured.");
 
-        builder.Services.AddDbContext<InventoryDbContext>(options =>
+        builder.Services.AddDbContextFactory<InventoryDbContext>(options =>
             options.UseSqlServer(connectionString, sql => sql.MigrationsAssembly("InventorySystem.Migrations")));
 
         builder.Services.AddTransient<ActivityService>();

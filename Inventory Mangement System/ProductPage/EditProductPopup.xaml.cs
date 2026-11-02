@@ -11,7 +11,7 @@ namespace Inventory_Mangement_System;
 public partial class EditProductPopup : Popup
 {
     private readonly InventoryService _inventoryService;
-    private readonly InventoryDbContext _context;
+    private readonly IDbContextFactory<InventoryDbContext> _contextFactory;
 
     // The original product
     public Product Product { get; set; }
@@ -25,14 +25,14 @@ public partial class EditProductPopup : Popup
 
     public List<Category> Categories { get; set; }
 
-    public EditProductPopup(Product product, InventoryService inventoryService, InventoryDbContext context)
+    public EditProductPopup(Product product, InventoryService inventoryService, IDbContextFactory<InventoryDbContext> contextFactory)
 	{
 		InitializeComponent();
 		
         
         Product = product;
         _inventoryService = inventoryService;
-        _context = context;
+        _contextFactory = contextFactory;
         Opened += async (sender, args) =>
         {
             await LoadCategories();
@@ -97,7 +97,8 @@ public partial class EditProductPopup : Popup
     }
     private async Task LoadCategories()
     {
-        Categories = await _context.Categories.ToListAsync();
+        await using var context = await _contextFactory.CreateDbContextAsync();
+        Categories = await context.Categories.ToListAsync();
 
         EditedCategory = Categories.FirstOrDefault(
         c => c.CategoryId == Product.Category.CategoryId);

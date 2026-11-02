@@ -11,12 +11,12 @@ namespace Inventory_Mangement_System;
 public partial class ProductPage : ContentPage
 {
     private readonly InventoryService _inventoryService;
-    private readonly InventoryDbContext _context;
+    private readonly IDbContextFactory<InventoryDbContext> _contextFactory;
 
-    public ProductPage(InventoryService inventoryService, InventoryDbContext context)
+    public ProductPage(InventoryService inventoryService, IDbContextFactory<InventoryDbContext> contextFactory)
     {
         _inventoryService = inventoryService;
-        _context = context;
+        _contextFactory = contextFactory;
 
         InitializeComponent();
 
@@ -66,7 +66,7 @@ public partial class ProductPage : ContentPage
         if (sender is Button button &&
            button.CommandParameter is Product product)
         {
-            await this.ShowPopupAsync(new EditProductPopup(product, _inventoryService, _context));
+            await this.ShowPopupAsync(new EditProductPopup(product, _inventoryService, _contextFactory));
             await LoadProducts();
         }
     }
@@ -78,7 +78,7 @@ public partial class ProductPage : ContentPage
 
     private async void AddProduct_Clicked(object sender, EventArgs e)
     {
-        await this.ShowPopupAsync(new AddProductPopupPage(_inventoryService, _context));
+        await this.ShowPopupAsync(new AddProductPopupPage(_inventoryService, _contextFactory));
         await LoadProducts();
     }
 
@@ -119,11 +119,12 @@ public partial class ProductPage : ContentPage
 
     private async Task ApplyFilters()
     {
+        await using var context = await _contextFactory.CreateDbContextAsync();
         string searchText = ProductSearchBar.Text?.Trim() ?? "";
         string selectedStatus = StatusFilter.SelectedItem?.ToString()
                                 ?? "All Products";
 
-        var query = _context.Products
+        var query = context.Products
             .Include(p => p.Category)
             .Where(p =>
                 p.ProductName.Contains(searchText) ||
