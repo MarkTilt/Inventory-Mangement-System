@@ -1,15 +1,17 @@
 using CommunityToolkit.Maui.Views;
 using InventorySystem.Core.Models;
 using InventorySystem.Core.Services;
-using InventorySystem.Core.List;
+using InventorySystem.Core.Data;
+using Microsoft.VisualBasic;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace Inventory_Mangement_System;
 
 public partial class EditProductPopup : Popup
 {
-    InventoryService inventoryService = new InventoryService();
-    private readonly ProductPage _productPage;
+    private readonly InventoryService _inventoryService;
+    private readonly InventoryDbContext _context;
 
     // The original product
     public Product Product { get; set; }
@@ -23,14 +25,19 @@ public partial class EditProductPopup : Popup
 
     public List<Category> Categories { get; set; }
 
-    public EditProductPopup(Product product, ProductPage page)
+    public EditProductPopup(Product product, InventoryService inventoryService, InventoryDbContext context)
 	{
 		InitializeComponent();
 		
         
         Product = product;
-        _productPage = page;
-        Categories = CategoryList.Categories;
+        _inventoryService = inventoryService;
+        _context = context;
+        Opened += async (sender, args) =>
+        {
+            await LoadCategories();
+        };
+        
 
         // Copy the original values
         EditedName = product.ProductName;
@@ -66,7 +73,7 @@ public partial class EditProductPopup : Popup
                     .DisplayAlertAsync("Invalid Threshold", "Please enter a valid whole number.", "OK");
                 return;
             }
-            inventoryService.UpdateProduct(
+            await _inventoryService.UpdateProductAsync(
                 Product,
                 EditedName,
                 EditedCategory,
@@ -75,7 +82,7 @@ public partial class EditProductPopup : Popup
                 threshold);
 
             await CloseAsync();
-            _productPage.LoadProducts();
+           
         }
         catch (Exception ex)
         {
@@ -87,5 +94,15 @@ public partial class EditProductPopup : Popup
     private async void CancelOn_Clicked(object sender, EventArgs e)
     {
         await CloseAsync();
+    }
+    private async Task LoadCategories()
+    {
+        Categories = await _context.Categories.ToListAsync();
+
+        EditedCategory = Categories.FirstOrDefault(
+        c => c.CategoryId == Product.Category.CategoryId);
+
+        OnPropertyChanged(nameof(Categories));
+        OnPropertyChanged(nameof(EditedCategory));
     }
 }

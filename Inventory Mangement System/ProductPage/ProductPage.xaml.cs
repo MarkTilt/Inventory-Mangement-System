@@ -66,7 +66,8 @@ public partial class ProductPage : ContentPage
         if (sender is Button button &&
            button.CommandParameter is Product product)
         {
-            await this.ShowPopupAsync(new EditProductPopup(product, this));
+            await this.ShowPopupAsync(new EditProductPopup(product, _inventoryService, _context));
+            await LoadProducts();
         }
     }
     public async Task LoadProducts()
@@ -77,7 +78,7 @@ public partial class ProductPage : ContentPage
 
     private async void AddProduct_Clicked(object sender, EventArgs e)
     {
-        await this.ShowPopupAsync(new AddProductPopupPage());
+        await this.ShowPopupAsync(new AddProductPopupPage(_inventoryService, _context));
         await LoadProducts();
     }
 
@@ -86,7 +87,8 @@ public partial class ProductPage : ContentPage
         if (sender is Button button &&
             button.CommandParameter is Product product)
         {
-            await this.ShowPopupAsync(new AddStockPopup(product, this));
+            await this.ShowPopupAsync(new AddStockPopup(product, _inventoryService));
+            await LoadProducts();
         }
     }
 
@@ -95,7 +97,8 @@ public partial class ProductPage : ContentPage
         if (sender is Button button &&
           button.CommandParameter is Product product)
         {
-            await this.ShowPopupAsync(new RemoveStockPopup(product, this));
+            await this.ShowPopupAsync(new RemoveStockPopup(product, _inventoryService));
+            await LoadProducts();
         }
     }
 

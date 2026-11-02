@@ -6,15 +6,15 @@ namespace Inventory_Mangement_System;
 
 public partial class RemoveStockPopup : Popup
 {
-    InventoryService inventoryService = new InventoryService();
+    private readonly InventoryService _inventoryService;
     private readonly ProductPage _productPage;
     public Product Product { get; set; }
     public int AddedQuantity { get; set; }
-    public RemoveStockPopup(Product product, ProductPage page)
+    public RemoveStockPopup(Product product, InventoryService inventoryService)
 	{
 		InitializeComponent();
         Product = product;
-        _productPage = page;
+        _inventoryService = inventoryService;
         BindingContext = this;
     }
 
@@ -37,8 +37,7 @@ public partial class RemoveStockPopup : Popup
                         "Please enter a valid whole number.", "OK");
                 return;
             }
-            inventoryService.RemoveStock(Product, quantity);
-            _productPage.LoadProducts();
+            await _inventoryService.RemoveStockAsync(Product, quantity);
             await CloseAsync();
         }
         catch(Exception ex)

@@ -6,16 +6,16 @@ namespace Inventory_Mangement_System;
 
 public partial class AddStockPopup : Popup
 {
-    InventoryService inventoryService = new InventoryService();
-    private readonly ProductPage _productPage;
+    private readonly InventoryService _inventoryService;
+    
     public Product Product { get; set; }
     public int AddedQuantity { get; set; }
 
-    public AddStockPopup(Product product, ProductPage page)
+    public AddStockPopup(Product product, InventoryService inventoryService)
 	{
 		InitializeComponent();
         Product = product;
-        _productPage = page;
+        _inventoryService = inventoryService;
 
         BindingContext = this;
     }
@@ -39,8 +39,7 @@ public partial class AddStockPopup : Popup
                         "Please enter a valid whole number.", "OK");
                 return;
             }
-            inventoryService.AddStock(Product, quantity);
-            _productPage.LoadProducts();
+            await _inventoryService.AddStockAsync(Product, quantity);
             await CloseAsync();
         }
         catch (Exception ex)
