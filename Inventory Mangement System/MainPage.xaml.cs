@@ -25,7 +25,7 @@ namespace Inventory_Mangement_System
         {
             ProductsCount.Text = null;
             ProductsCount.Text =(await _context.Products.CountAsync()).ToString();
-            int lowCount =  _inventoryService.LowStockCount;
+            int lowCount =  await _inventoryService.GetLowStockCountAsync();
             LowCount.Text = null;
             LowCount.Text =  lowCount.ToString();
             CategoriesCount.Text = null;

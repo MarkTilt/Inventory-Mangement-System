@@ -17,11 +17,8 @@ namespace InventorySystem.Core.Services
             _context = context;
             _activityService = activityService;
         }
-        public  int LowStockCount { 
-            get 
-            {
-                return _context.Products.Count(p => p.Quantity <= p.LowStockThreshold);
-            } 
+        public async Task<int> GetLowStockCountAsync() { 
+            return await _context.Products.CountAsync(p => p.Quantity <= p.LowStockThreshold);
         }
         public async Task AddStockAsync(Product product, int quantityToAdd)
         {
