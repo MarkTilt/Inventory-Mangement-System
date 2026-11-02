@@ -7,15 +7,15 @@ namespace Inventory_Mangement_System;
 public partial class EditCategoryPopup : Popup
 {
     public Category Category { get; set; }
-	InventoryService inventoryService = new InventoryService();
+    private readonly InventoryService _inventoryService;
     public string EditedCategoryName { get; set; }
-	private readonly CategoryPage _categoryPage;
-    public EditCategoryPopup(Category category, CategoryPage page)
+	
+    public EditCategoryPopup(Category category, InventoryService inventoryService)
 	{
 		InitializeComponent();
         Category = category;
         EditedCategoryName = category.CategoryName;
-        _categoryPage = page;
+        _inventoryService = inventoryService;
 
         BindingContext = this;
 
@@ -25,9 +25,9 @@ public partial class EditCategoryPopup : Popup
     {
         try
         {
-            inventoryService.UpdateCategory(Category, EditedCategoryName);
+            await _inventoryService.UpdateCategoryAsync(Category, EditedCategoryName);
             await CloseAsync();
-            _categoryPage.LoadCategories();
+            
         }
         catch (Exception ex)
         {

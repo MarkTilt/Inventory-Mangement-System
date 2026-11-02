@@ -6,11 +6,11 @@ namespace Inventory_Mangement_System;
 
 public partial class AddCategoryPopup : Popup
 {
-    InventoryService inventoryService = new InventoryService();
-   
+    private readonly InventoryService _inventoryService;
 
-    public AddCategoryPopup()
+    public AddCategoryPopup(InventoryService inventoryService)
 	{
+        _inventoryService = inventoryService;
 		InitializeComponent();
        
     }
@@ -20,7 +20,7 @@ public partial class AddCategoryPopup : Popup
         try
         {
             Category category = new Category(CategoryNameEntry.Text);
-            inventoryService.AddCategory(category);
+            await _inventoryService.AddCategoryAsync(category);
             await CloseAsync();
             
         }

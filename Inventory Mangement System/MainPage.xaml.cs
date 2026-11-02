@@ -57,14 +57,14 @@ namespace Inventory_Mangement_System
 
         private async void AddProduct_Clicked(object sender, EventArgs e)
         {
-            await this.ShowPopupAsync(new AddProductPopupPage());
+            await this.ShowPopupAsync(new AddProductPopupPage(_inventoryService, _context));
             await AddCountToDash();
             await LoadRecentActivities();
         }
 
         private async void AddCategory_Clicked(object sender, EventArgs e)
         {
-            await this.ShowPopupAsync(new AddCategoryPopup());
+            await this.ShowPopupAsync(new AddCategoryPopup(_inventoryService));
             await AddCountToDash();
             await LoadRecentActivities();
         }

@@ -64,19 +64,21 @@ public partial class CategoryPage : ContentPage
         if (sender is Button button &&
            button.CommandParameter is Category category)
         {
-            await this.ShowPopupAsync(new EditCategoryPopup(category, this));
+            await this.ShowPopupAsync(new EditCategoryPopup(category, _inventoryService));
+            await LoadCategories();
         }
     }
     public async Task LoadCategories()
     {
         CategoryCollection.ItemsSource = null;
+        CategorySearchBar.Text = string.Empty;
         CategoryCollection.ItemsSource = await _context.Categories.ToListAsync();
 
     }
 
     private async void AddCategory_Clicked(object sender, EventArgs e)
     {
-        await this.ShowPopupAsync(new AddCategoryPopup());
+        await this.ShowPopupAsync(new AddCategoryPopup(_inventoryService));
         await LoadCategories();
     }
 
