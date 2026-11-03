@@ -1,10 +1,8 @@
-﻿using InventorySystem.Core.Models;
+﻿using InventorySystem.Core.Data;
+using InventorySystem.Core.Models;
 using InventorySystem.Core.Services;
-using InventorySystem.Core.List;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using InventorySystem.Core.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 namespace InventorySystem.Test
 {
     [TestClass]
@@ -12,11 +10,10 @@ namespace InventorySystem.Test
     {
         //Testing InventoryServices
 
-        private Category _category;
-        private InventoryService _inventoryService;
-        private ActivityService _activityService;
-        private InventoryDbContext _context;
-        private Product _product;
+        private Category _category = null!;
+        private InventoryService _inventoryService = null!;
+        private IDbContextFactory<InventoryDbContext> _factory = null!;
+        private Product _product = null!;
 
         [TestInitialize]
         public async Task Setup()
@@ -25,22 +22,20 @@ namespace InventorySystem.Test
                 .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                 .Options;
 
-            _context = new InventoryDbContext(options);
+            _factory = new PooledDbContextFactory<InventoryDbContext>(options);
 
-            _activityService = new ActivityService(_context);
-            _inventoryService = new InventoryService(_context, _activityService);
+            var _activityService = new ActivityService();
+            _inventoryService = new InventoryService(_factory, _activityService);
+           
+
+           await using var context = await _factory.CreateDbContextAsync();
 
             _category = new Category("Test Category");
-            _context.Categories.Add(_category);
-           await _context.SaveChangesAsync();
+            context.Categories.Add(_category);
+           await context.SaveChangesAsync();
           
             _product = new Product("Test Product", _category, 10.0m, 0, 2);
            await _inventoryService.AddProductAsync(_product);
-        }
-        [TestCleanup]
-        public async Task Cleanup()
-        {
-            await _context.DisposeAsync();
         }
 
         [TestMethod]
@@ -49,13 +44,20 @@ namespace InventorySystem.Test
         public async Task AddStockToProduct_IncreasesQuantity(int productQuantity, int addedQuantity, int expectedQuantity)
         {
             // Arrange
-            _product.Quantity = productQuantity;
-            await _context.SaveChangesAsync();
+            await using var context = await _factory.CreateDbContextAsync();
+
+            var product = await context.Products
+                .FirstAsync(p => p.ProductId == _product.ProductId);
+
+            product.Quantity = productQuantity;
+            await context.SaveChangesAsync();
+
 
             // Act
-            await _inventoryService.AddStockAsync(_product, addedQuantity);
+            await _inventoryService.AddStockAsync(product, addedQuantity);
             // Assert
-            Assert.AreEqual(expectedQuantity, _product.Quantity);
+            await context.Entry(product).ReloadAsync(); // Reload the product from the database to get the updated quantity
+            Assert.AreEqual(expectedQuantity, product.Quantity);
         }
         [TestMethod]
         [DataRow(8, 3, 5)]
@@ -63,13 +65,18 @@ namespace InventorySystem.Test
         public async Task RemoveStockFromProduct_DecreasesQuantity(int productQuantity, int removedQuantity, int expectedQuantity)
         {
             // Arrange
+            await using var context = await _factory.CreateDbContextAsync();
 
-            _product.Quantity = productQuantity;
-            await _context.SaveChangesAsync();
+            var product = await context.Products
+                .FirstAsync(p => p.ProductId == _product.ProductId);
+
+            product.Quantity = productQuantity;
+            await context.SaveChangesAsync();
             // Act
-            await _inventoryService.RemoveStockAsync(_product, removedQuantity);
+            await _inventoryService.RemoveStockAsync(product, removedQuantity);
             // Assert
-            Assert.AreEqual(expectedQuantity, _product.Quantity);
+            await context.Entry(product).ReloadAsync(); // Reload the product from the database to get the updated quantity
+            Assert.AreEqual(expectedQuantity, product.Quantity);
         }
         [TestMethod]
         public async Task AddProduct_AddsProductToDB()
@@ -82,9 +89,8 @@ namespace InventorySystem.Test
             await _inventoryService.AddProductAsync(product);
 
             // Assert
-            Assert.Contains(product, _context.Products.ToList());
-
-
+            await using var context = await _factory.CreateDbContextAsync();
+            Assert.IsTrue(await context.Products.AnyAsync(p => p.ProductId == product.ProductId));
         }
         [TestMethod]
         public async Task AddProduct_DoesNotAllowDuplicateProductNames()
@@ -103,11 +109,10 @@ namespace InventorySystem.Test
             var productToRemove = new Product("Product To Remove", _category, 20.0m, 5, 2);
             // Act
             await _inventoryService.AddProductAsync(productToRemove);
-            await _context.SaveChangesAsync();
             await _inventoryService.RemoveProductAsync(productToRemove);
-            await _context.SaveChangesAsync();
             // Assert
-            Assert.IsFalse(await _context.Products.AnyAsync(p => p.ProductId == productToRemove.ProductId));
+            await using var context = await _factory.CreateDbContextAsync();
+            Assert.IsFalse(await context.Products.AnyAsync(p => p.ProductId == productToRemove.ProductId));
         }
 
         [TestMethod]
@@ -158,13 +163,18 @@ namespace InventorySystem.Test
             //Arrange
             var existingProduct = new Product("Existing Product2", _category, 20.0m, 5, 2);
             await _inventoryService.AddProductAsync(existingProduct);
-            await _context.SaveChangesAsync();
             // Act
             await _inventoryService.UpdateProductAsync(existingProduct, "Existing Product2", _category, 25.0m, 10, 3);
-            await _context.SaveChangesAsync();
             //Assert
-            Assert.AreEqual("Existing Product2", existingProduct.ProductName);
+            await using var context = await _factory.CreateDbContextAsync();
 
+            var updatedProduct = await context.Products
+                .FirstAsync(p => p.ProductId == existingProduct.ProductId);
+
+            Assert.AreEqual("Existing Product2", updatedProduct.ProductName);
+            Assert.AreEqual(25.0m, updatedProduct.Price);
+            Assert.AreEqual(10, updatedProduct.Quantity);
+            Assert.AreEqual(3, updatedProduct.LowStockThreshold);
         }
     }
 }
