@@ -18,12 +18,12 @@ public partial class EditProductPopup : Popup
 
     // Temporary copy for editing
     public string EditedName { get; set; }
-    public Category EditedCategory { get; set; }
+    public Category? EditedCategory { get; set; }
     public string EditedPrice { get; set; }
     public string EditedQuantity { get; set; }
     public string EditedLowStockThreshold { get; set; }
 
-    public List<Category> Categories { get; set; }
+    public List<Category> Categories { get; set; } = new();
 
     public EditProductPopup(Product product, InventoryService inventoryService, IDbContextFactory<InventoryDbContext> contextFactory)
 	{
@@ -49,7 +49,7 @@ public partial class EditProductPopup : Popup
         BindingContext = this;
     }
 
-    private async void SaveOn_Clicked(object sender, EventArgs e)
+    private async void SaveOn_Clicked(object? sender, EventArgs e)
     {
         try
         {
@@ -73,6 +73,12 @@ public partial class EditProductPopup : Popup
                     .DisplayAlertAsync("Invalid Threshold", "Please enter a valid whole number.", "OK");
                 return;
             }
+
+            if (EditedCategory == null)
+            {
+                return;
+            }
+
             await _inventoryService.UpdateProductAsync(
                 Product,
                 EditedName,
@@ -91,7 +97,7 @@ public partial class EditProductPopup : Popup
         }
     }
 
-    private async void CancelOn_Clicked(object sender, EventArgs e)
+    private async void CancelOn_Clicked(object? sender, EventArgs e)
     {
         await CloseAsync();
     }

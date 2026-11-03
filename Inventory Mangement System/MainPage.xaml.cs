@@ -40,29 +40,29 @@ namespace Inventory_Mangement_System
 
         }
 
-        private async void Products_Clicked(object sender, EventArgs e)
+        private async void Products_Clicked(object? sender, EventArgs e)
         {
             await Shell.Current.GoToAsync(nameof(ProductPage));
         }
 
-        private async void Categories_Clicked(object sender, EventArgs e)
+        private async void Categories_Clicked(object? sender, EventArgs e)
         {
             await Shell.Current.GoToAsync(nameof(CategoryPage));
         }
 
-        private async void DashBoard_Clicked(object sender, EventArgs e)
+        private async void DashBoard_Clicked(object? sender, EventArgs e)
         {
             await Shell.Current.GoToAsync("///MainPage");
         }
 
-        private async void AddProduct_Clicked(object sender, EventArgs e)
+        private async void AddProduct_Clicked(object? sender, EventArgs e)
         {
             await this.ShowPopupAsync(new AddProductPopupPage(_inventoryService, _contextFactory));
             await AddCountToDash();
             await LoadRecentActivities();
         }
 
-        private async void AddCategory_Clicked(object sender, EventArgs e)
+        private async void AddCategory_Clicked(object? sender, EventArgs e)
         {
             await this.ShowPopupAsync(new AddCategoryPopup(_inventoryService));
             await AddCountToDash();

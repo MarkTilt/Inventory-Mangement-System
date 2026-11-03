@@ -15,7 +15,7 @@ public partial class AddCategoryPopup : Popup
        
     }
 
-    private async void AddOn_Clicked(object sender, EventArgs e)
+    private async void AddOn_Clicked(object? sender, EventArgs e)
     {
         try
         {
@@ -31,7 +31,7 @@ public partial class AddCategoryPopup : Popup
         }
     }
 
-    private async void CancelOn_Clicked(object sender, EventArgs e)
+    private async void CancelOn_Clicked(object? sender, EventArgs e)
     {
         await CloseAsync();
     }

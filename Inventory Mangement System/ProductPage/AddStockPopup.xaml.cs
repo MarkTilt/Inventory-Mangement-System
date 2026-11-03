@@ -20,7 +20,7 @@ public partial class AddStockPopup : Popup
         BindingContext = this;
     }
 
-    private async void Add_Clicked(object sender, EventArgs e)
+    private async void Add_Clicked(object? sender, EventArgs e)
     {
         try
         {
@@ -49,7 +49,7 @@ public partial class AddStockPopup : Popup
         }
     }
 
-    private async void Cancel_Clicked(object sender, EventArgs e)
+    private async void Cancel_Clicked(object? sender, EventArgs e)
     {
         await CloseAsync();
     }

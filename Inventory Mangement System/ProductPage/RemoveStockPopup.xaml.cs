@@ -7,7 +7,6 @@ namespace Inventory_Mangement_System;
 public partial class RemoveStockPopup : Popup
 {
     private readonly InventoryService _inventoryService;
-    private readonly ProductPage _productPage;
     public Product Product { get; set; }
     public int AddedQuantity { get; set; }
     public RemoveStockPopup(Product product, InventoryService inventoryService)
@@ -18,7 +17,7 @@ public partial class RemoveStockPopup : Popup
         BindingContext = this;
     }
 
-    private async void Remove_Clicked(object sender, EventArgs e)
+    private async void Remove_Clicked(object? sender, EventArgs e)
     {
         try
         {
@@ -47,7 +46,7 @@ public partial class RemoveStockPopup : Popup
         }
     }
 
-    private async void Cancel_Clicked(object sender, EventArgs e)
+    private async void Cancel_Clicked(object? sender, EventArgs e)
     {
         await CloseAsync();
     }

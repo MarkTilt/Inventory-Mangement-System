@@ -14,7 +14,7 @@ public partial class AddProductPopupPage : Popup
     private readonly IDbContextFactory<InventoryDbContext> _contextFactory;
     
 
-    public List<Category> Categories { get; set; }
+    public List<Category> Categories { get; set; } = new();
     public AddProductPopupPage(InventoryService inventoryService, IDbContextFactory<InventoryDbContext> contextFactory)
 	{
         this._inventoryService = inventoryService;
@@ -28,7 +28,7 @@ public partial class AddProductPopupPage : Popup
         BindingContext = this;
     }
 
-    private async void AddOn_Clicked(object sender, EventArgs e)
+    private async void AddOn_Clicked(object? sender, EventArgs e)
     {
         try
         {
@@ -82,7 +82,7 @@ public partial class AddProductPopupPage : Popup
       
     }
 
-    private async void CancelOn_Clicked(object sender, EventArgs e)
+    private async void CancelOn_Clicked(object? sender, EventArgs e)
     {
         await CloseAsync();
     }

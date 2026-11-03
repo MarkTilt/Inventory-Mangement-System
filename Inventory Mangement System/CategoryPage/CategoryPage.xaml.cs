@@ -21,22 +21,22 @@ public partial class CategoryPage : ContentPage
        
     }
 
-    private async void DashBoard_Clicked(object sender, EventArgs e)
+    private async void DashBoard_Clicked(object? sender, EventArgs e)
     {
         await Shell.Current.GoToAsync("///MainPage");
     }
 
-    private async void Products_Clicked(object sender, EventArgs e)
+    private async void Products_Clicked(object? sender, EventArgs e)
     {
         await Shell.Current.GoToAsync(nameof(ProductPage));
     }
 
-    private async void Categories_Clicked(object sender, EventArgs e)
+    private async void Categories_Clicked(object? sender, EventArgs e)
     {
         await Shell.Current.GoToAsync(nameof(CategoryPage));
     }
 
-    private async void DeleteCategory_Clicked(object sender, EventArgs e)
+    private async void DeleteCategory_Clicked(object? sender, EventArgs e)
     {
         if (sender is Button button &&
             button.CommandParameter is Category category)
@@ -60,7 +60,7 @@ public partial class CategoryPage : ContentPage
         }
     }
 
-    private async void EditCategory_Clicked(object sender, EventArgs e)
+    private async void EditCategory_Clicked(object? sender, EventArgs e)
     {
         if (sender is Button button &&
            button.CommandParameter is Category category)
@@ -91,13 +91,13 @@ public partial class CategoryPage : ContentPage
 
     }
 
-    private async void AddCategory_Clicked(object sender, EventArgs e)
+    private async void AddCategory_Clicked(object? sender, EventArgs e)
     {
         await this.ShowPopupAsync(new AddCategoryPopup(_inventoryService));
         await LoadCategories();
     }
 
-    private async void CategorySearchBar_TextChanged(object sender, TextChangedEventArgs e)
+    private async void CategorySearchBar_TextChanged(object? sender, TextChangedEventArgs e)
     {
         if(_isLoadingCategories)
         {

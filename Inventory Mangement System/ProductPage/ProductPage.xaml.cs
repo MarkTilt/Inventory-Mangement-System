@@ -31,22 +31,22 @@ public partial class ProductPage : ContentPage
 
     }
 
-    private async void DashBoard_Clicked(object sender, EventArgs e)
+    private async void DashBoard_Clicked(object? sender, EventArgs e)
     {
         await Shell.Current.GoToAsync("///MainPage");
     }
 
-    private async void Products_Clicked(object sender, EventArgs e)
+    private async void Products_Clicked(object? sender, EventArgs e)
     {
         await Shell.Current.GoToAsync(nameof(ProductPage));
     }
 
-    private async void Categories_Clicked(object sender, EventArgs e)
+    private async void Categories_Clicked(object? sender, EventArgs e)
     {
         await Shell.Current.GoToAsync(nameof(CategoryPage));
     }
 
-    private async void DeleteProduct_Clicked(object sender, EventArgs e)
+    private async void DeleteProduct_Clicked(object? sender, EventArgs e)
     {
         if (sender is Button button &&
             button.CommandParameter is Product product)
@@ -61,7 +61,7 @@ public partial class ProductPage : ContentPage
         }
     }
 
-    private async void EditProduct_Clicked(object sender, EventArgs e)
+    private async void EditProduct_Clicked(object? sender, EventArgs e)
     {
         if (sender is Button button &&
            button.CommandParameter is Product product)
@@ -76,13 +76,13 @@ public partial class ProductPage : ContentPage
         await ApplyFilters();
     }
 
-    private async void AddProduct_Clicked(object sender, EventArgs e)
+    private async void AddProduct_Clicked(object? sender, EventArgs e)
     {
         await this.ShowPopupAsync(new AddProductPopupPage(_inventoryService, _contextFactory));
         await LoadProducts();
     }
 
-    private async void AddStock_Clicked(object sender, EventArgs e)
+    private async void AddStock_Clicked(object? sender, EventArgs e)
     {
         if (sender is Button button &&
             button.CommandParameter is Product product)
@@ -92,7 +92,7 @@ public partial class ProductPage : ContentPage
         }
     }
 
-    private async void RemoveStock_Clicked(object sender, EventArgs e)
+    private async void RemoveStock_Clicked(object? sender, EventArgs e)
     {
         if (sender is Button button &&
           button.CommandParameter is Product product)
@@ -102,12 +102,12 @@ public partial class ProductPage : ContentPage
         }
     }
 
-    private async void ProductSearchBar_TextChanged(object sender, TextChangedEventArgs e)
+    private async void ProductSearchBar_TextChanged(object? sender, TextChangedEventArgs e)
     {
         await ApplyFilters();
     }
 
-    private async void FilterOn_Changed(object sender, EventArgs e)
+    private async void FilterOn_Changed(object? sender, EventArgs e)
     {
         await ApplyFilters();
     }
