@@ -1,4 +1,4 @@
-﻿using InventorySystem.Core.List;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Text;

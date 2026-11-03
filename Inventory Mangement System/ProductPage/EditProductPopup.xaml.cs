@@ -44,7 +44,7 @@ public partial class EditProductPopup : Popup
         EditedPrice = product.Price.ToString();
         EditedQuantity = product.Quantity.ToString();
         EditedLowStockThreshold = product.LowStockThreshold.ToString();
-        EditedCategory = product.Category;
+       
 
         BindingContext = this;
     }
