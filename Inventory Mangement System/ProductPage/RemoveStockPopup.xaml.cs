@@ -21,7 +21,7 @@ public partial class RemoveStockPopup : Popup
     {
         try
         {
-            if (string.IsNullOrWhiteSpace(QauntityToRemove.Text))
+            if (string.IsNullOrWhiteSpace(QuantityToRemove.Text))
             {
                 await Application.Current!.Windows[0].Page!
                     .DisplayAlertAsync("Invalid Quantity",
@@ -29,7 +29,7 @@ public partial class RemoveStockPopup : Popup
                 return;
             }
 
-            if (!int.TryParse(QauntityToRemove.Text, out int quantity))
+            if (!int.TryParse(QuantityToRemove.Text, out int quantity))
             {
                 await Application.Current!.Windows[0].Page!
                     .DisplayAlertAsync("Invalid Quantity",

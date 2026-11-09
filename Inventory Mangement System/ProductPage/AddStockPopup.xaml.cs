@@ -24,7 +24,7 @@ public partial class AddStockPopup : Popup
     {
         try
         {
-            if (string.IsNullOrWhiteSpace(QauntityToAdd.Text))
+            if (string.IsNullOrWhiteSpace(QuantityToAdd.Text))
             {
                 await Application.Current!.Windows[0].Page!
                     .DisplayAlertAsync("Invalid Quantity",
@@ -32,7 +32,7 @@ public partial class AddStockPopup : Popup
                 return;
             }
 
-            if (!int.TryParse(QauntityToAdd.Text, out int quantity))
+            if (!int.TryParse(QuantityToAdd.Text, out int quantity))
             {
                 await Application.Current!.Windows[0].Page!
                     .DisplayAlertAsync("Invalid Quantity",

@@ -40,7 +40,7 @@ public partial class AddProductPopupPage : Popup
                 return;
             }
 
-            if (!int.TryParse(ProductQauntity.Text, out int quantity))
+            if (!int.TryParse(ProductQuantity.Text, out int quantity))
             {
                 await Application.Current!.Windows[0].Page!
                     .DisplayAlertAsync("Invalid Quantity",
