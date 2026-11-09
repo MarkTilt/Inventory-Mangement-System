@@ -92,4 +92,13 @@ public partial class AddProductPopupPage : Popup
         Categories = await context.Categories.ToListAsync();
         OnPropertyChanged(nameof(Categories));
     }
+
+    private void SelectImage_Clicked(object sender, EventArgs e)
+    {
+        var result = FilePicker.Default.PickAsync(new PickOptions
+        {
+            PickerTitle = "Select an image",
+            FileTypes = FilePickerFileType.Images
+        });
+    }
 }
