@@ -12,7 +12,8 @@ public partial class AddProductPopupPage : Popup
 
     private readonly InventoryService _inventoryService;
     private readonly IDbContextFactory<InventoryDbContext> _contextFactory;
-    
+    private string _productImagePath = "default.png";
+
 
     public List<Category> Categories { get; set; } = new();
     public AddProductPopupPage(InventoryService inventoryService, IDbContextFactory<InventoryDbContext> contextFactory)
@@ -93,12 +94,18 @@ public partial class AddProductPopupPage : Popup
         OnPropertyChanged(nameof(Categories));
     }
 
-    private void SelectImage_Clicked(object sender, EventArgs e)
+    private async void SelectImage_Clicked(object sender, EventArgs e)
     {
-        var result = FilePicker.Default.PickAsync(new PickOptions
+        var result = await  FilePicker.Default.PickAsync(new PickOptions
         {
             PickerTitle = "Select an image",
             FileTypes = FilePickerFileType.Images
         });
+        if (result == null)
+        {
+            return;
+        }
+        _productImagePath = result.FullPath;
+        ProductImage.Source = result.FullPath;
     }
 }

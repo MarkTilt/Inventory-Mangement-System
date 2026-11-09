@@ -20,8 +20,8 @@
 
 
             <!-- Image -->
-            <Border Stroke="Gray" Grid.Row="0" Grid.Column="0" WidthRequest="100" HeightRequest="100" StrokeDashArray="1">
-                <Image x:Name="ProductImage"  Source="default.png"/>
+            <Border Stroke="Gray" Grid.Row="0" Grid.Column="0" WidthRequest="100" HeightRequest="100" >
+                <Image x:Name="ProductImage"  Source="default.png" Aspect="AspectFill" HorizontalOptions="Fill" VerticalOptions="Fill"/>
             </Border>
 
             <!-- Labels -->
