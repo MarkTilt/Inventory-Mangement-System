@@ -144,6 +144,14 @@ public partial class ProductPage : ContentPage
 
         var filteredProducts = await query.ToListAsync();
 
+        foreach(var product in filteredProducts)
+        {
+            if (product.ImagePath != "product_placeholder.png")
+            {
+                product.ImagePath = Path.Combine(FileSystem.AppDataDirectory, product.ImagePath);
+            }
+        }
+
         ProductsCollection.ItemsSource = filteredProducts;
     }
 }

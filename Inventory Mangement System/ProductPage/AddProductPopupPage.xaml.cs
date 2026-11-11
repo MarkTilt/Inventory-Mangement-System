@@ -1,9 +1,8 @@
 
+using CommunityToolkit.Maui.Views;
+using InventorySystem.Core.Data;
 using InventorySystem.Core.Models;
 using InventorySystem.Core.Services;
-using CommunityToolkit.Maui.Views;
-using CommunityToolkit.Maui.Extensions;
-using InventorySystem.Core.Data;
 using Microsoft.EntityFrameworkCore;
 namespace Inventory_Mangement_System;
 
@@ -12,7 +11,7 @@ public partial class AddProductPopupPage : Popup
 
     private readonly InventoryService _inventoryService;
     private readonly IDbContextFactory<InventoryDbContext> _contextFactory;
-    private string _productImagePath = "default.png";
+    private string _productImagePath = "product_placeholder.png";
 
 
     public List<Category> Categories { get; set; } = new();
@@ -72,6 +71,8 @@ public partial class AddProductPopupPage : Popup
                 quantity,
                 threshold);
 
+            product.ImagePath = _productImagePath;
+
             await _inventoryService.AddProductAsync(product);
             await CloseAsync();
         }
@@ -94,7 +95,7 @@ public partial class AddProductPopupPage : Popup
         OnPropertyChanged(nameof(Categories));
     }
 
-    private async void SelectImage_Clicked(object sender, EventArgs e)
+    private async void SelectImage_Clicked(object? sender, EventArgs e)
     {
         var result = await  FilePicker.Default.PickAsync(new PickOptions
         {
@@ -105,7 +106,26 @@ public partial class AddProductPopupPage : Popup
         {
             return;
         }
-        _productImagePath = result.FullPath;
-        ProductImage.Source = result.FullPath;
+        _productImagePath = await SaveProductImageAsync(result);
+
+        string fullPath = Path.Combine(FileSystem.AppDataDirectory, _productImagePath);
+        ProductImage.Source = ImageSource.FromFile(fullPath);
+    }
+    private async Task<string> SaveProductImageAsync(FileResult image)
+    {
+        string imagesDirectory = Path.Combine(FileSystem.AppDataDirectory, "ProductImages");
+
+        Directory.CreateDirectory(imagesDirectory);
+
+        string fileName = $"{Guid.NewGuid()}{Path.GetExtension(image.FileName)}";
+
+        string destinationPath = Path.Combine(imagesDirectory, fileName);
+
+        await using Stream sourceStream = await image.OpenReadAsync();
+        await using FileStream destinationStream = File.Create(destinationPath);
+
+        await sourceStream.CopyToAsync(destinationStream);
+
+        return Path.Combine("ProductImages", fileName);
     }
 }

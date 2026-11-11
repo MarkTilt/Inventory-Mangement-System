@@ -128,32 +128,36 @@
                         <Border Padding="0"
                                 Margin="0,0,0,5">
 
-                            <Grid ColumnDefinitions="*,*,*,*,*,*,*"
+                            <Grid ColumnDefinitions="Auto,*,*,*,*,*,*,*"
                                   Padding="10"
                                   ColumnSpacing="20">
-
+                                
+                                <Border Grid.Column="0" WidthRequest="100" HeightRequest="100" Stroke="Gray">
+                                    <Image Source="{Binding ImagePath}" Aspect="AspectFill" HorizontalOptions="Fill" VerticalOptions="Fill"/>
+                                </Border>
+                                
                                 <Label Text="{Binding ProductName}"
-                                       Grid.Column="0"
-                                       VerticalOptions="Center"/>
-
-                                <Label Text="{Binding Category.CategoryName}"
                                        Grid.Column="1"
                                        VerticalOptions="Center"/>
 
-                                <Label Text="{Binding Price, StringFormat='R{0:F2}'}"
+                                <Label Text="{Binding Category.CategoryName}"
                                        Grid.Column="2"
                                        VerticalOptions="Center"/>
 
-                                <Label Text="{Binding Quantity}"
+                                <Label Text="{Binding Price, StringFormat='R{0:F2}'}"
                                        Grid.Column="3"
                                        VerticalOptions="Center"/>
 
-                                <Label Text="{Binding LowStockThreshold}"
+                                <Label Text="{Binding Quantity}"
                                        Grid.Column="4"
                                        VerticalOptions="Center"/>
 
-                                <Label Text="{Binding Status}"
+                                <Label Text="{Binding LowStockThreshold}"
                                        Grid.Column="5"
+                                       VerticalOptions="Center"/>
+
+                                <Label Text="{Binding Status}"
+                                       Grid.Column="6"
                                        VerticalOptions="Center">
 
                                     <Label.Triggers>
@@ -178,7 +182,7 @@
                                 </Label>
 
                                 <!-- Product Actions -->
-                                <HorizontalStackLayout Grid.Column="6"
+                                <HorizontalStackLayout Grid.Column="7"
                                                        Spacing="2"
                                                        VerticalOptions="Center">
 

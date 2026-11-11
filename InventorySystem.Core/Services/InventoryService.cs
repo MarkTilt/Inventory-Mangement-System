@@ -122,7 +122,7 @@ namespace InventorySystem.Core.Services
         }
 
 
-        public async Task UpdateProductAsync(Product product, string newName, Category newCategory, decimal newPrice, int newQuantity, int newLowStockThreshold)
+        public async Task UpdateProductAsync(Product product, string newName, Category newCategory, decimal newPrice, int newQuantity, int newLowStockThreshold, string newImagePath)
         {
             ArgumentNullException.ThrowIfNull(product);
             await using var context = await _contextFactory.CreateDbContextAsync();
@@ -168,6 +168,7 @@ namespace InventorySystem.Core.Services
             existingProduct.Price = newPrice;
             existingProduct.Quantity = newQuantity;
             existingProduct.LowStockThreshold = newLowStockThreshold;
+            existingProduct.ImagePath = newImagePath;
             _activityService.SetUpdateDescription(productActivity, existingProduct, context);
             await context.SaveChangesAsync();
         }

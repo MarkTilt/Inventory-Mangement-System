@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
+﻿
 namespace InventorySystem.Core.Models
 {
     public class Product
@@ -19,6 +18,7 @@ namespace InventorySystem.Core.Models
                 else return "In Stock";
             }
         }
+        public string ImagePath { get; set; } = "product_placeholder.png";
         public Product()
         {
 
