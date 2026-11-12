@@ -1,9 +1,12 @@
 ﻿
+using System.ComponentModel.DataAnnotations;
+
 namespace InventorySystem.Core.Models
 {
     public class Product
     {
         public Guid ProductId { get; set; }
+        [MaxLength(100)]
         public string ProductName { get; set; } = null!;
         public Category Category { get; set; } = null!;
         public decimal Price { get; set; }

@@ -69,6 +69,10 @@ namespace InventorySystem.Core.Services
             {
                 throw new ArgumentException("Product name cannot be empty.");
             }
+            if (product.ProductName.Length > 100)
+            {
+                throw new ArgumentException("Product name cannot exceed 100 characters.");
+            }
             if (product.Price < 0)
             {
                 throw new ArgumentException("Price cannot be negative.");
@@ -135,6 +139,10 @@ namespace InventorySystem.Core.Services
             {
                 throw new ArgumentException("Product name cannot be empty.");
             }
+            if (newName.Length > 100)
+            {
+                throw new ArgumentException("Product name cannot exceed 100 characters.");
+            }
             if (newCategory == null)
             {
                 throw new ArgumentException("Product category cannot be empty.");
@@ -182,6 +190,10 @@ namespace InventorySystem.Core.Services
             {
                 throw new ArgumentException("Category name cannot be empty.");
             }
+            if (category.CategoryName.Length > 50)
+            {
+                throw new ArgumentException("Category name cannot exceed 50 characters.");
+            }
 
             category.CategoryName = category.CategoryName.Trim();
 
@@ -227,6 +239,10 @@ namespace InventorySystem.Core.Services
             if (string.IsNullOrWhiteSpace(newName))
             {
                 throw new ArgumentException("Category name cannot be empty.");
+            }
+            if (newName.Length > 50)
+            {
+                throw new ArgumentException("Category name cannot exceed 50 characters.");
             }
             newName = newName.Trim();
             if (await context.Categories.AnyAsync(c => c.CategoryId != category.CategoryId && c.CategoryName == newName))
