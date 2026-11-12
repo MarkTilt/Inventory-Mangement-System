@@ -46,7 +46,7 @@
 
             <!-- Add Product and Search -->
             <Grid Grid.Row="1"
-                  ColumnDefinitions="Auto,200,200"
+                  ColumnDefinitions="Auto,*,200,200"
                   ColumnSpacing="10">
 
                 <Button Text="Add Product"
@@ -58,7 +58,7 @@
                         Clicked="AddProduct_Clicked"/>
 
                 <SearchBar x:Name="ProductSearchBar"
-                           Grid.Column="1"
+                           Grid.Column="3"
                            Placeholder="Search"
                            TextChanged="ProductSearchBar_TextChanged"/>
 
