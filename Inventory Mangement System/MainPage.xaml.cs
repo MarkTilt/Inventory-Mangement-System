@@ -24,10 +24,8 @@ namespace Inventory_Mangement_System
 
             await using var context = await _contextFactory.CreateDbContextAsync();
 
-            ProductsCount.Text = null;
             ProductsCount.Text =(await context.Products.CountAsync()).ToString();
-            LowCount.Text = (await context.Products.CountAsync(p => p.Quantity <= p.LowStockThreshold)).ToString();
-            CategoriesCount.Text = null;
+            LowCount.Text = (await context.Products.CountAsync(p => p.Quantity <= p.LowStockThreshold && p.Quantity > 0)).ToString();
             CategoriesCount.Text = (await context.Categories.CountAsync()).ToString();
             OutOfStockCount.Text = (await context.Products.CountAsync(p => p.Quantity == 0)).ToString();
         }
