@@ -12,6 +12,7 @@ public partial class AddProductPopupPage : Popup
     private readonly InventoryService _inventoryService;
     private readonly IDbContextFactory<InventoryDbContext> _contextFactory;
     private string _productImagePath = "product_placeholder.png";
+    private FileResult? _selectedImage;
 
 
     public List<Category> Categories { get; set; } = new();
@@ -71,9 +72,16 @@ public partial class AddProductPopupPage : Popup
                 quantity,
                 threshold);
 
-            product.ImagePath = _productImagePath;
+           
 
+            if (_selectedImage != null)
+            {
+                _productImagePath = await SaveProductImageAsync(_selectedImage);
+            }
+            product.ImagePath = _productImagePath;
             await _inventoryService.AddProductAsync(product);
+           
+
             await CloseAsync();
         }
         catch (Exception ex)
@@ -106,10 +114,10 @@ public partial class AddProductPopupPage : Popup
         {
             return;
         }
-        _productImagePath = await SaveProductImageAsync(result);
+        _selectedImage = result;
 
-        string fullPath = Path.Combine(FileSystem.AppDataDirectory, _productImagePath);
-        ProductImage.Source = ImageSource.FromFile(fullPath);
+      
+        ProductImage.Source = ImageSource.FromFile(result.FullPath);
     }
     private async Task<string> SaveProductImageAsync(FileResult image)
     {
