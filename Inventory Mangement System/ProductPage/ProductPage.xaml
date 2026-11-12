@@ -46,7 +46,7 @@
 
             <!-- Add Product and Search -->
             <Grid Grid.Row="1"
-                  ColumnDefinitions="Auto,*,200,200"
+                  ColumnDefinitions="Auto,200,200"
                   ColumnSpacing="10">
 
                 <Button Text="Add Product"
@@ -57,65 +57,21 @@
                         TextColor="Black"
                         Clicked="AddProduct_Clicked"/>
 
+                <SearchBar x:Name="ProductSearchBar"
+                           Grid.Column="1"
+                           Placeholder="Search"
+                           TextChanged="ProductSearchBar_TextChanged"/>
+
                 <Picker x:Name="StatusFilter"
                         Title="Filter by Status"
                         Grid.Column="2"
                         SelectedIndexChanged="FilterOn_Changed"/>
-
-                <SearchBar x:Name="ProductSearchBar"
-                           Grid.Column="3"
-                           Placeholder="Search"
-                           TextChanged="ProductSearchBar_TextChanged"/>
-
             </Grid>
 
-            <!-- Table Headers -->
+
             <Border Grid.Row="2"
-                    Padding="0">
-
-                <Grid ColumnDefinitions="*,*,*,*,*,*,*"
-                      Padding="10"
-                      ColumnSpacing="20" 
-                      BackgroundColor="#F0F0F0">
-
-                    <Label Text="Name"
-                           FontSize="18"
-                           FontAttributes="Bold"
-                           Grid.Column="0"/>
-
-                    <Label Text="Category"
-                           FontSize="18"
-                           FontAttributes="Bold"
-                           Grid.Column="1"/>
-
-                    <Label Text="Price"
-                           FontSize="18"
-                           FontAttributes="Bold"
-                           Grid.Column="2"/>
-
-                    <Label Text="Quantity"
-                           FontSize="18"
-                           FontAttributes="Bold"
-                           Grid.Column="3"/>
-
-                    <Label Text="LowStockThreshold"
-                           FontSize="18"
-                           FontAttributes="Bold"
-                           Grid.Column="4"/>
-                    
-                    <Label Text="Status"
-                           FontSize="18"
-                           FontAttributes="Bold"
-                           Grid.Column="5"/>
-
-                    <Label Text="Actions"
-                           FontSize="18"
-                           FontAttributes="Bold"
-                           Grid.Column="6"/>
-
-                </Grid>
-
-            </Border>
+                    Padding="10"
+                    BackgroundColor="#F0F0F0"/>
 
             <!-- Scrollable Product List -->
             <CollectionView x:Name="ProductsCollection"
@@ -128,36 +84,51 @@
                         <Border Padding="0"
                                 Margin="0,0,0,5">
 
-                            <Grid ColumnDefinitions="Auto,*,*,*,*,*,*,*"
+                            <Grid ColumnDefinitions="Auto,Auto,Auto, *"
+                                  RowDefinitions="*,Auto,Auto,Auto,Auto,*"
                                   Padding="10"
-                                  ColumnSpacing="20">
+                                  ColumnSpacing="5"
+                                  >
                                 
-                                <Border Grid.Column="0" WidthRequest="100" HeightRequest="100" Stroke="Gray">
+                                <Border Grid.Column="0" WidthRequest="120" HeightRequest="120" Stroke="Gray" Grid.RowSpan="6">
                                     <Image Source="{Binding ImagePath}" Aspect="AspectFill" HorizontalOptions="Fill" VerticalOptions="Fill"/>
                                 </Border>
-                                
-                                <Label Text="{Binding ProductName}"
+
+                                <Label Text="{Binding ProductName }"
                                        Grid.Column="1"
-                                       VerticalOptions="Center"/>
+                                       Grid.Row="0"
+                                       VerticalOptions="Center"
+                                       FontAttributes="Bold"
+                                       FontSize="18"/>
 
                                 <Label Text="{Binding Category.CategoryName}"
-                                       Grid.Column="2"
-                                       VerticalOptions="Center"/>
+                                       Grid.Column="1"
+                                       Grid.Row="2"
+                                       VerticalOptions="Center"
+                                       FontSize="13"/>
 
                                 <Label Text="{Binding Price, StringFormat='R{0:F2}'}"
-                                       Grid.Column="3"
+                                       Grid.Column="1"
+                                       Grid.Row="3"
                                        VerticalOptions="Center"/>
+                                
 
-                                <Label Text="{Binding Quantity}"
-                                       Grid.Column="4"
-                                       VerticalOptions="Center"/>
+                                <Label Text="{Binding Quantity, StringFormat='- {0} Units'}"
+                                       Grid.Column="2"
+                                       Grid.Row="3"
+                                       VerticalOptions="Center"
+                                        HorizontalOptions="Start"/>
 
-                                <Label Text="{Binding LowStockThreshold}"
-                                       Grid.Column="5"
-                                       VerticalOptions="Center"/>
+                                <Label Text="{Binding LowStockThreshold, StringFormat='Low Stock Threshold: {0}'}"
+                                       Grid.Column="2"
+                                       Grid.Row="5"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Start"
+                                       FontSize="11"/>
 
                                 <Label Text="{Binding Status}"
-                                       Grid.Column="6"
+                                       Grid.Column="1"
+                                       Grid.Row="5"
                                        VerticalOptions="Center">
 
                                     <Label.Triggers>
@@ -182,9 +153,13 @@
                                 </Label>
 
                                 <!-- Product Actions -->
-                                <HorizontalStackLayout Grid.Column="7"
-                                                       Spacing="2"
-                                                       VerticalOptions="Center">
+                                <Grid Grid.Column="3"
+                                      RowDefinitions="Auto,Auto"
+                                      ColumnDefinitions="Auto,Auto"
+                                      Grid.RowSpan="6"
+                                      Padding="20"
+                                      VerticalOptions="Center"
+                                      HorizontalOptions="End">
 
                                     <Button Text="+"
                                             TextColor="Green"
@@ -194,7 +169,9 @@
                                             Padding="0"
                                             BackgroundColor="White"
                                             Clicked="AddStock_Clicked"
-                                            CommandParameter="{Binding .}"/>
+                                            CommandParameter="{Binding .}"
+                                            Grid.Column="0"
+                                            Grid.Row="0"/>
 
                                     <Button Text="-"
                                             TextColor="Red"
@@ -204,7 +181,9 @@
                                             Padding="0"
                                             BackgroundColor="White"
                                             Clicked="RemoveStock_Clicked"
-                                            CommandParameter="{Binding .}"/>
+                                            CommandParameter="{Binding .}"
+                                            Grid.Column="1"
+                                            Grid.Row="0"/>
 
                                     <Button ImageSource="edit.png"
                                             WidthRequest="30"
@@ -212,7 +191,9 @@
                                             Padding="5"
                                             BackgroundColor="White"
                                             Clicked="EditProduct_Clicked"
-                                            CommandParameter="{Binding .}"/>
+                                            CommandParameter="{Binding .}"
+                                            Grid.Column="0"
+                                            Grid.Row="1"/>
 
                                     <Button ImageSource="delete.png"
                                             WidthRequest="30"
@@ -220,9 +201,11 @@
                                             Padding="5"
                                             BackgroundColor="White"
                                             Clicked="DeleteProduct_Clicked"
-                                            CommandParameter="{Binding .}"/>
+                                            CommandParameter="{Binding .}"
+                                            Grid.Column="1"
+                                            Grid.Row="1"/>
 
-                                </HorizontalStackLayout>
+                                </Grid>
 
                             </Grid>
 

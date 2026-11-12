@@ -19,12 +19,12 @@
               RowSpacing="10">
 
             <!-- Image -->
-            <Border Stroke="Gray" Grid.Row="0" Grid.Column="0" WidthRequest="100" HeightRequest="100" >
+            <Border Stroke="Gray" Grid.Row="0" Grid.Column="0" WidthRequest="100" HeightRequest="100" HorizontalOptions="Start" >
                 <Image x:Name="ProductImage" Source="{Binding Product.ImagePath}"   HeightRequest="100" WidthRequest="100" Aspect="AspectFit"/>
             </Border>
 
             <!-- Labels -->
-            <Label Text="Name:" Grid.Row="1" Grid.Column="0" VerticalOptions="Center"/>
+            <Label Text="Name:" Grid.Row="1" Grid.Column="0" VerticalOptions="Center" />
             <Label Text="Category:" Grid.Row="2" Grid.Column="0" VerticalOptions="Center"/>
             <Label Text="Price:" Grid.Row="3" Grid.Column="0" VerticalOptions="Center"/>
             <Label Text="Quantity:" Grid.Row="4" Grid.Column="0" VerticalOptions="Center"/>

@@ -155,16 +155,17 @@ namespace InventorySystem.Test
             var existingProduct = new Product("Existing Product", _category, 20.0m, 5, 2);
             await _inventoryService.AddProductAsync(existingProduct);
             // Act & Assert
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _inventoryService.UpdateProductAsync(_product, "Existing Product", _category, 15.0m, 3, 1));
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _inventoryService.UpdateProductAsync(_product, "Existing Product", _category, 15.0m, 3, 1, existingProduct.ImagePath));
         }
         [TestMethod]
         public async Task UpdateProduct_ShouldAllowProductToKeepItsExistingName()
         {
             //Arrange
             var existingProduct = new Product("Existing Product2", _category, 20.0m, 5, 2);
+            
             await _inventoryService.AddProductAsync(existingProduct);
             // Act
-            await _inventoryService.UpdateProductAsync(existingProduct, "Existing Product2", _category, 25.0m, 10, 3);
+            await _inventoryService.UpdateProductAsync(existingProduct, "Existing Product2", _category, 25.0m, 10, 3,existingProduct.ImagePath);
             //Assert
             await using var context = await _factory.CreateDbContextAsync();
 
