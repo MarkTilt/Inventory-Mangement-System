@@ -65,6 +65,16 @@
 
                     <Border Padding="20">
                         <VerticalStackLayout>
+                            <Label Text="Out Of Stock"/>
+                            <Label x:Name="OutOfStockCount"
+                                   Text="0"
+                                   FontSize="28"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+
+                    <Border Padding="20">
+                        <VerticalStackLayout>
                             <Label Text="Categories"/>
                             <Label x:Name="CategoriesCount"
                                    Text="0"

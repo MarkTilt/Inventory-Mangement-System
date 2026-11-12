@@ -29,6 +29,7 @@ namespace Inventory_Mangement_System
             LowCount.Text = (await context.Products.CountAsync(p => p.Quantity <= p.LowStockThreshold)).ToString();
             CategoriesCount.Text = null;
             CategoriesCount.Text = (await context.Categories.CountAsync()).ToString();
+            OutOfStockCount.Text = (await context.Products.CountAsync(p => p.Quantity == 0)).ToString();
         }
         public async Task LoadRecentActivities()
         {
