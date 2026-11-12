@@ -14,22 +14,45 @@
                    FontAttributes="Bold"
                    Padding="15"/>
 
-            <Button Text="Dashboard"
-                    BackgroundColor="Transparent"
-                    TextColor="Black"
-                    Clicked="DashBoard_Clicked"/>
+            <HorizontalStackLayout>
+                <Image Source="home.png" BackgroundColor="Transparent" HeightRequest="30" WidthRequest="30"/>
+                <Button Text="Dashboard"
+                            BackgroundColor="Transparent"
+                            TextColor="Black"
+                            Clicked="DashBoard_Clicked"/>
 
-            <Button Text="Products"
-                    BackgroundColor="Transparent"
-                    TextColor="Black"
-                    Clicked="Products_Clicked"/>
+            </HorizontalStackLayout>
 
-            <Button Text="Categories"
-                    BackgroundColor="LightGray"
-                    TextColor="Black"
-                    Clicked="Categories_Clicked"/>
 
+
+                <HorizontalStackLayout>
+
+                    <Image Source="product.png" BackgroundColor="Transparent" HeightRequest="30" WidthRequest="30"/>
+                    <Button Text="Products"
+                        BackgroundColor="Transparent"
+                        TextColor="Black"
+                        Clicked="Products_Clicked"/>
+
+                </HorizontalStackLayout>
+
+
+
+            <Border StrokeShape="RoundRectangle 12"
+                    BackgroundColor="White"
+                    Stroke="LightGray"
+                    Padding="5">
+                
+            <HorizontalStackLayout>
+                <Image Source="category.png" BackgroundColor="Transparent" HeightRequest="30" WidthRequest="30"/>
+                <Button Text="Categories"
+                        BackgroundColor="Transparent"
+                        TextColor="Black"
+                        Clicked="Categories_Clicked"/>
+            </HorizontalStackLayout>
+
+            </Border>
         </VerticalStackLayout>
+
 
         <!-- Category Page Content -->
         <Grid Grid.Column="1"
