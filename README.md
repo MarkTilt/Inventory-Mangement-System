@@ -10,7 +10,7 @@ The Inventory Management System is a personal software development project desig
 
 It provides a graphical interface for managing products and categories, monitoring stock levels, recording inventory activities, and viewing inventory information.
 
-The project applies C# programming, object-oriented programming, application architecture, database management, UI development, dependency injection, and automated testing in a practical application.
+The project applies C#, object-oriented programming, application architecture, database management, UI development, dependency injection, and automated testing in a practical application.
 
 ## Features
 
@@ -27,12 +27,15 @@ The project applies C# programming, object-oriented programming, application arc
 - Filter products by stock status.
 - Confirm before deleting products.
 - Identify products that are in stock, running low, or out of stock.
+- Upload and display product images.
+- Use a default image when no product image is selected.
+- Store product image paths alongside product information.
 
 ### Category Management
 - Create, edit, and delete product categories.
 - Organize products by category.
 - Track category information using unique identifiers.
-- Prevent deletion of categories that are associated with existing products.
+- Prevent deletion of categories associated with existing products.
 
 ### Inventory Management
 - Add and remove stock quantities.
@@ -44,14 +47,23 @@ The project applies C# programming, object-oriented programming, application arc
 - SQL Server database integration.
 - Entity Framework Core for database operations.
 - Database context and entity relationships.
+- Database migrations for managing schema changes.
 - Dependency injection for managing application dependencies.
 - Persistent storage for inventory data.
+
+### Validation and Testing
+- Business rule validation through the InventoryService.
+- Input validation for product and category names.
+- Maximum name length constraints.
+- Automated unit tests using MSTest.
+- Entity Framework Core InMemory database for testing.
 
 ### User Interface
 - Navigation between the dashboard, products, and categories.
 - Tabular product information.
-- Stock-status indicators.
+- Product images and stock-status indicators.
 - Dedicated pages and popups for different application operations.
+- Confirmation dialogs for destructive actions.
 
 ## Technologies Used
 
@@ -72,13 +84,14 @@ The solution is organized into separate projects:
 Inventory-Mangement-System/
 ├── Inventory Mangement System/  # Main application and UI
 ├── InventorySystem.Core/        # Core models and services
+├── InventorySystem.Migrations/ # Database migrations
 ├── InventorySystem.Test/        # Automated tests
 ├── .gitignore
 ├── .gitattributes
 └── Inventory Mangement System.slnx
 ```
 
-The core project separates important application logic from the user interface, while the test project provides a dedicated place for automated tests.
+The core project separates application logic from the user interface, while the migrations and test projects provide dedicated locations for database schema management and automated testing.
 
 ## Getting Started
 
@@ -104,7 +117,7 @@ git clone https://github.com/MarkTilt/Inventory-Mangement-System.git
 
 4. Restore the solution's NuGet dependencies.
 
-5. Configure your SQL Server database connection string.
+5. Configure the `INVENTORY_DB_CONNECTION` environment variable with your SQL Server connection string.
 
 6. Ensure the database is created and the required Entity Framework Core migrations have been applied.
 
@@ -124,14 +137,11 @@ Ensure the required .NET SDKs and workloads are installed before building the ap
 
 ## Current Development
 
-The project is actively being developed, with planned improvements including:
+The project is actively being developed. Current and planned improvements include:
 
-- Improving the layout for mobile screen sizes.
-- Displaying product images.
-- Allowing users to select and upload images when creating products.
-- Further improving the UI and user experience.
-
-These improvements will be introduced as development progresses.
+- Adapting the user interface for mobile and smaller screen sizes.
+- Implementing responsive navigation for different screen sizes.
+- Further refining the UI and user experience.
 
 ## Purpose
 
@@ -143,6 +153,7 @@ This project demonstrates practical application development with C#, including:
 - Dependency injection.
 - Inventory-related business logic and validation.
 - Automated testing.
+- File handling and image management.
 - Desktop application development with .NET MAUI.
 
 It is an ongoing portfolio project intended to grow as additional technologies and software engineering practices are learned and applied.
