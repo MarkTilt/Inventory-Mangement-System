@@ -3,11 +3,40 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Inventory_Mangement_System.CategoryPage">
 
-    <Grid ColumnDefinitions="180,*">
+    <Grid ColumnDefinitions="Auto,*"
+          x:Name="RootLayout"
+          SizeChanged="RootLayout_SizeChanged">
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="SidebarStates">
+                <VisualState x:Name="Desktop">
+                    <VisualState.Setters>
+                        <Setter Property="IsVisible" Value="True" TargetName="Sidebar"/>
+
+                        <Setter Property="IsVisible" Value="False" TargetName="MenuButton"/>
+
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Mobile">
+                    <VisualState.Setters>
+
+                        <Setter Property="IsVisible" Value="True" TargetName="MenuButton"/>
+
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
 
         <!-- Sidebar -->
         <VerticalStackLayout Grid.Column="0"
-                             Padding="15" BackgroundColor="WhiteSmoke">
+                             Padding="15"
+                             BackgroundColor="WhiteSmoke"
+                             x:Name="Sidebar"
+                             ZIndex = "10"
+                             HorizontalOptions="Start"
+                             IsVisible="False"
+                             WidthRequest="200">
 
             <Label Text="Inventory"
                    FontSize="24"
@@ -60,13 +89,32 @@
               RowSpacing="20"
               Padding="30">
 
+            <Grid Grid.Row="0"
+                  ColumnDefinitions="Auto,*">
+
             <!-- Page Title -->
             <Label Text="Categories"
                    FontSize="32"
                    FontAttributes="Bold"
-                   Grid.Row="0"/>
+                   Grid.Column="0"/>
 
-            <HorizontalStackLayout  Grid.Row="1" Spacing="140"> 
+            <!-- hamburger button for mobile -->
+            <Button x:Name="MenuButton"
+                            Text="☰"
+                            FontSize="28"
+                            BackgroundColor="Transparent"
+                            TextColor="Black"
+                            IsVisible="False"
+                            HorizontalOptions="End"
+                            Grid.Column="1"
+                            Clicked="HamburgerButton_Clicked"/>
+
+            </Grid>
+
+            <HorizontalStackLayout  x:Name="CategoryActionsLayout"
+                                    Grid.Row="1"
+                                    Spacing="140"> 
+                
                 <Button Text="Add Category"
                         HorizontalOptions="Start"
                         BackgroundColor="Orange"
@@ -85,7 +133,8 @@
          
 
 
-            <Border Grid.Row="2"
+            <Border x:Name="CategoryBorder"
+                    Grid.Row="2"
                     WidthRequest="450"
                     HorizontalOptions="Start"
                     VerticalOptions="Start"
@@ -127,21 +176,20 @@
 
                                     <Label Text="{Binding CategoryName}"
                                            Grid.Column="0"
-                                           FontSize="18"
                                            VerticalOptions="Center"/>
                                     <HorizontalStackLayout Grid.Column="1">
                                         <Button  BackgroundColor="White"
                                                  ImageSource="edit.png"
-                                                 HeightRequest="30"
-                                                 WidthRequest="30"
+                                                 HeightRequest="25"
+                                                 WidthRequest="25"
                                                  Padding="5"
                                                  Clicked="EditCategory_Clicked"
                                                  CommandParameter="{Binding .}"/>
 
                                         <Button BackgroundColor="White"
                                                 ImageSource="delete.png"
-                                                HeightRequest="30"
-                                                WidthRequest="30"
+                                                HeightRequest="25"
+                                                WidthRequest="25"
                                                 Padding="5"
                                                 Clicked="DeleteCategory_Clicked"
                                                 CommandParameter="{Binding .}"/>

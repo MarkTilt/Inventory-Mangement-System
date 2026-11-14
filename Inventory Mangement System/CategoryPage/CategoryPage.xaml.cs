@@ -4,6 +4,7 @@ using InventorySystem.Core.Services;
 using CommunityToolkit.Maui.Views;
 using InventorySystem.Core.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 namespace Inventory_Mangement_System;
 
 public partial class CategoryPage : ContentPage
@@ -116,5 +117,37 @@ public partial class CategoryPage : ContentPage
     {
         base.OnAppearing();
         await LoadCategories();
+    }
+
+    private void HamburgerButton_Clicked(object? sender, EventArgs e)
+    {
+        Sidebar.IsVisible = !Sidebar.IsVisible;
+    }
+
+    private void RootLayout_SizeChanged(object? sender, EventArgs e)
+    {
+        if (RootLayout.Width < 730)
+        {
+
+            // Adjust the layout for mobile view
+            VisualStateManager.GoToState(RootLayout, "Mobile");
+            Grid.SetColumn(Sidebar, 1);
+
+            CategoryActionsLayout.Spacing = 50;
+
+            CategorySearchBar.WidthRequest = 140;
+
+            CategoryBorder.WidthRequest = 300;
+        }
+        else
+        {
+            // Adjust the layout for desktop view
+            VisualStateManager.GoToState(RootLayout, "Desktop");
+            Grid.SetColumn(Sidebar, 0);
+
+            CategoryActionsLayout.Spacing = 140;
+
+            CategoryBorder.WidthRequest = 450;
+        }
     }
 }
