@@ -75,6 +75,47 @@ namespace Inventory_Mangement_System
             await LoadRecentActivities();
 
         }
+
+        private void RootLayout_SizeChanged(object? sender, EventArgs e)
+        {
+            if (RootLayout.Width < 730)
+            {
+                VisualStateManager.GoToState(RootLayout, "Mobile");
+
+                // Adjust the layout for mobile view
+
+                Grid.SetColumn(LowStockCountBorder, 0);
+                Grid.SetRow(LowStockCountBorder, 1);
+
+                Grid.SetColumn(OutOfStockCountBorder, 1);
+                Grid.SetRow(OutOfStockCountBorder, 1);
+
+                Grid.SetColumn(Sidebar,1);
+
+
+            }
+            else
+            {
+                VisualStateManager.GoToState(RootLayout, "Desktop");
+
+                // Adjust the layout for desktop view
+
+
+                Grid.SetColumn(LowStockCountBorder, 2);
+                Grid.SetRow(LowStockCountBorder, 0);
+
+                Grid.SetColumn(OutOfStockCountBorder, 3);
+                Grid.SetRow(OutOfStockCountBorder, 0);
+                
+                Grid.SetColumn(Sidebar, 0);
+            }
+
+        }
+
+        private void HamburgerButton_Clicked(object? sender, EventArgs e)
+        {
+            Sidebar.IsVisible = !Sidebar.IsVisible;
+        }
     }
     }
 

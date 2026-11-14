@@ -3,12 +3,48 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Inventory_Mangement_System.MainPage">
 
-    <Grid ColumnDefinitions="180,*">
+    <Grid ColumnDefinitions="Auto,*"
+          x:Name="RootLayout" 
+          SizeChanged="RootLayout_SizeChanged">
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="SidebarStates">
+                <VisualState x:Name="Desktop">
+                    <VisualState.Setters>
+                        <Setter Property="IsVisible" Value="True" TargetName="Sidebar"/>
+                        
+                        <Setter Property="IsVisible" Value="False" TargetName="MenuButton"/>
+
+                        <Setter Property="WidthRequest" Value="500" TargetName="RecentActivitiesBorder"/>
+
+
+
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Mobile">
+                    <VisualState.Setters>
+
+                        <Setter Property="IsVisible" Value="True" TargetName="MenuButton"/>
+
+                        <Setter Property="WidthRequest" Value="300" TargetName="RecentActivitiesBorder"/>
+
+
+
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
 
         <!-- Sidebar -->
         <VerticalStackLayout Grid.Column="0"
                              Padding="15"
-                             BackgroundColor="WhiteSmoke">
+                             BackgroundColor="WhiteSmoke"
+                             x:Name="Sidebar"
+                             ZIndex = "10"
+                             HorizontalOptions="Start"
+                             IsVisible="False"
+                             WidthRequest="200">
+
 
             <Label Text="Inventory"
                    FontSize="24"
@@ -49,65 +85,110 @@
 
         </VerticalStackLayout>
 
+        
+        
         <!-- Main content -->
         <ScrollView Grid.Column="1">
 
             <VerticalStackLayout Padding="30"
                                  Spacing="20">
+                <Grid ColumnDefinitions="*,Auto">
 
-                <Label Text="Dashboard"
-                       FontSize="32"
-                       FontAttributes="Bold"/>
+
+                    <Label Text="Dashboard"
+                           FontSize="32"
+                           FontAttributes="Bold"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Start"
+                           Grid.Column="0"/>
+
+                    <!-- hamburger button for mobile -->
+                    <Button x:Name="MenuButton"
+                            Text="☰"
+                            FontSize="28"
+                            BackgroundColor="Transparent"
+                            TextColor="Black"
+                            IsVisible="False"
+                            HorizontalOptions="End"
+                            Grid.Column="1"
+                            Clicked="HamburgerButton_Clicked"/>
+
+                </Grid>
+                
 
                 <!-- Dashboard cards -->
-                <HorizontalStackLayout Spacing="20">
-
-                    <Border Padding="20">
-                        <VerticalStackLayout>
-                            <Label Text="Products"/>
+                <Grid  RowDefinitions="Auto, Auto"
+                       ColumnDefinitions="Auto,Auto,Auto,Auto"
+                       ColumnSpacing="10"
+                       RowSpacing="10">
+                    
+                    <Border Padding="10" 
+                            WidthRequest="90" 
+                            Grid.Column="0">
+                        
+                        <VerticalStackLayout >
+                            <Label Text="Products" 
+                                   x:Name="ProductsLabel"/>
                             <Label x:Name="ProductsCount"
                                    Text="0"
                                    FontSize="28"/>
                         </VerticalStackLayout>
                     </Border>
 
-                    <Border Padding="20">
+                    <Border Padding="10" 
+                            WidthRequest="90" 
+                            Grid.Column="1">
+                        
                         <VerticalStackLayout>
-                            <Label Text="Low Stock"/>
-                            <Label x:Name="LowCount"
-                                   Text="0"
-                                   FontSize="28"/>
-                        </VerticalStackLayout>
-                    </Border>
-
-                    <Border Padding="20">
-                        <VerticalStackLayout>
-                            <Label Text="Out Of Stock"/>
-                            <Label x:Name="OutOfStockCount"
-                                   Text="0"
-                                   FontSize="28"/>
-                        </VerticalStackLayout>
-                    </Border>
-
-
-                    <Border Padding="20">
-                        <VerticalStackLayout>
-                            <Label Text="Categories"/>
+                            <Label Text="Categories"
+                                   x:Name="CategoriesLabel"/>
                             <Label x:Name="CategoriesCount"
                                    Text="0"
                                    FontSize="28"/>
                         </VerticalStackLayout>
                     </Border>
 
-                </HorizontalStackLayout>
+
+
+
+                    <Border Padding="10" 
+                            WidthRequest="90" 
+                            Grid.Column="2"
+                            x:Name="LowStockCountBorder">
+                        
+                        <VerticalStackLayout>
+                            <Label Text="Low Stock"
+                                   x:Name="LowStockLabel"/>
+                            <Label x:Name="LowCount"
+                                   Text="0"
+                                   FontSize="28"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border Padding="10" 
+                            WidthRequest="90" 
+                            Grid.Column="3"
+                            x:Name="OutOfStockCountBorder">
+                        
+                        <VerticalStackLayout>
+                            <Label Text="Out Of Stock"
+                                   x:Name="OutOfStockLabel"/>
+                            <Label x:Name="OutOfStockCount"
+                                   Text="0"
+                                   FontSize="28"/>
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid
+                            >
 
                 <!-- Recent Activity -->
                 <Label Text="Recent Activity"
                        FontSize="24"
                        FontAttributes="Bold"/>
 
-                <Border Padding="15" 
-                        WidthRequest="600"
+                <Border x:Name="RecentActivitiesBorder"
+                        Padding="15" 
+                        WidthRequest="500"
                         HeightRequest="300"
                         HorizontalOptions="Start" >
                     <CollectionView x:Name="RecentActivitiesView"
