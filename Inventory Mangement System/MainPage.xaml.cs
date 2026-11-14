@@ -71,6 +71,9 @@ namespace Inventory_Mangement_System
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+
+            Sidebar.IsVisible = false;
+
             await AddCountToDash();
             await LoadRecentActivities();
 

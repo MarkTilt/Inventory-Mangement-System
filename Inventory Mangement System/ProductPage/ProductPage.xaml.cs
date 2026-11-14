@@ -1,10 +1,9 @@
 
-using InventorySystem.Core.Models;
-using InventorySystem.Core.Services;
-using CommunityToolkit.Maui.Views;
-using Microsoft.EntityFrameworkCore;
 using CommunityToolkit.Maui.Extensions;
 using InventorySystem.Core.Data;
+using InventorySystem.Core.Models;
+using InventorySystem.Core.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace Inventory_Mangement_System;
 
@@ -153,5 +152,43 @@ public partial class ProductPage : ContentPage
         }
 
         ProductsCollection.ItemsSource = filteredProducts;
+    }
+
+    private void HamburgerButton_Clicked(object? sender, EventArgs e)
+    {
+        Sidebar.IsVisible = !Sidebar.IsVisible;
+    }
+
+    private void RootLayout_SizeChanged(object? sender, EventArgs e)
+    {
+        if (RootLayout.Width < 730)
+        {
+            // Adjust the layout for mobile view
+            VisualStateManager.GoToState(RootLayout, "Mobile");
+            Grid.SetColumn(Sidebar, 1);
+
+            StatusFilter.WidthRequest = 105;
+            StatusFilter.FontSize = 10;
+
+            ProductSearchBar.WidthRequest = 85;
+            ProductSearchBar.FontSize = 10;
+
+            AddProductButton.FontSize = 10;
+            AddProductButton.WidthRequest = 90;
+            AddProductButton.HeightRequest = 50;
+
+        }
+        else
+        {
+
+           // Adjust the layout for desktop view
+            VisualStateManager.GoToState(RootLayout, "Desktop");
+            Grid.SetColumn(Sidebar, 0);
+
+            StatusFilter.WidthRequest = 200;
+            StatusFilter.FontSize = 14;
+            ProductSearchBar.WidthRequest = 200;
+            ProductSearchBar.FontSize = 14;
+        }
     }
 }
