@@ -17,7 +17,7 @@
             <Label Text="Name:"  Grid.Column="0" VerticalOptions="Center" Grid.Row="0"/>
 
             <!-- Editable product values -->
-            <Entry Text="{Binding EditedCategoryName, Mode=TwoWay}"  Grid.Column="1" Grid.Row="0"/>
+            <Entry Text="{Binding EditedCategoryName, Mode=TwoWay}"  Grid.Column="1" Grid.Row="0" WidthRequest="120" HorizontalOptions="Fill"/>
            
         
         <Button Text="Save" BackgroundColor="Orange" TextColor="White" FontAttributes="Bold" FontSize="20"  Clicked="SaveOn_Clicked" Grid.Row="1" Grid.Column="0" WidthRequest="100" HeightRequest="45"/>

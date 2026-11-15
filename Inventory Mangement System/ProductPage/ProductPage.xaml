@@ -114,7 +114,7 @@
             <!-- Add Product and Search -->
             <Grid Grid.Row="1"
                   ColumnDefinitions="Auto,*,Auto,Auto"
-                  ColumnSpacing="10">
+                  ColumnSpacing="7">
 
                 <Button x:Name="AddProductButton"
                         Text="Add Product"
@@ -155,7 +155,7 @@
                         <Border Padding="0"
                                 Margin="0,0,0,5">
 
-                            <Grid ColumnDefinitions="Auto,Auto,*"
+                            <Grid ColumnDefinitions="Auto,*,Auto"
                                   RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
                                   Padding="10"
                                   ColumnSpacing="5"
