@@ -119,12 +119,13 @@
                 <!-- Dashboard cards -->
                 <Grid  RowDefinitions="Auto, Auto"
                        ColumnDefinitions="Auto,Auto,Auto,Auto"
-                       ColumnSpacing="10"
-                       RowSpacing="10">
+                       ColumnSpacing="15"
+                       RowSpacing="15">
                     
                     <Border Padding="10" 
-                            WidthRequest="90" 
-                            Grid.Column="0">
+                            WidthRequest="120" 
+                            Grid.Column="0"
+                            BackgroundColor="LightGreen">
                         
                         <VerticalStackLayout >
                             <Label Text="Products" 
@@ -136,8 +137,9 @@
                     </Border>
 
                     <Border Padding="10" 
-                            WidthRequest="90" 
-                            Grid.Column="1">
+                            WidthRequest="120" 
+                            Grid.Column="1"
+                            BackgroundColor="LightBlue">
                         
                         <VerticalStackLayout>
                             <Label Text="Categories"
@@ -152,9 +154,10 @@
 
 
                     <Border Padding="10" 
-                            WidthRequest="90" 
+                            WidthRequest="120" 
                             Grid.Column="2"
-                            x:Name="LowStockCountBorder">
+                            x:Name="LowStockCountBorder"
+                            BackgroundColor="Orange">
                         
                         <VerticalStackLayout>
                             <Label Text="Low Stock"
@@ -166,9 +169,10 @@
                     </Border>
 
                     <Border Padding="10" 
-                            WidthRequest="90" 
+                            WidthRequest="120" 
                             Grid.Column="3"
-                            x:Name="OutOfStockCountBorder">
+                            x:Name="OutOfStockCountBorder"
+                            BackgroundColor="LightCoral">
                         
                         <VerticalStackLayout>
                             <Label Text="Out Of Stock"

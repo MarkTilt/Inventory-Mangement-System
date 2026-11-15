@@ -44,7 +44,7 @@
             
 
                 <HorizontalStackLayout>
-                    <Image Source="home.png" BackgroundColor="Transparent" HeightRequest="30" WidthRequest="30"/>
+                <Image Source="home.png" BackgroundColor="Transparent" HeightRequest="30" WidthRequest="30" InputTransparent="True"/>
                     <Button Text="Dashboard"
                             BackgroundColor="Transparent"
                             TextColor="Black"
@@ -152,8 +152,9 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
 
-                        <Border Padding="0"
-                                Margin="0,0,0,5">
+                        <Border Stroke="LightGray"
+                                StrokeShape="RoundRectangle 10"
+                                StrokeThickness="1">
 
                             <Grid ColumnDefinitions="Auto,*,Auto"
                                   RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"

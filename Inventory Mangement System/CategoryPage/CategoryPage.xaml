@@ -124,7 +124,7 @@
                         Clicked="AddCategory_Clicked"/>
                 
                 <SearchBar x:Name="CategorySearchBar"
-                           Placeholder="Search categories..."
+                           Placeholder="Search..."
                            TextChanged="CategorySearchBar_TextChanged"
                            HorizontalOptions="End"
                            WidthRequest="200"/>
@@ -142,7 +142,8 @@
                     StrokeThickness="1"
                     Padding="0">
 
-                <Grid RowDefinitions="Auto,*">
+                <Grid RowDefinitions="Auto,*"
+                      RowSpacing="10">
 
                     
                     <Grid Grid.Row="0"
