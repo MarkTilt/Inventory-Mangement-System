@@ -114,6 +114,8 @@
             <!-- Add Product and Search -->
             <Grid Grid.Row="1"
                   ColumnDefinitions="Auto,*,Auto,Auto"
+                  RowDefinitions="Auto,Auto"
+                  RowSpacing="7"
                   ColumnSpacing="7">
 
                 <Button x:Name="AddProductButton"
@@ -123,20 +125,23 @@
                         FontAttributes="Bold"
                         FontSize="12"
                         TextColor="Black"
-                        Clicked="AddProduct_Clicked"/>
+                        Clicked="AddProduct_Clicked"
+                        Grid.Row="1"/>
 
                 <SearchBar x:Name="ProductSearchBar"
                            Grid.Column="3"
                            Placeholder="Search"
                            TextChanged="ProductSearchBar_TextChanged"
                            Keyboard="Text"
-                           WidthRequest="200"/>
+                           WidthRequest="200"
+                           Grid.Row="1"/>
 
                 <Picker x:Name="StatusFilter"
                         Title="Filter by Status"
                         Grid.Column="2"
                         SelectedIndexChanged="FilterOn_Changed"
-                        WidthRequest="200"/>
+                        WidthRequest="200"
+                        Grid.Row="1"/>
             </Grid>
 
 

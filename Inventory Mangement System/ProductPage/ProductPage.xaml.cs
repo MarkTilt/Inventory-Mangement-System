@@ -170,12 +170,15 @@ public partial class ProductPage : ContentPage
             StatusFilter.WidthRequest = 105;
             StatusFilter.FontSize = 10;
 
-            ProductSearchBar.WidthRequest = 85;
+            ProductSearchBar.WidthRequest = 105;
             ProductSearchBar.FontSize = 10;
 
             AddProductButton.FontSize = 10;
             AddProductButton.WidthRequest = 90;
             AddProductButton.HeightRequest = 50;
+
+            Grid.SetRow(ProductSearchBar, 0);
+            Grid.SetColumn(ProductSearchBar, 2);
 
         }
         else
@@ -189,6 +192,9 @@ public partial class ProductPage : ContentPage
             StatusFilter.FontSize = 14;
             ProductSearchBar.WidthRequest = 200;
             ProductSearchBar.FontSize = 14;
+
+            Grid.SetRow(ProductSearchBar, 1);
+            Grid.SetColumn(ProductSearchBar, 3);
         }
     }
 }
